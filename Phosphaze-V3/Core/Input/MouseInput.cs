@@ -241,7 +241,7 @@ namespace Phosphaze_V3.Core.Input
         public bool IsPressed(MouseButton button)
         {
             // We can't just check if framesSinceMousePressed[ButtonToPosition(button)] > 0
-            // because that would cause infinite recursion with UpdateButton.
+            // because that would break UpdateButton.
             switch (button)
             {
                 case MouseButton.Left:   return currentMouseState.LeftButton == ButtonState.Pressed;
@@ -250,7 +250,6 @@ namespace Phosphaze_V3.Core.Input
                 default: return false;
             }
         }
-
 
         /// <summary>
         /// Check if a mouse button has been held for a given number of frames or more.
@@ -299,7 +298,7 @@ namespace Phosphaze_V3.Core.Input
         /// <summary>
         /// Check if a mouse button has been clicked (i.e. it has been held for exactly one frame).
         /// </summary>
-        /// <param name="?"></param>
+        /// <param name="button"></param>
         /// <returns></returns>
         public bool IsClicked(MouseButton button)
         {
@@ -314,6 +313,64 @@ namespace Phosphaze_V3.Core.Input
         public bool IsReleased(MouseButton button)
         {
             return framesSinceMouseUnpressed[ButtonToPosition(button)] == 1;
+        }
+
+        /// <summary>
+        /// Check if the mouse has not moved since the last call to Update.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsMouseStill()
+        {
+            return framesSinceMouseMovement > 0;
+        }
+
+        /// <summary>
+        /// Check if the mouse has not moved for the given number of frames.
+        /// </summary>
+        /// <param name="frames"></param>
+        /// <returns></returns>
+        public bool IsMouseStill(int frames)
+        {
+            return framesSinceMouseMovement >= frames;
+        }
+
+        /// <summary>
+        /// Check if the mouse has not moved for the given number of milliseconds.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        /// <returns></returns>
+        public bool IsMouseStill(double milliseconds)
+        {
+            return millisecondsSinceMouseMovement >= milliseconds;
+        }
+
+        /// <summary>
+        /// Check if the mouse just began moving after being still for any variable period of time.
+        /// </summary>
+        /// <returns></returns>
+        public bool MouseJustMoved()
+        {
+            return framesSinceMouseMovement == 0 && prevFramesSinceMouseMovement > 0;
+        }
+
+        /// <summary>
+        /// Check if the mouse began moving after being still for the given number of frames or more.
+        /// </summary>
+        /// <param name="frames"></param>
+        /// <returns></returns>
+        public bool MouseMovedAfter(int frames)
+        {
+            return framesSinceMouseMovement == 0 && prevFramesSinceMouseMovement >= frames;
+        }
+
+        /// <summary>
+        /// Check if the mouse began moving after being still for the given number of milliseconds or more.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        /// <returns></returns>
+        public bool MouseMovedAfter(double milliseconds)
+        {
+            return millisecondsSinceMouseMovement == 0 && prevMillisecondsSinceMouseMovement >= milliseconds;
         }
     }
 }
