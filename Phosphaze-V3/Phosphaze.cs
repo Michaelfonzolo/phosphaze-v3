@@ -34,6 +34,7 @@
 
 #region Using Statements
 
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -66,8 +67,10 @@ namespace Phosphaze_V3
         /// </summary>
         protected override void Initialize()
         {
-
             base.Initialize();
+
+            Globals.content = Content;
+            Globals.graphics = graphics;
         }
 
         /// <summary>
@@ -79,7 +82,7 @@ namespace Phosphaze_V3
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            
+            Globals.spriteBatch = spriteBatch;
         }
 
         /// <summary>
@@ -88,7 +91,7 @@ namespace Phosphaze_V3
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
         }
 
         /// <summary>
@@ -99,6 +102,21 @@ namespace Phosphaze_V3
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            Globals.gameTime = gameTime;
+
+            // NOTE: gameTime.ElapsedGameTime.Milliseconds is unfortunately stored as an
+            // integer, meaning at 60fps (which is the default for Monogame) deltaTime would
+            // normally be 16 instead of the actual 16.66666...
+            //
+            // To compensate for this, since a game usually never lags enough to cause the
+            // framerate to drop, we just set the deltaTime to 16.6666 whenever the elapsed
+            // milliseconds is exactly 16 (which also happens to be its minimum).
+            Globals.deltaTime = Math.Max(gameTime.ElapsedGameTime.Milliseconds, 16.666666666666);
+
+            // Update the input
+            Globals.mouseInput.Update();
+            Globals.keyboardInput.Update();
         }
 
         /// <summary>

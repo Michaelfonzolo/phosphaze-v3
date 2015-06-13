@@ -41,6 +41,11 @@
     <StartupObject>Phosphaze_V3.MainProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Core\Globals.cs" />
+    <Compile Include="Core\Input\KeyboardInput.cs" />
+    <Compile Include="Core\Input\MouseInput.cs" />
     <Compile Include="Phosphaze.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
