@@ -39,6 +39,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Phosphaze_V3.Core.Input;
 
 #endregion
 
@@ -72,6 +73,16 @@ namespace Phosphaze_V3.Core
         /// This is short for GlobalProperties.Instance.gameTime.ElapsedGameTime.Milliseconds.
         /// </summary>
         public static double deltaTime;
+
+        /// <summary>
+        /// The global mouse input.
+        /// </summary>
+        public static MouseInput mouseInput = MouseInput.Instance;
+
+        /// <summary>
+        /// The global keyboard input.
+        /// </summary>
+        public static KeyboardInput keyboardInput = KeyboardInput.Instance;
 
     }
 }
