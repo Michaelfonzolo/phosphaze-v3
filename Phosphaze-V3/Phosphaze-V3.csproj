@@ -41,11 +41,31 @@
     <StartupObject>Phosphaze_V3.MainProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Core\Timing\After.cs" />
+    <Compile Include="Core\Timing\AfterFrame.cs" />
+    <Compile Include="Core\Timing\At.cs" />
+    <Compile Include="Core\Timing\AtFrame.cs" />
+    <Compile Include="Core\Timing\AtFrameIntervals.cs" />
+    <Compile Include="Core\Timing\AtIntervals.cs" />
+    <Compile Include="Core\Timing\Before.cs" />
+    <Compile Include="Core\Timing\BeforeFrame.cs" />
+    <Compile Include="Core\Timing\Chronometric.cs" />
+    <Compile Include="Core\Timing\ChronometricEntity.cs" />
     <Compile Include="Core\Constants.cs" />
     <Compile Include="Core\Extensions\ArrayExtensions.cs" />
     <Compile Include="Core\Globals.cs" />
     <Compile Include="Core\Input\KeyboardInput.cs" />
     <Compile Include="Core\Input\MouseInput.cs" />
+    <Compile Include="Core\Scenes\Scene.cs" />
+    <Compile Include="Core\Scenes\TransitionArguments.cs" />
+    <Compile Include="Core\Timing\DuringFrameIntervals.cs" />
+    <Compile Include="Core\Timing\DuringIntervals.cs" />
+    <Compile Include="Core\Timing\FrameChronometric.cs" />
+    <Compile Include="Core\Timing\From.cs" />
+    <Compile Include="Core\Timing\FromFrames.cs" />
+    <Compile Include="Core\Timing\Outside.cs" />
+    <Compile Include="Core\Timing\OutsideFrames.cs" />
+    <Compile Include="Core\Timing\TimeChronometric.cs" />
     <Compile Include="Phosphaze.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
