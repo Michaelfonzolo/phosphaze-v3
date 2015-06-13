@@ -56,7 +56,7 @@ namespace Phosphaze_V3.Core.Timing
             this.end = end;
         }
 
-        public override bool ActOn(ChronometricEntity entity)
+        public override bool Active(ChronometricEntity entity)
         {
             return end <= entity.LocalFrame || entity.LocalFrame <= start;
         }

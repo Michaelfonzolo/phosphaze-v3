@@ -71,7 +71,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool At(double time) 
         { 
-            return new At(time).ActOn(this); 
+            return new At(time).Active(this); 
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtFrame(int frame) 
         { 
-            return new AtFrame(frame).ActOn(this); 
+            return new AtFrame(frame).Active(this); 
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool Before(double time) 
         { 
-            return new Before(time).ActOn(this); 
+            return new Before(time).Active(this); 
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool BeforeFrame(int frame) 
         { 
-            return new BeforeFrame(frame).ActOn(this); 
+            return new BeforeFrame(frame).Active(this); 
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool After(double time) 
         { 
-            return new After(time).ActOn(this); 
+            return new After(time).Active(this); 
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AfterFrame(int frame) 
         { 
-            return new AfterFrame(frame).ActOn(this); 
+            return new AfterFrame(frame).Active(this); 
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool From(double start, double end) 
         { 
-            return new From(start, end).ActOn(this); 
+            return new From(start, end).Active(this); 
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool FromFrames(int start, int end) 
         { 
-            return new FromFrames(start, end).ActOn(this); 
+            return new FromFrames(start, end).Active(this); 
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool Outside(double start, double end) 
         { 
-            return new Outside(start, end).ActOn(this); 
+            return new Outside(start, end).Active(this); 
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool OutsideFrames(int start, int end) 
         { 
-            return new OutsideFrames(start, end).ActOn(this); 
+            return new OutsideFrames(start, end).Active(this); 
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtIntervals(double interval) 
         { 
-            return new AtIntervals(interval).ActOn(this); 
+            return new AtIntervals(interval).Active(this); 
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtIntervals(double interval, double start) 
         { 
-            return new AtIntervals(interval, start).ActOn(this); 
+            return new AtIntervals(interval, start).Active(this); 
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtIntervals(double interval, double start, double end) 
         { 
-            return new AtIntervals(interval, start, end).ActOn(this); 
+            return new AtIntervals(interval, start, end).Active(this); 
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtFrameIntervals(int interval) 
         { 
-            return new AtFrameIntervals(interval).ActOn(this); 
+            return new AtFrameIntervals(interval).Active(this); 
         }
 
         /// <summary>
@@ -220,7 +220,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtFrameIntervals(int interval, int start) 
         { 
-            return new AtFrameIntervals(interval, start).ActOn(this); 
+            return new AtFrameIntervals(interval, start).Active(this); 
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool AtFrameIntervals(int interval, int start, int end) 
         { 
-            return new AtFrameIntervals(interval, start, end).ActOn(this); 
+            return new AtFrameIntervals(interval, start, end).Active(this); 
         }
 
         /// <summary>
@@ -243,7 +243,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool DuringIntervals(double interval) 
         { 
-            return new DuringIntervals(interval).ActOn(this); 
+            return new DuringIntervals(interval).Active(this); 
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool DuringIntervals(double interval, double start) 
         { 
-            return new DuringIntervals(interval, start).ActOn(this); 
+            return new DuringIntervals(interval, start).Active(this); 
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool DuringIntervals(double interval, double start, double end) 
         { 
-            return new DuringIntervals(interval, start, end).ActOn(this); 
+            return new DuringIntervals(interval, start, end).Active(this); 
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool DuringFrameIntervals(int interval) 
         { 
-            return new DuringFrameIntervals(interval).ActOn(this); 
+            return new DuringFrameIntervals(interval).Active(this); 
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool DuringFrameIntervals(int interval, int start) 
         { 
-            return new DuringFrameIntervals(interval, start).ActOn(this); 
+            return new DuringFrameIntervals(interval, start).Active(this); 
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <returns></returns>
         public bool DuringFrameIntervals(int interval, int start, int end) 
         { 
-            return new DuringFrameIntervals(interval, start, end).ActOn(this); 
+            return new DuringFrameIntervals(interval, start, end).Active(this); 
         }
 
     }

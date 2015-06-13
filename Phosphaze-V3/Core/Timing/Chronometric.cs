@@ -47,7 +47,7 @@ namespace Phosphaze_V3.Core.Timing
         /// <summary>
         /// The action to perform when this TimeCommand's ActOn method returns true.
         /// </summary>
-        private Action<ChronometricEntity> action;
+        public Action<ChronometricEntity> action { get; private set; }
 
         /// <summary>
         /// Assign an action to this TimeCommand and return ``this``. 
@@ -61,12 +61,11 @@ namespace Phosphaze_V3.Core.Timing
         }
 
         /// <summary>
-        /// Act this time command on the given ChronometricEntity (i.e. test
-        /// if the given entity satisfies this TimeCommand's conditions).
+        /// Check if this time command is active for the given entity.
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public abstract bool ActOn(ChronometricEntity entity);
+        public abstract bool Active(ChronometricEntity entity);
 
     }
 }
