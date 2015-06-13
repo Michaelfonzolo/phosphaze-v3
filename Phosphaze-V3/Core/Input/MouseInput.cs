@@ -37,12 +37,10 @@
 
 #region Using Statements
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -50,6 +48,11 @@ namespace Phosphaze_V3.Core.Input
 {
     public class MouseInput
     {
+
+        /// <summary>
+        /// The valid mouse buttons from which input can be retrieved.
+        /// </summary>
+        public enum MouseButton { Left, Middle, Right }
 
         /// <summary>
         /// The number of frames since a mouse button was pressed. The
@@ -154,11 +157,6 @@ namespace Phosphaze_V3.Core.Input
         /// The singleton instance of this object.
         /// </summary>
         public static MouseInput Instance = new MouseInput();
-
-        /// <summary>
-        /// The valid mouse buttons from which input can be retrieved.
-        /// </summary>
-        public enum MouseButton { Left, Middle, Right }
 
         /// <summary>
         /// Convert a MouseButton into it's appropriate position in the list
