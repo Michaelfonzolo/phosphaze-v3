@@ -91,27 +91,27 @@ namespace Phosphaze_V3.Core.Input
         /// The stack of previous mouse positions. This stores the last second of
         /// mouse positions.
         /// </summary>
-        private Stack<Point> prevMousePositions { get; private set; }
+        public Stack<Point> prevMousePositions { get; private set; }
 
         /// <summary>
         /// The number of frames since the last time the mouse moved.
         /// </summary>
-        private int framesSinceMouseMovement { get; private set; }
+        public int framesSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The number of milliseconds since the last time the mouse moved.
         /// </summary>
-        private double millisecondsSinceMouseMovement { get; private set; }
+        public double millisecondsSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The previous number of frames since mouse movement.
         /// </summary>
-        private int prevFramesSinceMouseMovement { get; private set; }
+        public int prevFramesSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The previous number of milliseconds since mouse movement.
         /// </summary>
-        private double prevMillisecondsSinceMouseMovement { get; private set; }
+        public double prevMillisecondsSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The position of the mouse.

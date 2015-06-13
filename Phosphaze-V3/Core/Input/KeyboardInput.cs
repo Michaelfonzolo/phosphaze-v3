@@ -53,7 +53,7 @@ namespace Phosphaze_V3.Core.Input
         /// millisecondsSinceKeyPressed, framesSinceKeyUnpressed, and 
         /// millisecondsSinceKeyUnpressed.
         /// </summary>
-        private static Dictionary<Keys, int> keysToIndex;
+        private static Dictionary<Keys, int> keysToIndex = new Dictionary<Keys, int>();
 
         /// <summary>
         /// The number of frames each key has been pressed for.
@@ -80,18 +80,15 @@ namespace Phosphaze_V3.Core.Input
         /// </summary>
         private KeyboardState currentKeyboardState;
 
-        static KeyboardInput()
-        {
-            var keyList = (Keys[])(Enum.GetValues(typeof(Keys)));
-            for (int i = 0; i < keyList.Length; i++)
-                keysToIndex[keyList[i]] = i;
-        }
-
         /// <summary>
         /// Prevent external instantiation, as this is a singleton.
         /// </summary>
         private KeyboardInput()
         {
+            var keyList = (Keys[])(Enum.GetValues(typeof(Keys)));
+            for (int i = 0; i < keyList.Length; i++)
+                keysToIndex[keyList[i]] = i;
+
             framesSinceKeyPressed = new int[keysToIndex.Count];
             framesSinceKeyUnpressed = new int[keysToIndex.Count];
 
