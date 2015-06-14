@@ -71,6 +71,12 @@ namespace Phosphaze_V3.Framework.Events
 	    /// </summary>
 	    public virtual void OnMouseStill() { }
 
+        /// <summary>
+        /// Activated when the mouse scroll wheel has been changed.
+        /// </summary>
+        /// <param name="args"></param>
+        public virtual void OnScrollWheelChanged(MouseEventArgs args) { }
+
         // Tentative
         /*
 	    /// <summary>

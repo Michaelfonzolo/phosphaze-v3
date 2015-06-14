@@ -34,6 +34,7 @@
 
 #region Using Statements
 
+using Microsoft.Xna.Framework;
 using Phosphaze_V3.Framework.Input;
 using System;
 
@@ -44,6 +45,9 @@ namespace Phosphaze_V3.Framework.Events
     public class MouseEventArgs : EventArgs
     {
 
+        /// <summary>
+        /// The button associated with this mouse event.
+        /// </summary>
         public MouseInput.MouseButton button { get; private set; }
 
         public MouseEventArgs(MouseInput.MouseButton button)

@@ -40,7 +40,7 @@ using System;
 
 namespace Phosphaze_V3.Framework.Events
 {
-    public static class Events
+    public static class EventTypes
     {
         /// <summary>
         /// An event that gets sent when a mouse button has been clicked.
@@ -83,6 +83,17 @@ namespace Phosphaze_V3.Framework.Events
             public void Activate(EventListener listener, EventArgs args)
             {
                 listener.OnMouseStill();
+            }
+        }
+
+        /// <summary>
+        /// An event that gets sent when the mouse scroll wheel value changes.
+        /// </summary>
+        public class OnScrollWheelChangedEvent : IEvent
+        {
+            public void Activate(EventListener listener, EventArgs args)
+            {
+                listener.OnScrollWheelChanged((MouseEventArgs)args);
             }
         }
 
