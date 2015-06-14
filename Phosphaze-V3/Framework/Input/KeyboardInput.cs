@@ -37,6 +37,7 @@
 #region Using Statements
 
 using Microsoft.Xna.Framework.Input;
+using Phosphaze_V3.Framework.Events;
 using System;
 using System.Collections.Generic;
 
@@ -113,6 +114,12 @@ namespace Phosphaze_V3.Framework.Input
 
                     framesSinceKeyUnpressed[pair.Value] = 0;
                     millisecondsSinceKeyUnpressed[pair.Value] = 0;
+
+                    var args = new KeyEventArgs(pair.Key);
+                    if (framesSinceKeyPressed[pair.Value] == 1)
+                        EventPropagator.Send(new EventTypes.OnKeyClickEvent(), args);
+                    else
+                        EventPropagator.Send(new EventTypes.OnKeyPressEvent(), args);
                 }
                 else
                 {
@@ -121,6 +128,9 @@ namespace Phosphaze_V3.Framework.Input
 
                     framesSinceKeyUnpressed[pair.Value]++;
                     millisecondsSinceKeyUnpressed[pair.Value] += Globals.deltaTime;
+
+                    if (framesSinceKeyUnpressed[pair.Value] == 1)
+                        EventPropagator.Send(new EventTypes.OnKeyReleaseEvent(), new KeyEventArgs(pair.Key));
                 }
             }
         }

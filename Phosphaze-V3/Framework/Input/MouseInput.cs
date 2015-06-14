@@ -39,6 +39,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Phosphaze_V3.Framework.Events;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -189,6 +190,7 @@ namespace Phosphaze_V3.Framework.Input
             {
                 framesSinceMouseMovement++;
                 millisecondsSinceMouseMovement += Globals.deltaTime;
+                EventPropagator.Send(new EventTypes.OnMouseStillEvent(), MouseEventArgs.Empty);
             }
             else
             {
@@ -198,6 +200,9 @@ namespace Phosphaze_V3.Framework.Input
 
             prevScrollWheelVal = ScrollWheelValue;
             ScrollWheelValue = currentMouseState.ScrollWheelValue;
+
+            if (DeltaScrollWheelValue != 0)
+                EventPropagator.Send(new EventTypes.OnScrollWheelChangedEvent(), MouseEventArgs.Empty);
 
             UpdateButton(MouseButton.Left);
             UpdateButton(MouseButton.Middle);
@@ -219,6 +224,12 @@ namespace Phosphaze_V3.Framework.Input
 
                 framesSinceMouseUnpressed[pos] = 0;
                 millisecondsSinceMouseUnpressed[pos] = 0;
+
+                var args = new MouseEventArgs(button);
+                if (framesSinceMousePressed[pos] == 1)
+                    EventPropagator.Send(new EventTypes.OnMouseClickEvent(), args);
+                else
+                    EventPropagator.Send(new EventTypes.OnMousePressEvent(), args);
             }
             else
             {
@@ -227,6 +238,9 @@ namespace Phosphaze_V3.Framework.Input
 
                 framesSinceMouseUnpressed[pos]++;
                 millisecondsSinceMouseUnpressed[pos] += Globals.deltaTime;
+
+                if (framesSinceMouseUnpressed[pos] == 1)
+                    EventPropagator.Send(new EventTypes.OnMouseReleaseEvent(), new MouseEventArgs(button));
             }
         }
 
