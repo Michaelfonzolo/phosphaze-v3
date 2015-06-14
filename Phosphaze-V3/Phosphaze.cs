@@ -38,7 +38,8 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Phosphaze_V3.Core;
+using Phosphaze_V3.Framework;
+using Phosphaze_V3.Framework.Scenes;
 
 #endregion
 
@@ -51,6 +52,7 @@ namespace Phosphaze_V3
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SceneManager sceneManager;
 
         public Phosphaze()
             : base()
@@ -71,6 +73,9 @@ namespace Phosphaze_V3
 
             Globals.content = Content;
             Globals.graphics = graphics;
+
+            sceneManager = new SceneManager();
+            sceneManager.AddScene("TestScene", new TestScene());
         }
 
         /// <summary>
