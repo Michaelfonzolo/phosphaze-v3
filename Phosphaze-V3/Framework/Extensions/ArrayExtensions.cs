@@ -49,5 +49,24 @@ namespace Phosphaze_V3.Framework.Extensions
                 arr[i] = value;
             }
         }
+
+        /// <summary>
+        /// Concatenate two arrays and return the result.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static T[] Concat<T>(this T[] arr, T[] other)
+        {
+            var l1 = arr.Length;
+            var newArr = new T[l1 + other.Length];
+
+            for (int i = 0; i < arr.Length; i++)
+                newArr[i] = arr[i];
+            for (int j = 0; j < other.Length; j++)
+                newArr[j + l1] = other[j];
+            return newArr;
+        }
     }
 }

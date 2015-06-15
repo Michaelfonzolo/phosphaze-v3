@@ -40,6 +40,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Phosphaze_V3.Framework.Events;
+using Phosphaze_V3.Framework.Timing;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,7 +48,7 @@ using System.Linq;
 
 namespace Phosphaze_V3.Framework.Input
 {
-    public sealed class MouseInput
+    public sealed class MouseInput : ChronometricEntity
     {
 
         /// <summary>
@@ -181,6 +182,7 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         public void Update()
         {
+            base.Update();
             currentMouseState = Mouse.GetState();
 
             prevMousePositions.Push(mousePosition);
@@ -324,7 +326,10 @@ namespace Phosphaze_V3.Framework.Input
         /// <returns></returns>
         public bool IsReleased(MouseButton button)
         {
-            return framesSinceMouseUnpressed[ButtonToPosition(button)] == 1;
+            // Checking if LocalFrame != 1 ensures that this doesn't return true immediately as
+            // soon as the game begins, which would normally occur unless the player was pressing
+            // the button before the game began.
+            return framesSinceMouseUnpressed[ButtonToPosition(button)] == 1 && LocalFrame != 1;
         }
 
         /// <summary>

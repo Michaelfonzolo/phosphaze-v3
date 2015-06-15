@@ -38,6 +38,7 @@
 
 using Microsoft.Xna.Framework.Input;
 using Phosphaze_V3.Framework.Events;
+using Phosphaze_V3.Framework.Timing;
 using System;
 using System.Collections.Generic;
 
@@ -45,7 +46,7 @@ using System.Collections.Generic;
 
 namespace Phosphaze_V3.Framework.Input
 {
-    public sealed class KeyboardInput
+    public sealed class KeyboardInput : ChronometricEntity
     {
 
         /// <summary>
@@ -104,6 +105,7 @@ namespace Phosphaze_V3.Framework.Input
 
         public void Update()
         {
+            base.Update();
             currentKeyboardState = Keyboard.GetState();
             foreach (var pair in keysToIndex)
             {
@@ -216,7 +218,10 @@ namespace Phosphaze_V3.Framework.Input
         /// <returns></returns>
         public bool IsReleased(Keys key)
         {
-            return framesSinceKeyUnpressed[keysToIndex[key]] == 1;
+            // Checking if LocalFrame != 1 ensures that IsReleased doesn't return true immediately
+            // as soon as the game starts, which would normally occur unless the player was holding
+            // down the key before the game began running.
+            return framesSinceKeyUnpressed[keysToIndex[key]] == 1 && LocalFrame != 1;
         }
 
     }

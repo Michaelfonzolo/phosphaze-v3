@@ -27,31 +27,32 @@
  * 
  * Description
  * ===========
- * TransitionArguments is a simple class encapsulating a dictionary mapping strings to
- * arbitrary objects, which is used to pass information between scenes.
+ * The SceneManager is a Controller object that stores all scenes in the games,
+ * and initializes them, constructs, them, updates them, and destroys them accordingly.
  */
 
 #endregion
 
 #region Using Statements
 
+using System;
 using System.Collections.Generic;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Scenes
+namespace Phosphaze_V3.Framework.Forms
 {
-    public class TransitionArguments
+    public class MultiformManager
     {
 
-        /// <summary>
-        /// The dictionary of parameters.
-        /// </summary>
-        public Dictionary<string, object> parameters { get; private set; }
+        Dictionary<string, Multiform> multiformMap = new Dictionary<string, Multiform>();
 
-        public TransitionArguments(Dictionary<string, object> parameters)
+        public MultiformManager() { }
+
+        public void AddMultiform(string name, Multiform multiform)
         {
-            this.parameters = parameters;
+            multiformMap[name] = multiform;
+            multiform.manager = this;
         }
 
     }

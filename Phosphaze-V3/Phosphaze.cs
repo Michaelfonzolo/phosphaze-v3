@@ -39,7 +39,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Phosphaze_V3.Framework;
-using Phosphaze_V3.Framework.Scenes;
+using Phosphaze_V3.Framework.Forms;
+using Phosphaze_V3.Framework.Input;
 
 #endregion
 
@@ -52,7 +53,7 @@ namespace Phosphaze_V3
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SceneManager sceneManager;
+        MultiformManager multiformManager;
 
         public Phosphaze()
             : base()
@@ -74,8 +75,12 @@ namespace Phosphaze_V3
             Globals.content = Content;
             Globals.graphics = graphics;
 
-            sceneManager = new SceneManager();
-            sceneManager.AddScene("TestScene", new TestScene());
+            graphics.IsFullScreen = Options.fullscreen;
+            graphics.PreferredBackBufferWidth = Options.currentResolution.width;
+            graphics.PreferredBackBufferHeight = Options.currentResolution.height;
+            graphics.ApplyChanges();
+
+            multiformManager = new MultiformManager();
         }
 
         /// <summary>
@@ -115,13 +120,19 @@ namespace Phosphaze_V3
             // normally be 16 instead of the actual 16.66666...
             //
             // To compensate for this, since a game usually never lags enough to cause the
-            // framerate to drop, we just set the deltaTime to 16.6666 whenever the elapsed
+            // framerate to drop, we just set the deltaTime to 16.6666... whenever the elapsed
             // milliseconds is exactly 16 (which also happens to be its minimum).
             Globals.deltaTime = Math.Max(gameTime.ElapsedGameTime.Milliseconds, 16.666666666666);
 
             // Update the input
             Globals.mouseInput.Update();
             Globals.keyboardInput.Update();
+
+            // Update the multiforms.
+            // multiformManager.Update();
+
+            if (Globals.keyboardInput.IsReleased(Keys.Escape))
+                Exit();
         }
 
         /// <summary>

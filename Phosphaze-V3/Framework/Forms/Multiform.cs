@@ -27,7 +27,10 @@
  * 
  * Description
  * ===========
- * This file contains the base Scene object.
+ * A Multiform is a section of a game that defines its own behaviour and visual appearance. 
+ * For example, a Menu and a Level would be separate Multiforms. They are called Multiforms 
+ * because they are composed of multiple Forms. Each Form is a self-contained component that
+ * serves to make their encompassing Multiform functional.
  */
 
 #endregion
@@ -38,21 +41,27 @@ using Phosphaze_V3.Framework.Timing;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Scenes
+namespace Phosphaze_V3.Framework.Forms
 {
-    public abstract class Scene : ChronometricEntity
+    public abstract class Multiform : ChronometricEntity
     {
 
-        public Scene() : base() { LoadContent(); }
+        /// <summary>
+        /// The manager governing this Multiform.
+        /// </summary>
+        internal MultiformManager manager = null;
+
+        public Multiform() : base() { LoadContent(); }
 
         /// <summary>
-        /// Load all the content for the scene. This is only called once.
+        /// Load all the content for the Multiform. This is only called once. Not that as of
+        /// calling this function, the Multiform's manager is null.
         /// </summary>
         public abstract void LoadContent();
 
         /// <summary>
-        /// Construct the scene. This gets called every time the SceneManager switches
-        /// to using this scene. TransitionArguments from the previous scene are passed in.
+        /// Construct the Multiform. This gets called every time the MultiformManager switches
+        /// to using this Multiform. TransitionArguments from the previous Multiform are passed in.
         /// </summary>
         /// <param name="args"></param>
         public abstract void Construct(TransitionArguments args);
