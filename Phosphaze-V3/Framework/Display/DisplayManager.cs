@@ -67,7 +67,7 @@ namespace Phosphaze_V3.Framework.Display
         };
 
         /// <summary>
-        /// The vlaid widescreen resolutions.
+        /// The valid widescreen resolutions.
         /// </summary>
         public static Resolution[] widescreenResolutions = {
             new Resolution(1280, 720), // 16:9
