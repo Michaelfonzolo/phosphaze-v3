@@ -103,9 +103,9 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         public static KeyboardInput Instance = new KeyboardInput();
 
-        public void Update()
+        public new void Update()
         {
-            base.Update();
+            base.UpdateTime();
             currentKeyboardState = Keyboard.GetState();
             foreach (var pair in keysToIndex)
             {

@@ -23,52 +23,57 @@
 #region Header
 
 /* Author: Michael Ala
- * Date of Creation: 6/12/2015
+ * Date of Creation: 6/15/2015
  * 
  * Description
  * ===========
- * This file contains all constants used in the Phosphaze game. Constants
- * are different from Globals as Globals change depending on the game's
- * state, and they are different from Options because Options are user
- * specified.
+ * A basic struct representing a valid screen resolution.
  */
 
 #endregion
 
 #region Using Statements
 
-using System;
 using Microsoft.Xna.Framework;
+using System.Windows.Forms;
 
 #endregion
 
-namespace Phosphaze_V3.Framework
+namespace Phosphaze_V3.Framework.Display
 {
     /// <summary>
-    /// The constants used throughout Phosphaze.
+    /// A valid screen resolution.
     /// </summary>
-    public static class Constants
+    public struct Resolution
     {
+        public int width, height;
 
         /// <summary>
-        /// The background fill colour.
+        /// The aspect ratio of the screen.
         /// </summary>
-        public static Color BG_FILLCOL = Color.Black;
+        public double aspectRatio { get { return width / height; } }
 
         /// <summary>
-        /// The minimum possible value of Globals.deltaTime.
+        /// The center of the screen.
         /// </summary>
-        public const double MIN_DTIME = 16.6666666666666;
+        public Vector2 center { get { return new Vector2(width / 2, height / 2); } }
 
         /// <summary>
-        /// The amount of pixels the border of a window offsets the display by.
+        /// The minimum value of the width and height. This is used to properly scale
+        /// sprites relative to the maximum valid resolution height.
         /// </summary>
-        public static System.Drawing.Point WINDOW_BOUNDARY_OFFSET = new System.Drawing.Point(8, 30);
+        public int min { get { return width < height ? width : height; } }
+
+        public Resolution(int w, int h)
+        {
+            width = w;
+            height = h;
+        }
 
         /// <summary>
-        /// The global random number generator.
+        /// The native screen resolution.
         /// </summary>
-        public static Random random = new Random();
-
+        public static Resolution native = new Resolution(Screen.PrimaryScreen.Bounds.Width,
+                                                         Screen.PrimaryScreen.Bounds.Height);
     }
 }

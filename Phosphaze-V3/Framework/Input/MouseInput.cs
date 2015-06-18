@@ -180,9 +180,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <summary>
         /// Update the mouse state to retrieve new input.
         /// </summary>
-        public void Update()
+        public new void Update()
         {
-            base.Update();
+            base.UpdateTime();
             currentMouseState = Mouse.GetState();
 
             prevMousePositions.Push(mousePosition);
@@ -367,7 +367,7 @@ namespace Phosphaze_V3.Framework.Input
         /// <returns></returns>
         public bool MouseJustMoved()
         {
-            return framesSinceMouseMovement == 0 && prevFramesSinceMouseMovement > 0;
+            return framesSinceMouseMovement == 1 && prevFramesSinceMouseMovement > 0;
         }
 
         /// <summary>

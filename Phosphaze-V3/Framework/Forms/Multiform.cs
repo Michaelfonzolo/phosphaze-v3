@@ -38,6 +38,7 @@
 #region Using Statements
 
 using Phosphaze_V3.Framework.Timing;
+using System;
 
 #endregion
 
@@ -49,9 +50,33 @@ namespace Phosphaze_V3.Framework.Forms
         /// <summary>
         /// The manager governing this Multiform.
         /// </summary>
-        internal MultiformManager manager = null;
+        public MultiformManager manager { get; private set; }
 
-        public Multiform() : base() { LoadContent(); }
+        public MultiformState state { get; private set; }
+
+        public Multiform() 
+            : base() 
+        { 
+            LoadContent();
+            manager = null;
+            state = MultiformState.Update;
+        }
+
+        /// <summary>
+        /// Assign a manager to this multiform (only if one has not already been assigned).
+        /// </summary>
+        /// <param name="manager"></param>
+        public void SetManager(MultiformManager manager)
+        {
+            if (this.manager != null)
+                throw new ArgumentException("This multiform already has a manager.");
+            this.manager = manager;
+        }
+
+        public void SetState(MultiformState state)
+        {
+            this.state = state;
+        }
 
         /// <summary>
         /// Load all the content for the Multiform. This is only called once. Not that as of
@@ -66,10 +91,76 @@ namespace Phosphaze_V3.Framework.Forms
         /// <param name="args"></param>
         public abstract void Construct(TransitionArguments args);
 
-        public override void Update()
+        /// <summary>
+        /// Update the multiform.
+        /// </summary>
+        public abstract void Update();
+
+        /// <summary>
+        /// Render the multiform.
+        /// </summary>
+        public abstract void Render();
+
+        /// <summary>
+        /// Render the multiform transitioning in from the previous multiform. By default this
+        /// just defers to Render().
+        /// </summary>
+        /// <param name="previousMultiform"></param>
+        public virtual void RenderTransitionIn(string previousMultiform)
         {
-            base.Update();
+            Render();
         }
 
+        /// <summary>
+        /// Render the multiform transitioning out to the next multiform. By default this
+        /// just defers to Render();
+        /// </summary>
+        /// <param name="nextMultiform"></param>
+        public virtual void RenderTransitionOut(string nextMultiform)
+        {
+            Render();
+        }
+
+        /// <summary>
+        /// Prepare and return the TransitionArguments to the next multiform.
+        /// </summary>
+        /// <param name="nextMultiform"></param>
+        /// <returns></returns>
+        public virtual TransitionArguments PrepareTransitionArgs(string nextMultiform)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Close the multiform.
+        /// </summary>
+        /// <returns></returns>
+        public virtual void Close(string nextMultiform) { }
+
+        public virtual TransitionType GetTransitionType(string nextMultiform)
+        {
+            return TransitionType.Independent;
+        }
+
+        /// <summary>
+        /// Transition in from another multiform.
+        /// </summary>
+        public virtual void TransitionIn(string previousMultiform)
+        {
+            base.UpdateTime();
+            // The default transition in is to just skip the transition entirely and go
+            // straight to updating.
+            SetState(MultiformState.Update);
+        }
+
+        /// <summary>
+        /// Transition out to another multiform.
+        /// </summary>
+        public virtual void TransitionOut(string nextMultiform)
+        {
+            base.UpdateTime();
+            // The default transition out is to just skip the transition entirely.
+            SetState(MultiformState.Closed);
+        }
     }
 }

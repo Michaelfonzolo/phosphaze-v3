@@ -49,24 +49,14 @@ namespace Phosphaze_V3.Framework
     {
 
         /// <summary>
-        /// The global SpriteBatch. 
-        /// </summary>
-        public static SpriteBatch spriteBatch;
-
-        /// <summary>
-        /// The global ContentManager.
-        /// </summary>
-        public static ContentManager content;
-
-        /// <summary>
-        /// The global GraphicsDeviceManager
-        /// </summary>
-        public static GraphicsDeviceManager graphics;
-
-        /// <summary>
         /// The current GameTime object.
         /// </summary>
         public static GameTime gameTime;
+
+        /// <summary>
+        /// The global game ContentManager.
+        /// </summary>
+        public static ContentManager content;
 
         /// <summary>
         /// The time since the last call to the game's update method.

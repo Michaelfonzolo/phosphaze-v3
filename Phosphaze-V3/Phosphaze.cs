@@ -41,6 +41,8 @@ using Microsoft.Xna.Framework.Input;
 using Phosphaze_V3.Framework;
 using Phosphaze_V3.Framework.Forms;
 using Phosphaze_V3.Framework.Input;
+using Phosphaze_V3.Framework.Extensions;
+using Phosphaze_V3.Framework.Display;
 
 #endregion
 
@@ -54,6 +56,10 @@ namespace Phosphaze_V3
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MultiformManager multiformManager;
+        DisplayManager displayManager;
+
+        // TEMPORARY
+        Texture2D texture;
 
         public Phosphaze()
             : base()
@@ -71,16 +77,7 @@ namespace Phosphaze_V3
         protected override void Initialize()
         {
             base.Initialize();
-
             Globals.content = Content;
-            Globals.graphics = graphics;
-
-            graphics.IsFullScreen = Options.fullscreen;
-            graphics.PreferredBackBufferWidth = Options.currentResolution.width;
-            graphics.PreferredBackBufferHeight = Options.currentResolution.height;
-            graphics.ApplyChanges();
-
-            multiformManager = new MultiformManager();
         }
 
         /// <summary>
@@ -91,8 +88,10 @@ namespace Phosphaze_V3
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            multiformManager = new MultiformManager();
+            displayManager = new DisplayManager(GraphicsDevice, graphics, spriteBatch, Window, Constants.BG_FILLCOL);
 
-            Globals.spriteBatch = spriteBatch;
+            texture = Content.Load<Texture2D>("TestContent/Speaker1");
         }
 
         /// <summary>
@@ -122,7 +121,7 @@ namespace Phosphaze_V3
             // To compensate for this, since a game usually never lags enough to cause the
             // framerate to drop, we just set the deltaTime to 16.6666... whenever the elapsed
             // milliseconds is exactly 16 (which also happens to be its minimum).
-            Globals.deltaTime = Math.Max(gameTime.ElapsedGameTime.Milliseconds, 16.666666666666);
+            Globals.deltaTime = Math.Max(gameTime.ElapsedGameTime.Milliseconds, Constants.MIN_DTIME);
 
             // Update the input
             Globals.mouseInput.Update();
@@ -133,6 +132,10 @@ namespace Phosphaze_V3
 
             if (Globals.keyboardInput.IsReleased(Keys.Escape))
                 Exit();
+            if (Globals.keyboardInput.IsReleased(Keys.Enter))
+                displayManager.SetResolution(displayManager.currentResolutionIndex + 1);
+            if (Globals.keyboardInput.IsReleased(Keys.B))
+                displayManager.ToggleBorder();
         }
 
         /// <summary>
@@ -141,7 +144,12 @@ namespace Phosphaze_V3
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Constants.BG_FILLCOL);
+            displayManager.BeginUpdate();
+
+            displayManager.Draw(texture, new Vector2(0.5f, 0.5f));
+            displayManager.Draw(texture, new Vector2(0.25f, 0.5f));
+
+            displayManager.EndUpdate();
 
             base.Draw(gameTime);
         }

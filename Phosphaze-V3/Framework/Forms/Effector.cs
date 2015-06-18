@@ -27,48 +27,62 @@
  * 
  * Description
  * ===========
- * This file contains all constants used in the Phosphaze game. Constants
- * are different from Globals as Globals change depending on the game's
- * state, and they are different from Options because Options are user
- * specified.
+ * Effectors are objects that can be attached to Forms to update them over time externally
+ * from the Form itself.
  */
 
 #endregion
 
 #region Using Statements
 
+using Phosphaze_V3.Framework.Timing;
 using System;
-using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace Phosphaze_V3.Framework
+namespace Phosphaze_V3.Framework.Forms
 {
-    /// <summary>
-    /// The constants used throughout Phosphaze.
-    /// </summary>
-    public static class Constants
+    public abstract class Effector : ChronometricEntity
     {
 
         /// <summary>
-        /// The background fill colour.
+        /// The form this effector is attached to.
         /// </summary>
-        public static Color BG_FILLCOL = Color.Black;
+        public Form form { get; private set; }
 
         /// <summary>
-        /// The minimum possible value of Globals.deltaTime.
+        /// Whether or not this effector is dead (finished, in which case it is deleted).
         /// </summary>
-        public const double MIN_DTIME = 16.6666666666666;
+        public bool dead { get; private set; }
+
+        public Effector(Form form)
+            : base()
+        {
+            this.form = form;
+            dead = false;
+        }
+
+        public Effector()
+            : this(null) { }
 
         /// <summary>
-        /// The amount of pixels the border of a window offsets the display by.
+        /// Attach this effector to a form only if it isn't already.
         /// </summary>
-        public static System.Drawing.Point WINDOW_BOUNDARY_OFFSET = new System.Drawing.Point(8, 30);
+        /// <param name="form"></param>
+        public void AttachTo(Form form)
+        {
+            if (this.form != null)
+                throw new ArgumentException("This effector is already attached to a form.");
+            this.form = form;
+        }
 
         /// <summary>
-        /// The global random number generator.
+        /// Update this effector.
         /// </summary>
-        public static Random random = new Random();
+        public new virtual void Update()
+        {
+            base.UpdateTime();
+        }
 
     }
 }

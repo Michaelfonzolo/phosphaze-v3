@@ -41,6 +41,8 @@
     <StartupObject>Phosphaze_V3.MainProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Framework\Display\DisplayManager.cs" />
+    <Compile Include="Framework\Display\Resolution.cs" />
     <Compile Include="Framework\Events\EventListener.cs" />
     <Compile Include="Framework\Events\EventPropagator.cs" />
     <Compile Include="Framework\Events\EventTypes.cs" />
@@ -49,7 +51,6 @@
     <Compile Include="Framework\Events\MouseEventArgs.cs" />
     <Compile Include="Framework\Forms\Form.cs" />
     <Compile Include="Framework\Forms\MultiformManager.cs" />
-    <Compile Include="Framework\Options.cs" />
     <Compile Include="Framework\Timing\After.cs" />
     <Compile Include="Framework\Timing\AfterFrame.cs" />
     <Compile Include="Framework\Timing\At.cs" />
