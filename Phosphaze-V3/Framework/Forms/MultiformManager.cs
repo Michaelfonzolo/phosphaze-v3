@@ -268,7 +268,7 @@ namespace Phosphaze_V3.Framework.Forms
                     UpdateTransitionOut(multiform);
                     break;
                 case MultiformState.Closed:
-                    CloseCurrentScene(multiform);
+                    CloseCurrentMultiform(multiform);
                     break;
             }
         }
@@ -290,7 +290,7 @@ namespace Phosphaze_V3.Framework.Forms
                 if (nextState == MultiformState.Closed)
                     // This only occurs if we haven't actually begun transitioning the
                     // next multiform.
-                    ConstructNextScene(multiform);
+                    ConstructNextMultiform(multiform);
                 else if (nextState == MultiformState.TransitionIn)
                     multiformMap[nextMultiform].TransitionIn(currentMultiform);
                 else if (nextState == MultiformState.Update)
@@ -298,7 +298,7 @@ namespace Phosphaze_V3.Framework.Forms
                     // multiform finishes transitioning out, close the current multiform and
                     // shift the multiforms around so current becomes previous and next
                     // becomes current.
-                    CloseCurrentScene(multiform);
+                    CloseCurrentMultiform(multiform);
             }
         }
 
@@ -306,11 +306,11 @@ namespace Phosphaze_V3.Framework.Forms
         /// Close the current multiform and set up the next one.
         /// </summary>
         /// <param name="multiform"></param>
-        private void CloseCurrentScene(Multiform multiform)
+        private void CloseCurrentMultiform(Multiform multiform)
         {
             var transitionType = multiform.GetTransitionType(nextMultiform);
             if (transitionType == TransitionType.Independent)
-                ConstructNextScene(multiform);
+                ConstructNextMultiform(multiform);
 
             // Shift the previous, current, and next scenes.
             previousMultiform = currentMultiform;
@@ -323,8 +323,9 @@ namespace Phosphaze_V3.Framework.Forms
         /// Construct the next multiform.
         /// </summary>
         /// <param name="multiform"></param>
-        private void ConstructNextScene(Multiform multiform)
+        private void ConstructNextMultiform(Multiform multiform)
         {
+            // Transition arguments are just packets of information passed between mutliforms.
             var transitionArgs = multiform.PrepareTransitionArgs(nextMultiform);
             multiformMap[nextMultiform].SetState(MultiformState.TransitionIn);
             multiformMap[nextMultiform].Construct(transitionArgs);

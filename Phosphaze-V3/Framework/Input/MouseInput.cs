@@ -180,7 +180,7 @@ namespace Phosphaze_V3.Framework.Input
         /// <summary>
         /// Update the mouse state to retrieve new input.
         /// </summary>
-        public new void Update()
+        public void Update()
         {
             base.UpdateTime();
             currentMouseState = Mouse.GetState();

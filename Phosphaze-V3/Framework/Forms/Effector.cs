@@ -79,7 +79,7 @@ namespace Phosphaze_V3.Framework.Forms
         /// <summary>
         /// Update this effector.
         /// </summary>
-        public new virtual void Update()
+        public virtual void Update()
         {
             base.UpdateTime();
         }

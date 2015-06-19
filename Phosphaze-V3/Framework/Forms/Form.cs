@@ -130,7 +130,7 @@ namespace Phosphaze_V3.Framework.Forms
         /// <summary>
         /// Update the Form.
         /// </summary>
-        public new virtual void Update()
+        public virtual void Update()
         {
             base.UpdateTime();
             UpdateEffectors();

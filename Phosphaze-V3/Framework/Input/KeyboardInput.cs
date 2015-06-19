@@ -103,7 +103,7 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         public static KeyboardInput Instance = new KeyboardInput();
 
-        public new void Update()
+        public void Update()
         {
             base.UpdateTime();
             currentKeyboardState = Keyboard.GetState();

@@ -88,7 +88,7 @@ namespace Phosphaze_V3
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            multiformManager = new MultiformManager();
+            //multiformManager = new MultiformManager();
             displayManager = new DisplayManager(GraphicsDevice, graphics, spriteBatch, Window, Constants.BG_FILLCOL);
 
             texture = Content.Load<Texture2D>("TestContent/Speaker1");
@@ -136,6 +136,8 @@ namespace Phosphaze_V3
                 displayManager.SetResolution(displayManager.currentResolutionIndex + 1);
             if (Globals.keyboardInput.IsReleased(Keys.B))
                 displayManager.ToggleBorder();
+            if (Globals.keyboardInput.IsReleased(Keys.F))
+                displayManager.ToggleFullscreen();
         }
 
         /// <summary>

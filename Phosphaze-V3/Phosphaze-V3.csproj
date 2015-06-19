@@ -49,8 +49,13 @@
     <Compile Include="Framework\Events\IEvent.cs" />
     <Compile Include="Framework\Events\KeyEventArgs.cs" />
     <Compile Include="Framework\Events\MouseEventArgs.cs" />
+    <Compile Include="Framework\Forms\Effector.cs" />
     <Compile Include="Framework\Forms\Form.cs" />
+    <Compile Include="Framework\Forms\GlobalFormManager.cs" />
     <Compile Include="Framework\Forms\MultiformManager.cs" />
+    <Compile Include="Framework\Forms\MultiformState.cs" />
+    <Compile Include="Framework\Forms\TransitionType.cs" />
+    <Compile Include="Framework\Forms\VisualForm.cs" />
     <Compile Include="Framework\Timing\After.cs" />
     <Compile Include="Framework\Timing\AfterFrame.cs" />
     <Compile Include="Framework\Timing\At.cs" />
