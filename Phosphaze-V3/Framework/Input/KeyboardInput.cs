@@ -99,6 +99,18 @@ namespace Phosphaze_V3.Framework.Input
         }
 
         /// <summary>
+        /// Convert a key to an integer value representing it's index in the lists
+        /// framesSinceKeyPressed, millisecondsSinceKeyPressed, framesSinceKeyUnpressed,
+        /// and millisecondsSinceKeyUnpressed.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public int KeyToInt(Keys key)
+        {
+            return keysToIndex[key];
+        }
+
+        /// <summary>
         /// The singleton instance of this object.
         /// </summary>
         public static KeyboardInput Instance = new KeyboardInput();
