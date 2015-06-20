@@ -20,7 +20,7 @@ namespace Phosphaze_V3.Framework.Forms
         /// </summary>
         Dictionary<string, Form> namedGlobalForms = new Dictionary<string, Form>();
 
-        public GlobalFormManager() { }
+        public GlobalFormManager() : base() { }
 
         /// <summary>
         /// Retrieve a form by it's name.

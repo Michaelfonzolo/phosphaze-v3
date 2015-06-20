@@ -77,6 +77,7 @@ namespace Phosphaze_V3.Framework.Input
         private double timeOfLastKey = 0;
 
         public WordTracker(Keys[] word, double maxInterval = Double.PositiveInfinity, double keyPressLimit = 600)
+            : base()
         {
             this.word = word;
             this.maxInterval = maxInterval;
