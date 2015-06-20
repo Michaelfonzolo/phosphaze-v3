@@ -53,8 +53,8 @@ namespace Phosphaze_V3
     /// </summary>
     public class Phosphaze : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public GraphicsDeviceManager graphics { get; set; }
+        public SpriteBatch spriteBatch { get; set; }
         MultiformManager multiformManager;
         DisplayManager displayManager;
 
@@ -89,7 +89,7 @@ namespace Phosphaze_V3
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             //multiformManager = new MultiformManager();
-            displayManager = new DisplayManager(GraphicsDevice, graphics, spriteBatch, Window, Constants.BG_FILLCOL);
+            displayManager = new DisplayManager(this, graphics, spriteBatch, Constants.BG_FILLCOL);
 
             texture = Content.Load<Texture2D>("TestContent/Speaker1");
         }

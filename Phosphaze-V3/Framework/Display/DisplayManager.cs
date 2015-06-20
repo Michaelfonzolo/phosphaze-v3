@@ -100,6 +100,21 @@ namespace Phosphaze_V3.Framework.Display
         /// </summary>
         public float resolutionScale { get { return (float)currentResolution.min / maxResolutionHeight; } }
 
+        /* Monogame had the ingenious idea of spreading all the properties for
+         * the window out over 5 different classes! So we have to keep them all
+         * here if we want to be able to modify everything via one interface.
+         * 
+         * For example, the only way to change mouse visibility is through ``game``,
+         * but the only way to change screen dimensions is through graphicsManager.
+         * 
+         * I don't like how coupled it's become, but it works for now.
+         */
+
+        /// <summary>
+        /// The global game object.
+        /// </summary>
+        private Game game;
+
         /// <summary>
         /// The global game GraphicsDevice.
         /// </summary>
@@ -145,19 +160,26 @@ namespace Phosphaze_V3.Framework.Display
         /// </summary>
         public bool fullscreen { get; private set; }
 
+        /// <summary>
+        /// Whether or not the mouse is visible.
+        /// </summary>
+        public bool mouseVisible { get; private set; }
+
         public DisplayManager(
-            GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsManager,
-            SpriteBatch spriteBatch, GameWindow window, Color backgroundFill)
+            Game game, GraphicsDeviceManager graphicsManager, 
+            SpriteBatch spriteBatch, Color backgroundFill)
         {
-            this.graphicsDevice = graphicsDevice;
+            this.graphicsDevice = game.GraphicsDevice;
             this.graphicsManager = graphicsManager;
             this.spriteBatch = spriteBatch;
-            this.window = window;
+            this.window = game.Window;
             this.bgFill = backgroundFill;
+            this.game = game;
 
             currentResolutionIndex = validResolutions.Length - 1; // Always default to native resolution.
             borderless = true;
             fullscreen = false;
+            mouseVisible = false;
 
             ReinitScreenProperties();
         }
@@ -225,7 +247,9 @@ namespace Phosphaze_V3.Framework.Display
         /// </summary>
         private void ReinitScreenProperties()
         {
+            game.IsMouseVisible = mouseVisible;
             window.IsBorderless = borderless;
+
             if (!fullscreen)
             {
                 // Center the display based on the native resolution.
@@ -289,6 +313,25 @@ namespace Phosphaze_V3.Framework.Display
         public void SetFullscreen(bool state)
         {
             fullscreen = state;
+            dirty = true;
+        }
+
+        /// <summary>
+        /// Toggle the mouse visibility.
+        /// </summary>
+        public void ToggleMouseVisibility()
+        {
+            mouseVisible ^= true;
+            dirty = true;
+        }
+
+        /// <summary>
+        /// Set whether or not the mouse is visible.
+        /// </summary>
+        /// <param name="state"></param>
+        public void SetMouseVisibility(bool state)
+        {
+            mouseVisible = state;
             dirty = true;
         }
 
