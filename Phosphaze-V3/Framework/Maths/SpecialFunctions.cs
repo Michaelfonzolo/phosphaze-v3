@@ -47,7 +47,7 @@ using System;
 
 namespace Phosphaze.Core.Utils {
 
-	public class SpecialFunctions
+	public static class SpecialFunctions
 	{
 		// Machine constants
 
