@@ -82,7 +82,7 @@ namespace Phosphaze_V3.Framework.Forms
         /// <summary>
         /// The manager of all global forms not attached to any multiform. The supplied
         /// GlobalFormManager must be a derived class of GlobalFormManager so as to implement
-        /// its own functionality regarding the added scenes.
+        /// its own functionality regarding the added multiforms.
         /// </summary>
         GlobalFormManager globalForms;
 
@@ -312,7 +312,7 @@ namespace Phosphaze_V3.Framework.Forms
             if (transitionType == TransitionType.Independent)
                 ConstructNextMultiform(multiform);
 
-            // Shift the previous, current, and next scenes.
+            // Shift the previous, current, and next multiforms.
             previousMultiform = currentMultiform;
             currentMultiform = nextMultiform;
             nextMultiform = null;
@@ -340,10 +340,16 @@ namespace Phosphaze_V3.Framework.Forms
             // intertwined), Current Multiform.
             globalForms.Render();
 
-            // We only render the next scene if the current scene's transition type
-            // is Intertwined and the next scene is transitioning in.
+            // We only render the next multiform if the current multiform's transition type
+            // is Intertwined and the next multiform is transitioning in.
             if (nextMultiform != null && multiformMap[nextMultiform].state == MultiformState.TransitionIn)
                 multiformMap[nextMultiform].RenderTransitionIn(currentMultiform);
+
+            // Alternatively, during an intertwined transition the previous multiform could still
+            // be transition out, so we still have to render it. For more information, see the
+            // comments in Update() and Update(Multiform, MultiformState).
+            if (previousMultiform != null && multiformMap[previousMultiform].state == MultiformState.TransitionOut)
+                multiformMap[previousMultiform].RenderTransitionOut(currentMultiform);
 
             Render(multiformMap[currentMultiform], multiformMap[currentMultiform].state);
         }
