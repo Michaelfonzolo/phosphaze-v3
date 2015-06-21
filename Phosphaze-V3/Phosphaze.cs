@@ -79,7 +79,6 @@ namespace Phosphaze_V3
         protected override void Initialize()
         {
             base.Initialize();
-            Globals.content = Content;
         }
 
         /// <summary>

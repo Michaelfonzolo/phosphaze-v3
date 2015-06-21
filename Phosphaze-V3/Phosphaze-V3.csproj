@@ -70,7 +70,6 @@
     <Compile Include="Framework\Timing\ChronometricEntity.cs" />
     <Compile Include="Framework\Constants.cs" />
     <Compile Include="Framework\Extensions\ArrayExtensions.cs" />
-    <Compile Include="Framework\Globals.cs" />
     <Compile Include="Framework\Input\KeyboardInput.cs" />
     <Compile Include="Framework\Input\MouseInput.cs" />
     <Compile Include="Framework\Forms\Multiform.cs" />
