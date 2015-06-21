@@ -84,6 +84,7 @@
     <Compile Include="Framework\Timing\OutsideFrames.cs" />
     <Compile Include="Framework\Timing\TimeChronometric.cs" />
     <Compile Include="Framework\Timing\Timeline.cs" />
+    <Compile Include="Framework\Timing\TimeManager.cs" />
     <Compile Include="Phosphaze.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -43,6 +43,7 @@ using Phosphaze_V3.Framework.Forms;
 using Phosphaze_V3.Framework.Input;
 using Phosphaze_V3.Framework.Extensions;
 using Phosphaze_V3.Framework.Display;
+using Phosphaze_V3.Framework.Timing;
 
 #endregion
 
@@ -57,6 +58,7 @@ namespace Phosphaze_V3
         public SpriteBatch spriteBatch { get; set; }
         MultiformManager multiformManager;
         DisplayManager displayManager;
+        TimeManager timingManager;
 
         // TEMPORARY
         Texture2D texture;
@@ -112,16 +114,8 @@ namespace Phosphaze_V3
         {
             base.Update(gameTime);
 
-            Globals.gameTime = gameTime;
-
-            // NOTE: gameTime.ElapsedGameTime.Milliseconds is unfortunately stored as an
-            // integer, meaning at 60fps (which is the default for Monogame) deltaTime would
-            // normally be 16 instead of the actual 16.66666...
-            //
-            // To compensate for this, since a game usually never lags enough to cause the
-            // framerate to drop, we just set the deltaTime to 16.6666... whenever the elapsed
-            // milliseconds is exactly 16 (which also happens to be its minimum).
-            Globals.deltaTime = Math.Max(gameTime.ElapsedGameTime.Milliseconds, Constants.MIN_DTIME);
+            // Update the global game timing manager.
+            TimeManager.Update(gameTime);
 
             // Update the input
             MouseInput.Update();

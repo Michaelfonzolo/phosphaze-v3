@@ -49,20 +49,9 @@ namespace Phosphaze_V3.Framework
     {
 
         /// <summary>
-        /// The current GameTime object.
-        /// </summary>
-        public static GameTime gameTime;
-
-        /// <summary>
         /// The global game ContentManager.
         /// </summary>
         public static ContentManager content;
-
-        /// <summary>
-        /// The time since the last call to the game's update method.
-        /// This is short for GlobalProperties.Instance.gameTime.ElapsedGameTime.Milliseconds.
-        /// </summary>
-        public static double deltaTime;
 
     }
 }

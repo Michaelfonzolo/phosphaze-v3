@@ -205,7 +205,7 @@ namespace Phosphaze_V3.Framework.Input
             if (mousePosition == prevMPs.First())
             {
                 FSMM++;
-                MSMM += Globals.deltaTime;
+                MSMM += TimeManager.DeltaTime;
                 EventPropagator.Send(new EventTypes.OnMouseStillEvent(), MouseEventArgs.Empty);
             }
             else
@@ -236,7 +236,7 @@ namespace Phosphaze_V3.Framework.Input
             if (IsPressed(button))
             {
                 FSMP[pos]++;
-                MSMP[pos] += Globals.deltaTime;
+                MSMP[pos] += TimeManager.DeltaTime;
 
                 FSMU[pos] = 0;
                 MSMU[pos] = 0;
@@ -253,7 +253,7 @@ namespace Phosphaze_V3.Framework.Input
                 MSMP[pos] = 0;
 
                 FSMU[pos]++;
-                MSMU[pos] += Globals.deltaTime;
+                MSMU[pos] += TimeManager.DeltaTime;
 
                 if (FSMU[pos] == 1)
                     EventPropagator.Send(new EventTypes.OnMouseReleaseEvent(), new MouseEventArgs(button));

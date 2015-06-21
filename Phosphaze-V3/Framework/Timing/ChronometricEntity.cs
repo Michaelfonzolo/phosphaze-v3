@@ -61,7 +61,7 @@ namespace Phosphaze_V3.Framework.Timing
         public virtual void UpdateTime()
         {
             LocalFrame++;
-            LocalTime += Globals.deltaTime;
+            LocalTime += TimeManager.DeltaTime;
         }
 
         /// <summary>

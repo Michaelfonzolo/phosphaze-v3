@@ -130,7 +130,7 @@ namespace Phosphaze_V3.Framework.Input
                 if (currentKeyboardState.IsKeyDown(pair.Key))
                 {
                     FSKP[pair.Value]++;
-                    MSKP[pair.Value] += Globals.deltaTime;
+                    MSKP[pair.Value] += TimeManager.DeltaTime;
 
                     FSKU[pair.Value] = 0;
                     MSKU[pair.Value] = 0;
@@ -147,7 +147,7 @@ namespace Phosphaze_V3.Framework.Input
                     MSKP[pair.Value] = 0;
 
                     FSKU[pair.Value]++;
-                    MSKU[pair.Value] += Globals.deltaTime;
+                    MSKU[pair.Value] += TimeManager.DeltaTime;
 
                     if (FSKU[pair.Value] == 1)
                         EventPropagator.Send(new EventTypes.OnKeyReleaseEvent(), new KeyEventArgs(pair.Key));
