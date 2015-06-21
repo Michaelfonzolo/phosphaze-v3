@@ -124,19 +124,19 @@ namespace Phosphaze_V3
             Globals.deltaTime = Math.Max(gameTime.ElapsedGameTime.Milliseconds, Constants.MIN_DTIME);
 
             // Update the input
-            Globals.mouseInput.Update();
-            Globals.keyboardInput.Update();
+            MouseInput.Update();
+            KeyboardInput.Update();
 
             // Update the multiforms.
             // multiformManager.Update();
 
-            if (Globals.keyboardInput.IsReleased(Keys.Escape))
+            if (KeyboardInput.IsReleased(Keys.Escape))
                 Exit();
-            if (Globals.keyboardInput.IsReleased(Keys.Enter))
+            if (KeyboardInput.IsReleased(Keys.Enter))
                 displayManager.SetResolution(displayManager.currentResolutionIndex + 1);
-            if (Globals.keyboardInput.IsReleased(Keys.B))
+            if (KeyboardInput.IsReleased(Keys.B))
                 displayManager.ToggleBorder();
-            if (Globals.keyboardInput.IsReleased(Keys.F))
+            if (KeyboardInput.IsReleased(Keys.F))
                 displayManager.ToggleFullscreen();
         }
 

@@ -60,22 +60,26 @@ namespace Phosphaze_V3.Framework.Input
         /// <summary>
         /// The number of frames each key has been pressed for.
         /// </summary>
-        public int[] framesSinceKeyPressed { get; private set; }
+        public static int[] FramesSinceKeyPressed { get { return Instance.FSKP; } }
+        private int[] FSKP;
 
         /// <summary>
         /// The number of milliseconds each key has been pressed for.
         /// </summary>
-        public double[] millisecondsSinceKeyPressed { get; private set; }
+        public static double[] MillisecondsSinceKeyPressed { get { return Instance.MSKP; } }
+        private double[] MSKP;
 
         /// <summary>
         /// The number of frames each key has been unpressed for.
         /// </summary>
-        public int[] framesSinceKeyUnpressed { get; private set; }
+        public static int[] FramesSinceKeyUnpressed { get { return Instance.FSKU; } }
+        private int[] FSKU;
 
         /// <summary>
         /// The number of milliseconds each key has been unpressed for.
         /// </summary>
-        public double[] millisecondsSinceKeyUnpressed { get; private set; }
+        public static double[] MillisecondsSinceKeyUnpressed { get { return Instance.MSKU; } }
+        private double[] MSKU;
 
         /// <summary>
         /// The current keyboard state.
@@ -91,12 +95,17 @@ namespace Phosphaze_V3.Framework.Input
             for (int i = 0; i < keyList.Length; i++)
                 keysToIndex[keyList[i]] = i;
 
-            framesSinceKeyPressed = new int[keysToIndex.Count];
-            framesSinceKeyUnpressed = new int[keysToIndex.Count];
+            FSKP = new int[keysToIndex.Count];
+            FSKU = new int[keysToIndex.Count];
 
-            millisecondsSinceKeyPressed = new double[keysToIndex.Count];
-            millisecondsSinceKeyUnpressed = new double[keysToIndex.Count];
+            MSKP = new double[keysToIndex.Count];
+            MSKU = new double[keysToIndex.Count];
         }
+
+        /// <summary>
+        /// The singleton instance of this object.
+        /// </summary>
+        private static KeyboardInput Instance = new KeyboardInput();
 
         /// <summary>
         /// Convert a key to an integer value representing it's index in the lists
@@ -105,17 +114,14 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public int KeyToInt(Keys key)
+        public static int KeyToInt(Keys key)
         {
             return keysToIndex[key];
         }
 
-        /// <summary>
-        /// The singleton instance of this object.
-        /// </summary>
-        public static KeyboardInput Instance = new KeyboardInput();
+        public static void Update() { Instance._Update(); }
 
-        public void Update()
+        private void _Update()
         {
             base.UpdateTime();
             currentKeyboardState = Keyboard.GetState();
@@ -123,27 +129,27 @@ namespace Phosphaze_V3.Framework.Input
             {
                 if (currentKeyboardState.IsKeyDown(pair.Key))
                 {
-                    framesSinceKeyPressed[pair.Value]++;
-                    millisecondsSinceKeyPressed[pair.Value] += Globals.deltaTime;
+                    FSKP[pair.Value]++;
+                    MSKP[pair.Value] += Globals.deltaTime;
 
-                    framesSinceKeyUnpressed[pair.Value] = 0;
-                    millisecondsSinceKeyUnpressed[pair.Value] = 0;
+                    FSKU[pair.Value] = 0;
+                    MSKU[pair.Value] = 0;
 
                     var args = new KeyEventArgs(pair.Key);
-                    if (framesSinceKeyPressed[pair.Value] == 1)
+                    if (FSKP[pair.Value] == 1)
                         EventPropagator.Send(new EventTypes.OnKeyClickEvent(), args);
                     else
                         EventPropagator.Send(new EventTypes.OnKeyPressEvent(), args);
                 }
                 else
                 {
-                    framesSinceKeyPressed[pair.Value] = 0;
-                    millisecondsSinceKeyPressed[pair.Value] = 0;
+                    FSKP[pair.Value] = 0;
+                    MSKP[pair.Value] = 0;
 
-                    framesSinceKeyUnpressed[pair.Value]++;
-                    millisecondsSinceKeyUnpressed[pair.Value] += Globals.deltaTime;
+                    FSKU[pair.Value]++;
+                    MSKU[pair.Value] += Globals.deltaTime;
 
-                    if (framesSinceKeyUnpressed[pair.Value] == 1)
+                    if (FSKU[pair.Value] == 1)
                         EventPropagator.Send(new EventTypes.OnKeyReleaseEvent(), new KeyEventArgs(pair.Key));
                 }
             }
@@ -154,9 +160,9 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool IsPressed(Keys key)
+        public static bool IsPressed(Keys key)
         {
-            return framesSinceKeyPressed[keysToIndex[key]] > 0;
+            return Instance.FSKP[keysToIndex[key]] > 0;
         }
 
         /// <summary>
@@ -164,9 +170,9 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool IsUnpressed(Keys key)
+        public static bool IsUnpressed(Keys key)
         {
-            return framesSinceKeyUnpressed[keysToIndex[key]] > 0;
+            return Instance.FSKU[keysToIndex[key]] > 0;
         }
 
         /// <summary>
@@ -175,9 +181,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="key"></param>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public bool IsHeld(Keys key, int frames)
+        public static bool IsHeld(Keys key, int frames)
         {
-            return framesSinceKeyPressed[keysToIndex[key]] >= frames;
+            return Instance.FSKP[keysToIndex[key]] >= frames;
         }
 
         /// <summary>
@@ -186,9 +192,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="key"></param>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public bool IsHeld(Keys key, double milliseconds)
+        public static bool IsHeld(Keys key, double milliseconds)
         {
-            return millisecondsSinceKeyPressed[keysToIndex[key]] >= milliseconds;
+            return Instance.MSKP[keysToIndex[key]] >= milliseconds;
         }
 
         /// <summary>
@@ -197,9 +203,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="key"></param>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public bool IsUnheld(Keys key, int frames)
+        public static bool IsUnheld(Keys key, int frames)
         {
-            return framesSinceKeyUnpressed[keysToIndex[key]] >= frames;
+            return Instance.FSKU[keysToIndex[key]] >= frames;
         }
 
         /// <summary>
@@ -208,9 +214,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="key"></param>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public bool IsUnheld(Keys key, double milliseconds)
+        public static bool IsUnheld(Keys key, double milliseconds)
         {
-            return millisecondsSinceKeyUnpressed[keysToIndex[key]] >= milliseconds;
+            return Instance.MSKU[keysToIndex[key]] >= milliseconds;
         }
 
         /// <summary>
@@ -218,9 +224,9 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool IsClicked(Keys key)
+        public static bool IsClicked(Keys key)
         {
-            return framesSinceKeyPressed[keysToIndex[key]] == 1;
+            return Instance.FSKP[keysToIndex[key]] == 1;
         }
 
         /// <summary>
@@ -228,12 +234,12 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool IsReleased(Keys key)
+        public static bool IsReleased(Keys key)
         {
             // Checking if LocalFrame != 1 ensures that IsReleased doesn't return true immediately
             // as soon as the game starts, which would normally occur unless the player was holding
             // down the key before the game began running.
-            return framesSinceKeyUnpressed[keysToIndex[key]] == 1 && LocalFrame != 1;
+            return Instance.FSKU[keysToIndex[key]] == 1 && Instance.LocalFrame != 1;
         }
 
     }

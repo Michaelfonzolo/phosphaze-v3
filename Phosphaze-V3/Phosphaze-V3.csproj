@@ -57,6 +57,7 @@
     <Compile Include="Framework\Forms\TransitionType.cs" />
     <Compile Include="Framework\Forms\VisualForm.cs" />
     <Compile Include="Framework\Input\WordTracker.cs" />
+    <Compile Include="Framework\Maths\SpecialFunctions.cs" />
     <Compile Include="Framework\Timing\After.cs" />
     <Compile Include="Framework\Timing\AfterFrame.cs" />
     <Compile Include="Framework\Timing\At.cs" />
@@ -105,6 +106,7 @@
   <ItemGroup>
     <Folder Include="Framework\Maths\Geometry\" />
     <Folder Include="Framework\Particles\" />
+    <Folder Include="Tests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

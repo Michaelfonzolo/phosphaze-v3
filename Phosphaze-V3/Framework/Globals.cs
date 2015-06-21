@@ -64,15 +64,5 @@ namespace Phosphaze_V3.Framework
         /// </summary>
         public static double deltaTime;
 
-        /// <summary>
-        /// The global mouse input.
-        /// </summary>
-        public static MouseInput mouseInput = MouseInput.Instance;
-
-        /// <summary>
-        /// The global keyboard input.
-        /// </summary>
-        public static KeyboardInput keyboardInput = KeyboardInput.Instance;
-
     }
 }

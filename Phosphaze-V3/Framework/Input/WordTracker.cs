@@ -99,11 +99,10 @@ namespace Phosphaze_V3.Framework.Input
 
         public override void OnKeyPress(KeyEventArgs args)
         {
-            var kInput = Globals.keyboardInput;
-            var index = kInput.KeyToInt(args.key);
+            var index = KeyboardInput.KeyToInt(args.key);
             // If any key has been pressed for longer than the keyPressLimit then
             // refresh the tracker (go back to the first character).
-            if (kInput.millisecondsSinceKeyPressed[index] > keyPressLimit)
+            if (KeyboardInput.MillisecondsSinceKeyPressed[index] > keyPressLimit)
                 currentChar = 0;
         }
 

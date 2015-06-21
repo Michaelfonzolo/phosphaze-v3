@@ -354,12 +354,6 @@ namespace Phosphaze.Core.Utils {
                             -5.50828147163549611107E-2,
                         };
 
-		/// <summary>
-		/// Don't let anyone instantiate this class. 
-		/// </summary>
-		private SpecialFunctions() { }
-
-
 		// Function Methods
 
 		/// <summary>
