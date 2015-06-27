@@ -37,11 +37,11 @@
 
 #region Using Statements
 
+using Phosphaze_V3.Framework.Extensions;
 using Phosphaze_V3.Framework.Timing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Phosphaze_V3.Framework.Extensions;
 
 #endregion
 
@@ -111,6 +111,12 @@ namespace Phosphaze_V3.Framework.Forms
             form.Initialize(serviceLocator);
         }
 
+        /// <summary>
+        /// Register a form with a given name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="form"></param>
+        /// <param name="serviceLocator"></param>
         protected void RegisterForm(string name, Form form, ServiceLocator serviceLocator)
         {
             namedForms[name] = form;
@@ -118,22 +124,38 @@ namespace Phosphaze_V3.Framework.Forms
             form.Initialize(serviceLocator);
         }
 
+        /// <summary>
+        /// Return a form by it's name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public Form GetForm(string name)
         {
             return namedForms[name];
         }
 
+        /// <summary>
+        /// Clear all forms.
+        /// </summary>
         protected void ClearForms()
         {
             namedForms.Clear();
             anonymousForms.Clear();
         }
 
+        /// <summary>
+        /// Remove a form with the given name.
+        /// </summary>
+        /// <param name="name"></param>
         public void RemoveForm(string name)
         {
             namedForms.Remove(name);
         }
 
+        /// <summary>
+        /// Attempt to remove a form object.
+        /// </summary>
+        /// <param name="form"></param>
         public void RemoveForm(Form form)
         {
             var removed = anonymousForms.Remove(form);
@@ -144,17 +166,32 @@ namespace Phosphaze_V3.Framework.Forms
             }
         }
 
+        /// <summary>
+        /// Return a list of all the forms in this multiform.
+        /// </summary>
+        /// <returns></returns>
         public Form[] AllForms()
         {
             return anonymousForms.ToArray().Concat(namedForms.Values.ToArray());
         }
 
+        /// <summary>
+        /// Tell all the active forms to stop listening to the event propagator.
+        /// </summary>
         protected void StopListening()
         {
             foreach (var form in anonymousForms)
                 form.StopListening();
             foreach (var form in namedForms)
                 form.Value.StopListening();
+        }
+
+        protected void StartListening()
+        {
+            foreach (var form in anonymousForms)
+                form.RestartListening();
+            foreach (var form in namedForms)
+                form.Value.RestartListening();
         }
 
         /// <summary>

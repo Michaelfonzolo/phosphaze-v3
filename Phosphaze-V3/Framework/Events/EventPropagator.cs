@@ -67,6 +67,16 @@ namespace Phosphaze_V3.Framework.Events
     	List<EventListener> tracking = new List<EventListener>();
 
         /// <summary>
+        /// Check if the propagator is tracking the given listener.
+        /// </summary>
+        /// <param name="listener"></param>
+        /// <returns></returns>
+        public bool IsTracking(EventListener listener)
+        {
+            return tracking.Contains(listener);
+        }
+
+        /// <summary>
         /// Start tracking a listener object and propagating events to it.
         /// </summary>
         /// <param name="listener"></param>

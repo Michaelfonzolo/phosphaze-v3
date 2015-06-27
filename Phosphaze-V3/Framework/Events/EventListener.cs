@@ -113,10 +113,23 @@ namespace Phosphaze_V3.Framework.Events
 	    /// </summary>
         public virtual void OnKeyRelease(ServiceLocator serviceLocator, KeyEventArgs args) { }
 
+        /// <summary>
+        /// Indicate to this listener that it should stop responding to events from the event propagator.
+        /// </summary>
 	    public void StopListening()
 	    {
-		    this.propagator.UntrackListener(this);
+            if (propagator.IsTracking(this))
+		        this.propagator.UntrackListener(this);
 	    }
+
+        /// <summary>
+        /// Indicate to this listener that it should start responding to events from the event propagator.
+        /// </summary>
+        public void RestartListening()
+        {
+            if (!propagator.IsTracking(this))
+                propagator.TrackListener(this);
+        }
 
     }
 }
