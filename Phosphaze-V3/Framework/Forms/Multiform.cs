@@ -39,6 +39,9 @@
 
 using Phosphaze_V3.Framework.Timing;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Phosphaze_V3.Framework.Extensions;
 
 #endregion
 
@@ -47,120 +50,127 @@ namespace Phosphaze_V3.Framework.Forms
     public abstract class Multiform : ChronometricEntity
     {
 
+        private List<Form> anonymousForms = new List<Form>();
+
+        private Dictionary<string, Form> namedForms = new Dictionary<string, Form>();
+
         /// <summary>
         /// The manager governing this Multiform.
         /// </summary>
         public MultiformManager manager { get; private set; }
 
-        public MultiformState state { get; private set; }
+        public Action<ServiceLocator> Updater { get; private set; }
+
+        public Action<ServiceLocator> Renderer { get; private set; }
 
         public Multiform() 
-            : base() 
+            : base()
         { 
-            LoadContent();
             manager = null;
-            state = MultiformState.Update;
         }
 
         /// <summary>
         /// Assign a manager to this multiform (only if one has not already been assigned).
         /// </summary>
         /// <param name="manager"></param>
-        public void SetManager(MultiformManager manager)
+        internal void SetManager(MultiformManager manager)
         {
-            if (this.manager != null)
-                throw new ArgumentException("This multiform already has a manager.");
+            // We are only allowed to reset the manager if either the current manager is null or
+            // the incoming manager is null.
+            if (this.manager != null && manager != null)
+                throw new ArgumentException("A manager has already been assigned.");
             this.manager = manager;
         }
 
-        public void SetState(MultiformState state)
+        /// <summary>
+        /// Set the current updater the multiform is using.
+        /// </summary>
+        /// <param name="updater"></param>
+        protected void SetUpdater(Action<ServiceLocator> updater)
         {
-            this.state = state;
+            Updater = updater;
         }
 
         /// <summary>
-        /// Load all the content for the Multiform. This is only called once. Not that as of
-        /// calling this function, the Multiform's manager is null.
+        /// Set the current renderer the multiform is using.
         /// </summary>
-        public abstract void LoadContent();
+        /// <param name="renderer"></param>
+        protected void SetRenderer(Action<ServiceLocator> renderer)
+        {
+            Renderer = renderer;
+        }
+
+        /// <summary>
+        /// Register a form.
+        /// </summary>
+        /// <param name="form"></param>
+        protected void RegisterForm(Form form, ServiceLocator serviceLocator)
+        {
+            anonymousForms.Add(form);
+            form.SetParent(this);
+            form.Initialize(serviceLocator);
+        }
+
+        protected void RegisterForm(string name, Form form, ServiceLocator serviceLocator)
+        {
+            namedForms[name] = form;
+            form.SetParent(this);
+            form.Initialize(serviceLocator);
+        }
+
+        public Form GetForm(string name)
+        {
+            return namedForms[name];
+        }
+
+        protected void ClearForms()
+        {
+            namedForms.Clear();
+            anonymousForms.Clear();
+        }
+
+        public void RemoveForm(string name)
+        {
+            namedForms.Remove(name);
+        }
+
+        public void RemoveForm(Form form)
+        {
+            var removed = anonymousForms.Remove(form);
+            if (!removed)
+            {
+                var item = namedForms.First(i => i.Value == form);
+                namedForms.Remove(item.Key);
+            }
+        }
+
+        public Form[] AllForms()
+        {
+            return anonymousForms.ToArray().Concat(namedForms.Values.ToArray());
+        }
+
+        protected void StopListening()
+        {
+            foreach (var form in anonymousForms)
+                form.StopListening();
+            foreach (var form in namedForms)
+                form.Value.StopListening();
+        }
 
         /// <summary>
         /// Construct the Multiform. This gets called every time the MultiformManager switches
         /// to using this Multiform. TransitionArguments from the previous Multiform are passed in.
         /// </summary>
         /// <param name="args"></param>
-        public abstract void Construct(TransitionArguments args);
-
-        /// <summary>
-        /// Update the multiform.
-        /// </summary>
-        public abstract void Update();
-
-        /// <summary>
-        /// Render the multiform.
-        /// </summary>
-        public abstract void Render();
-
-        /// <summary>
-        /// Render the multiform transitioning in from the previous multiform. By default this
-        /// just defers to Render().
-        /// </summary>
-        /// <param name="previousMultiform"></param>
-        public virtual void RenderTransitionIn(string previousMultiform)
-        {
-            Render();
-        }
-
-        /// <summary>
-        /// Render the multiform transitioning out to the next multiform. By default this
-        /// just defers to Render();
-        /// </summary>
-        /// <param name="nextMultiform"></param>
-        public virtual void RenderTransitionOut(string nextMultiform)
-        {
-            Render();
-        }
-
-        /// <summary>
-        /// Prepare and return the TransitionArguments to the next multiform.
-        /// </summary>
-        /// <param name="nextMultiform"></param>
-        /// <returns></returns>
-        public virtual TransitionArguments PrepareTransitionArgs(string nextMultiform)
-        {
-            return null;
-        }
+        public abstract void Construct(ServiceLocator serviceLocator, MultiformData args);
 
         /// <summary>
         /// Close the multiform.
         /// </summary>
         /// <returns></returns>
-        public virtual void Close(string nextMultiform) { }
-
-        public virtual TransitionType GetTransitionType(string nextMultiform)
+        public virtual void Close(ServiceLocator serviceLocator) 
         {
-            return TransitionType.Independent;
-        }
-
-        /// <summary>
-        /// Transition in from another multiform.
-        /// </summary>
-        public virtual void TransitionIn(string previousMultiform)
-        {
-            base.UpdateTime();
-            // The default transition in is to just skip the transition entirely and go
-            // straight to updating.
-            SetState(MultiformState.Update);
-        }
-
-        /// <summary>
-        /// Transition out to another multiform.
-        /// </summary>
-        public virtual void TransitionOut(string nextMultiform)
-        {
-            base.UpdateTime();
-            // The default transition out is to just skip the transition entirely.
-            SetState(MultiformState.Closed);
+            StopListening();
         }
     }
 }

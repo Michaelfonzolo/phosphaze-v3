@@ -5,10 +5,5 @@ using System.Text;
 
 namespace Phosphaze_V3.Framework.Forms
 {
-    public class VisualForm : Form
-    {
-
-
-
-    }
+    
 }

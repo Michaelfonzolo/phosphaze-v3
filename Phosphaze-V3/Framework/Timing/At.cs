@@ -45,7 +45,7 @@ namespace Phosphaze_V3.Framework.Timing
 
         public override double StartTime { get { return time; } }
 
-        public override double EndTime { get { return time + 2*TimeManager.DeltaTime; } }
+        public override double EndTime { get { return time + 2*Constants.MIN_DTIME; } }
 
         double time;
 
@@ -56,7 +56,7 @@ namespace Phosphaze_V3.Framework.Timing
 
         public override bool Active(ChronometricEntity entity)
         {
-            return time <= entity.LocalTime && entity.LocalTime < time + TimeManager.DeltaTime;
+            return time <= entity.LocalTime && entity.LocalTime < time + Constants.MIN_DTIME;
         }
 
     }

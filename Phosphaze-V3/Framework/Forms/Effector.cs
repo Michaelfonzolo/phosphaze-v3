@@ -79,9 +79,9 @@ namespace Phosphaze_V3.Framework.Forms
         /// <summary>
         /// Update this effector.
         /// </summary>
-        public virtual void Update()
+        public virtual void Update(ServiceLocator serviceLocator)
         {
-            base.UpdateTime();
+            base.UpdateTime(serviceLocator);
         }
 
     }

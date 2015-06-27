@@ -47,6 +47,6 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         /// <param name="listener"></param>
         /// <param name="args"></param>
-        void Activate(EventListener listener, EventArgs args);
+        void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator);
     }
 }

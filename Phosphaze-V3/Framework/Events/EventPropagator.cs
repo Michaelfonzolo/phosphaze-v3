@@ -44,10 +44,25 @@ namespace Phosphaze_V3.Framework.Events
 {
     public sealed class EventPropagator
     {
+        private ServiceLocator serviceLocator = null;
 
-        private EventPropagator() { }
+        public EventPropagator() { }
 
-    	private static EventPropagator Instance = new EventPropagator();
+        public void SetServiceLocator(ServiceLocator serviceLocator)
+        {
+            /* We need a reference to the ServiceLocator so that we don't have to send
+             * the ServiceLocator into EventPropagator.Send. 
+             * 
+             * An alternative solution to this problem would be to store all the events
+             * sent in a list, and then in an Update(ServiceLocator) method they would
+             * be activated simultaneously. This solution, however, doesn't account for
+             * the fact that sometimes it is necessary for events to be activated as soon
+             * as they are sent.
+             */
+            if (this.serviceLocator != null)
+                throw new ArgumentException("The event propagator already has a reference to the service locator.");
+            this.serviceLocator = serviceLocator;
+        }
 
     	List<EventListener> tracking = new List<EventListener>();
 
@@ -55,22 +70,22 @@ namespace Phosphaze_V3.Framework.Events
         /// Start tracking a listener object and propagating events to it.
         /// </summary>
         /// <param name="listener"></param>
-    	public static void TrackListener(EventListener listener)
+    	public void TrackListener(EventListener listener)
 	    {
 		    if (listener == null)
 			    throw new NullReferenceException("Supplied listener cannot be null.");
-		    Instance.tracking.Add(listener);
+		    tracking.Add(listener);
 	    }
 
         /// <summary>
         /// Untrack a listener.
         /// </summary>
         /// <param name="listener"></param>
-	    public static void UntrackListener(EventListener listener)
+	    public void UntrackListener(EventListener listener)
 	    {
 		    if (listener == null)
 			    return;
-            Instance.tracking.Remove(listener);
+            tracking.Remove(listener);
 	    }
 
         /// <summary>
@@ -79,10 +94,10 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         /// <param name="evt"></param>
         /// <param name="args"></param>
-	    public static void Send(IEvent evt, EventArgs args)
+	    public void Send(IEvent evt, EventArgs args)
 	    {
-		    foreach (var listener in Instance.tracking)
-			    evt.Activate(listener, args);
+		    foreach (var listener in tracking)
+			    evt.Activate(listener, args, serviceLocator);
 	    }
 
     }

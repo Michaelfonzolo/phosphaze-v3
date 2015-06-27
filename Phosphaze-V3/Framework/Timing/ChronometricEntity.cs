@@ -58,10 +58,10 @@ namespace Phosphaze_V3.Framework.Timing
         /// <summary>
         /// Update the local time of this object.
         /// </summary>
-        public virtual void UpdateTime()
+        protected void UpdateTime(ServiceLocator serviceLocator)
         {
             LocalFrame++;
-            LocalTime += TimeManager.DeltaTime;
+            LocalTime += serviceLocator.Engine.deltaTime;
         }
 
         /// <summary>

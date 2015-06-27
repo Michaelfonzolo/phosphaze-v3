@@ -44,6 +44,7 @@ using Phosphaze_V3.Framework.Input;
 using Phosphaze_V3.Framework.Extensions;
 using Phosphaze_V3.Framework.Display;
 using Phosphaze_V3.Framework.Timing;
+using Phosphaze_V3.Framework.Events;
 
 #endregion
 
@@ -54,20 +55,17 @@ namespace Phosphaze_V3
     /// </summary>
     public class Phosphaze : Game
     {
-        public GraphicsDeviceManager graphics { get; set; }
-        public SpriteBatch spriteBatch { get; set; }
-        MultiformManager multiformManager;
-        DisplayManager displayManager;
-        TimeManager timingManager;
+        GraphicsDeviceManager graphics;
+        Engine engine;
 
-        // TEMPORARY
-        Texture2D texture;
-
-        public Phosphaze()
+        public Phosphaze(Engine engine)
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            engine.SendGraphicsDeviceManager(graphics);
+            this.engine = engine;
         }
 
         /// <summary>
@@ -79,6 +77,9 @@ namespace Phosphaze_V3
         protected override void Initialize()
         {
             base.Initialize();
+
+            engine.Initialize(this);
+            engine.SetupMultiforms();
         }
 
         /// <summary>
@@ -87,12 +88,7 @@ namespace Phosphaze_V3
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            //multiformManager = new MultiformManager();
-            displayManager = new DisplayManager(this, graphics, spriteBatch, Constants.BG_FILLCOL);
 
-            texture = Content.Load<Texture2D>("TestContent/Speaker1");
         }
 
         /// <summary>
@@ -113,24 +109,10 @@ namespace Phosphaze_V3
         {
             base.Update(gameTime);
 
-            // Update the global game timing manager.
-            TimeManager.Update(gameTime);
+            engine.Update(gameTime);
 
-            // Update the input
-            MouseInput.Update();
-            KeyboardInput.Update();
-
-            // Update the multiforms.
-            // multiformManager.Update();
-
-            if (KeyboardInput.IsReleased(Keys.Escape))
+            if (engine.exited)
                 Exit();
-            if (KeyboardInput.IsReleased(Keys.Enter))
-                displayManager.SetResolution(displayManager.currentResolutionIndex + 1);
-            if (KeyboardInput.IsReleased(Keys.B))
-                displayManager.ToggleBorder();
-            if (KeyboardInput.IsReleased(Keys.F))
-                displayManager.ToggleFullscreen();
         }
 
         /// <summary>
@@ -139,12 +121,7 @@ namespace Phosphaze_V3
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            displayManager.BeginUpdate();
-
-            displayManager.Draw(texture, new Vector2(0.5f, 0.5f));
-            displayManager.Draw(texture, new Vector2(0.25f, 0.5f));
-
-            displayManager.EndUpdate();
+            engine.Render();
 
             base.Draw(gameTime);
         }

@@ -47,14 +47,14 @@ namespace Phosphaze_V3.Framework.Timing
         /// <summary>
         /// The action to perform when this TimeCommand's ActOn method returns true.
         /// </summary>
-        public Action<ChronometricEntity> action { get; private set; }
+        public Action<ServiceLocator, ChronometricEntity> action { get; private set; }
 
         /// <summary>
         /// Assign an action to this TimeCommand and return ``this``. 
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public Chronometric WithAction(Action<ChronometricEntity> action)
+        public Chronometric WithAction(Action<ServiceLocator, ChronometricEntity> action)
         {
             this.action = action;
             return this;

@@ -63,7 +63,11 @@ namespace Phosphaze_V3.Framework.Forms
         /// </summary>
         private Dictionary<string, Effector> namedEffectors = new Dictionary<string, Effector>();
 
-        public Form() : base() { }
+        public Form(ServiceLocator serviceLocator) 
+            : base(serviceLocator.EventPropagator) 
+        {
+            Initialize(serviceLocator);
+        }
 
         /// <summary>
         /// Set this form's parent.
@@ -127,28 +131,33 @@ namespace Phosphaze_V3.Framework.Forms
             namedEffectors.Clear();
         }
 
+        public virtual void Initialize(ServiceLocator serviceLocator)
+        {
+
+        }
+
         /// <summary>
         /// Update the Form.
         /// </summary>
-        public virtual void Update()
+        public virtual void Update(ServiceLocator serviceLocator)
         {
-            base.UpdateTime();
-            UpdateEffectors();
+            base.UpdateTime(serviceLocator);
+            UpdateEffectors(serviceLocator);
         }
 
         /// <summary>
         /// Update the effectors attached to this Form.
         /// </summary>
-        private void UpdateEffectors()
+        private void UpdateEffectors(ServiceLocator serviceLocator)
         {
             foreach (var effector in anonymousEffectors)
-                effector.Update();
+                effector.Update(serviceLocator);
             anonymousEffectors.RemoveAll(e => e.dead);
 
             var dead = new List<string>();
             foreach (var effector in namedEffectors)
             {
-                effector.Value.Update();
+                effector.Value.Update(serviceLocator);
                 if (effector.Value.dead)
                     dead.Add(effector.Key);
             }
@@ -160,7 +169,7 @@ namespace Phosphaze_V3.Framework.Forms
         /// <summary>
         /// Render the Form.
         /// </summary>
-        public virtual void Render()
+        public virtual void Render(ServiceLocator serviceLocator)
         {
 
         }

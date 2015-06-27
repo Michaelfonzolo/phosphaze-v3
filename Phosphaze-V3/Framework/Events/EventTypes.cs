@@ -47,9 +47,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnMouseClickEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMouseClick((MouseEventArgs)args);
+                listener.OnMouseClick(serviceLocator, (MouseEventArgs)args);
             }
         }
 
@@ -58,9 +58,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnMousePressEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMousePress((MouseEventArgs)args);
+                listener.OnMousePress(serviceLocator, (MouseEventArgs)args);
             }
         }
 
@@ -69,9 +69,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnMouseReleaseEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMouseRelease((MouseEventArgs)args);
+                listener.OnMouseRelease(serviceLocator, (MouseEventArgs)args);
             }
         }
 
@@ -80,9 +80,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnMouseStillEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMouseStill();
+                listener.OnMouseStill(serviceLocator);
             }
         }
 
@@ -91,9 +91,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnScrollWheelChangedEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnScrollWheelChanged((MouseEventArgs)args);
+                listener.OnScrollWheelChanged(serviceLocator, (MouseEventArgs)args);
             }
         }
 
@@ -101,25 +101,25 @@ namespace Phosphaze_V3.Framework.Events
         /*
         public class OnMouseEnterEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMouseEnter();
+                listener.OnMouseEnter(serviceLocator);
             }
         }
 
         public class OnMouseHoverEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMouseHover();
+                listener.OnMouseHover(serviceLocator);
             }
         }
 
         public class OnMouseLeaveEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnMouseLeave();
+                listener.OnMouseLeave(serviceLocator);
             }
         }
          */
@@ -129,9 +129,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnKeyClickEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnKeyClick((KeyEventArgs)args);
+                listener.OnKeyClick(serviceLocator, (KeyEventArgs)args);
             }
         }
 
@@ -140,9 +140,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnKeyPressEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnKeyPress((KeyEventArgs)args);
+                listener.OnKeyPress(serviceLocator, (KeyEventArgs)args);
             }
         }
 
@@ -151,9 +151,9 @@ namespace Phosphaze_V3.Framework.Events
         /// </summary>
         public class OnKeyReleaseEvent : IEvent
         {
-            public void Activate(EventListener listener, EventArgs args)
+            public void Activate(EventListener listener, EventArgs args, ServiceLocator serviceLocator)
             {
-                listener.OnKeyRelease((KeyEventArgs)args);
+                listener.OnKeyRelease(serviceLocator, (KeyEventArgs)args);
             }
         }
 

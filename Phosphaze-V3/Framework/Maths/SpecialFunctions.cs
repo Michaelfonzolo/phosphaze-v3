@@ -45,7 +45,7 @@
 
 using System;
 
-namespace Phosphaze.Core.Utils {
+namespace Phosphaze_V3.Framework.Maths {
 
 	public static class SpecialFunctions
 	{

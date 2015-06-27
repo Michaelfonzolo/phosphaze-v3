@@ -76,19 +76,23 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         private double timeOfLastKey = 0;
 
-        public WordTracker(Keys[] word, double maxInterval = Double.PositiveInfinity, double keyPressLimit = 600)
-            : base()
+        public WordTracker(
+            EventPropagator eventPropagator, Keys[] word, 
+            double maxInterval = Double.PositiveInfinity, 
+            double keyPressLimit = 600)
+            : base(eventPropagator)
         {
             this.word = word;
             this.maxInterval = maxInterval;
+            this.keyPressLimit = keyPressLimit;
         }
 
-        public void Update()
+        public void Update(ServiceLocator serviceLocator)
         {
-            base.UpdateTime();
+            base.UpdateTime(serviceLocator);
         }
 
-        public override void OnKeyClick(KeyEventArgs args)
+        public override void OnKeyClick(ServiceLocator serviceLocator, KeyEventArgs args)
         {
             if (args.key == word[currentChar] && LocalTime - timeOfLastKey < maxInterval)
             {
@@ -97,12 +101,12 @@ namespace Phosphaze_V3.Framework.Input
             }
         }
 
-        public override void OnKeyPress(KeyEventArgs args)
+        public override void OnKeyPress(ServiceLocator serviceLocator, KeyEventArgs args)
         {
-            var index = KeyboardInput.KeyToInt(args.key);
+            var index = serviceLocator.Keyboard.KeyToInt(args.key);
             // If any key has been pressed for longer than the keyPressLimit then
             // refresh the tracker (go back to the first character).
-            if (KeyboardInput.MillisecondsSinceKeyPressed[index] > keyPressLimit)
+            if (serviceLocator.Keyboard.millisecondsSinceKeyPressed[index] > keyPressLimit)
                 currentChar = 0;
         }
 

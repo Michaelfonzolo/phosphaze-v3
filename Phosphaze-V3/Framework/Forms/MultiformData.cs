@@ -41,7 +41,7 @@ using System.Collections.Generic;
 
 namespace Phosphaze_V3.Framework.Forms
 {
-    public class TransitionArguments
+    public class MultiformData
     {
 
         /// <summary>
@@ -49,9 +49,17 @@ namespace Phosphaze_V3.Framework.Forms
         /// </summary>
         public Dictionary<string, object> parameters { get; private set; }
 
-        public TransitionArguments(Dictionary<string, object> parameters)
+        public string sender { get; private set; }
+
+        public MultiformData(string sender)
         {
-            this.parameters = parameters;
+            this.sender = sender;
+        }
+
+        public object this[string paramName]
+        {
+            get { return parameters[paramName]; }
+            set { parameters[paramName] = value; }
         }
 
     }

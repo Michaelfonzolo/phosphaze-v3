@@ -42,77 +42,80 @@ using System;
 
 namespace Phosphaze_V3.Framework.Events
 {
-    public class EventListener : ChronometricEntity, IDisposable
+    public class EventListener : ChronometricEntity
     {
 
-        public EventListener()
+        private EventPropagator propagator;
+
+        public EventListener(EventPropagator propagator)
 		    : base()
 	    {
-    		EventPropagator.TrackListener(this);
+            this.propagator = propagator;
+    		this.propagator.TrackListener(this);
 	    }
 
 	    /// <summary>
 	    /// Activated when the mouse has been pressed for exactly one frame.
 	    /// </summary>
-	    public virtual void OnMouseClick(MouseEventArgs args) { }
+	    public virtual void OnMouseClick(ServiceLocator serviceLocator, MouseEventArgs args) { }
 
 	    /// <summary>
 	    /// Activated when the mouse has been pressed for two or more frames.
 	    /// </summary>
-	    public virtual void OnMousePress(MouseEventArgs args) { }
+        public virtual void OnMousePress(ServiceLocator serviceLocator, MouseEventArgs args) { }
 
 	    /// <summary>
 	    /// Activated when the mouse has been unpressed for exactly one frame.
 	    /// </summary>
-	    public virtual void OnMouseRelease(MouseEventArgs args) { }
+        public virtual void OnMouseRelease(ServiceLocator serviceLocator, MouseEventArgs args) { }
 
 	    /// <summary>
 	    /// Activated when the mouse has remained still for two or more frames.
 	    /// </summary>
-	    public virtual void OnMouseStill() { }
+	    public virtual void OnMouseStill(ServiceLocator serviceLocator) { }
 
         /// <summary>
         /// Activated when the mouse scroll wheel has been changed.
         /// </summary>
         /// <param name="args"></param>
-        public virtual void OnScrollWheelChanged(MouseEventArgs args) { }
+        public virtual void OnScrollWheelChanged(ServiceLocator serviceLocator, MouseEventArgs args) { }
 
         // Tentative
         /*
 	    /// <summary>
 	    /// Activated when the mouse has entered this object's collision mask.
 	    /// </summary>
-	    public virtual void OnMouseEnter() { }
+	    public virtual void OnMouseEnter(ServiceLocator serviceLocator) { }
 
 	    /// <summary>
 	    /// Activated when the mouse is still inside this object's collision mask.
 	    /// </summary>
-	    public virtual void OnMouseHover() { }
+	    public virtual void OnMouseHover(ServiceLocator serviceLocator) { }
 
 	    /// <summary>
 	    /// Activated when the mouse has left this object's collision mask.
 	    /// </summary>
-	    public virtual void OnMouseLeave() { }
+	    public virtual void OnMouseLeave(ServiceLocator serviceLocator) { }
          */
 
-	    /// <summary>
+        /// <summary>
 	    /// Activated when a key has been pressed for exactly one frame.
 	    /// </summary>
-	    public virtual void OnKeyClick(KeyEventArgs args) { }
+        public virtual void OnKeyClick(ServiceLocator serviceLocator, KeyEventArgs args) { }
 
 	    /// <summary>
 	    /// Activated when a key has been pressed for two or more frames.
 	    /// </summary>
-	    public virtual void OnKeyPress(KeyEventArgs args) { }
+        public virtual void OnKeyPress(ServiceLocator serviceLocator, KeyEventArgs args) { }
 
 	    /// <summary>
 	    /// Activated when a key has been unpressed for exactly one frame.
 	    /// </summary>
-	    public virtual void OnKeyRelease(KeyEventArgs args) { }
+        public virtual void OnKeyRelease(ServiceLocator serviceLocator, KeyEventArgs args) { }
 
-	    public void Dispose()
+	    public void StopListening()
 	    {
-		    EventPropagator.UntrackListener(this);
+		    this.propagator.UntrackListener(this);
 	    }
 
     }

@@ -54,7 +54,7 @@ namespace Phosphaze_V3
         [STAThread]
         static void Main()
         {
-            using (var game = new Phosphaze())
+            using (var game = new Phosphaze(new Phosphaze_V3.Tests.Test001.Test001Engine()))
                 game.Run();
         }
     }

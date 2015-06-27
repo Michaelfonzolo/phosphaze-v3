@@ -61,32 +61,28 @@ namespace Phosphaze_V3.Framework.Input
         /// first, second, and third elements of the array correspond to
         /// the left, middle, and right mouse buttons respectively.
         /// </summary>
-        public static int[] FramesSinceMousePressed { get { return Instance.FSMP; } }
-        private int[] FSMP;
+        public int[] framesSinceMousePressed { get; private set; }
 
         /// <summary>
         /// The number of milliseconds since a mouse button was pressed. The
         /// first, second, and third elements of the array correspond to the
         /// left, middle, and right mouse buttons respectively.
         /// </summary>
-        public static double[] MillisecondsSinceMousePressed { get { return Instance.MSMP; } }
-        private double[] MSMP;
+        public double[] millisecondsSinceMousePressed { get; private set; }
 
         /// <summary>
         /// The number of frames since a mouse button was pressed. The
         /// first, second, and third elements of the array correspond to
         /// the left, middle, and right mouse buttons respectively.
         /// </summary>
-        public static int[] FramesSinceMouseUnpressed { get { return Instance.FSMU; } }
-        private int[] FSMU;
+        public int[] framesSinceMouseUnpressed { get; private set; }
 
         /// <summary>
         /// The number of milliseconds since a mouse button was upressed. The
         /// first, second, and third elements of the array correspond to the
         /// left, middle, and right mouse buttons respectively.
         /// </summary>
-        public static double[] MillisecondsSinceMouseUnpressed { get { return Instance.MSMU; } }
-        private double[] MSMU;
+        public double[] millisecondsSinceMouseUnpressed { get; private set; }
 
         /// <summary>
         /// The current mouse state (type Microsoft.Xna.Framework.Input.MouseState).
@@ -97,88 +93,76 @@ namespace Phosphaze_V3.Framework.Input
         /// The stack of previous mouse positions. This stores the last second of
         /// mouse positions.
         /// </summary>
-        public static Stack<Point> PrevMousePositions { get { return Instance.prevMPs; } }
-        private Stack<Point> prevMPs;
+        public Stack<Point> prevMousePositions { get; private set; }
 
         /// <summary>
         /// The number of frames since the last time the mouse moved.
         /// </summary>
-        public static int FramesSinceMouseMovement { get { return Instance.FSMM; } }
-        private int FSMM;
+        public int framesSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The number of milliseconds since the last time the mouse moved.
         /// </summary>
-        public static double MillisecondsSinceMouseMovement { get { return Instance.MSMM; } }
-        private double MSMM;
+        public double millisecondsSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The previous number of frames since mouse movement.
         /// </summary>
-        public static int PrevFramesSinceMouseMovement { get { return Instance.PFSMM; } }
-        private int PFSMM;
+        public int prevFramesSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The previous number of milliseconds since mouse movement.
         /// </summary>
-        public static double PrevMillisecondsSinceMouseMovement { get { return Instance.PMSMM; } }
-        private double PMSMM;
+        public double prevMillisecondsSinceMouseMovement { get; private set; }
 
         /// <summary>
         /// The position of the mouse.
         /// </summary>
-        public static Point MousePosition { get { return Instance.mousePosition; } }
-        private Point mousePosition;
+        public Point mousePosition { get; private set; }
 
         /// <summary>
         /// The previous cumulative scroll wheel value.
         /// </summary>
-        public static int PrevScrollWheelVal { get { return Instance.PSWV; } }
-        private int PSWV;
+        public int prevScrollWheelVal { get; private set; }
 
         /// <summary>
         /// The cumulative scroll wheel value since the game began.
         /// </summary>
-        public static int ScrollWheelValue { get { return Instance.SWV; } }
-        private int SWV;
+        public int scrollWheelValue { get; private set; }
 
         /// <summary>
         /// Return the change in the scroll wheel value since the last call to Update.
         /// </summary>
-        public static int DeltaScrollWheelValue { get { return Instance.SWV - Instance.PSWV; } }
+        public int deltaScrollWheelValue { get { return scrollWheelValue - prevScrollWheelVal; } }
 
         /// <summary>
         /// Prevent external instantiation, as this is a singleton.
         /// </summary>
-        private MouseInput()
+        public MouseInput()
         {
-            FSMP = new int[] { 0, 0, 0 };
-            FSMU = new int[] { 0, 0, 0 };
+            framesSinceMousePressed = new int[] { 0, 0, 0 };
+            framesSinceMouseUnpressed = new int[] { 0, 0, 0 };
+            millisecondsSinceMousePressed = new double[] { 0, 0, 0 };
+            millisecondsSinceMouseUnpressed = new double[] { 0, 0, 0 };
 
-            MSMP = new double[] { 0, 0, 0 };
-            MSMU = new double[] { 0, 0, 0 };
+            framesSinceMouseMovement = 0;
+            millisecondsSinceMouseMovement = 0;
+            prevFramesSinceMouseMovement = 0;
+            prevMillisecondsSinceMouseMovement = 0;
 
-            FSMM = 0;
-            MSMM = 0;
+            prevMousePositions = new Stack<Point>(60);
 
-            PFSMM = 0;
-            PMSMM = 0;
-
-            prevMPs = new Stack<Point>(60);
+            prevScrollWheelVal = 0;
+            scrollWheelValue = 0;
         }
 
         /// <summary>
-        /// The singleton instance of this object.
-        /// </summary>
-        private static MouseInput Instance = new MouseInput();
-
-        /// <summary>
-        /// Convert a MouseButton into it's appropriate position in the list
+        /// Convert a MouseButton into it's appropriate index in the list
         /// framesSinceMousePressed.
         /// </summary>
         /// <param name="button"></param>
         /// <returns></returns>
-        private static int ButtonToPosition(MouseButton button)
+        public int ButtonToIndex(MouseButton button)
         {
             switch (button)
             {
@@ -189,40 +173,38 @@ namespace Phosphaze_V3.Framework.Input
             }
         }
 
-        public static void Update() { Instance._Update(); }
-
         /// <summary>
         /// Update the mouse state to retrieve new input.
         /// </summary>
-        private void _Update()
+        public void Update(ServiceLocator serviceLocator)
         {
-            base.UpdateTime();
+            base.UpdateTime(serviceLocator);
             currentMouseState = Mouse.GetState();
 
-            prevMPs.Push(mousePosition);
+            prevMousePositions.Push(mousePosition);
             mousePosition = currentMouseState.Position;
 
-            if (mousePosition == prevMPs.First())
+            if (mousePosition == prevMousePositions.First())
             {
-                FSMM++;
-                MSMM += TimeManager.DeltaTime;
-                EventPropagator.Send(new EventTypes.OnMouseStillEvent(), MouseEventArgs.Empty);
+                framesSinceMouseMovement++;
+                millisecondsSinceMouseMovement += serviceLocator.Engine.deltaTime;
+                serviceLocator.EventPropagator.Send(new EventTypes.OnMouseStillEvent(), MouseEventArgs.Empty);
             }
             else
             {
-                FSMM = 0;
-                MSMM = 0;
+                framesSinceMouseMovement = 0;
+                millisecondsSinceMouseMovement = 0;
             }
 
-            PSWV = SWV;
-            SWV = currentMouseState.ScrollWheelValue;
+            prevScrollWheelVal = scrollWheelValue;
+            scrollWheelValue = currentMouseState.ScrollWheelValue;
 
-            if (DeltaScrollWheelValue != 0)
-                EventPropagator.Send(new EventTypes.OnScrollWheelChangedEvent(), MouseEventArgs.Empty);
+            if (deltaScrollWheelValue != 0)
+                serviceLocator.EventPropagator.Send(new EventTypes.OnScrollWheelChangedEvent(), MouseEventArgs.Empty);
 
-            UpdateButton(MouseButton.Left);
-            UpdateButton(MouseButton.Middle);
-            UpdateButton(MouseButton.Right);
+            UpdateButton(MouseButton.Left, serviceLocator);
+            UpdateButton(MouseButton.Middle, serviceLocator);
+            UpdateButton(MouseButton.Right, serviceLocator);
         }
 
         /// <summary>
@@ -230,33 +212,33 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="button"></param>
         /// <param name="position"></param>
-        private void UpdateButton(MouseButton button)
+        private void UpdateButton(MouseButton button, ServiceLocator serviceLocator)
         {
-            int pos = ButtonToPosition(button);
+            int pos = ButtonToIndex(button);
             if (IsPressed(button))
             {
-                FSMP[pos]++;
-                MSMP[pos] += TimeManager.DeltaTime;
+                framesSinceMousePressed[pos]++;
+                millisecondsSinceMousePressed[pos] += serviceLocator.Engine.deltaTime;
 
-                FSMU[pos] = 0;
-                MSMU[pos] = 0;
+                framesSinceMouseUnpressed[pos] = 0;
+                millisecondsSinceMouseUnpressed[pos] = 0;
 
                 var args = new MouseEventArgs(button);
-                if (FSMP[pos] == 1)
-                    EventPropagator.Send(new EventTypes.OnMouseClickEvent(), args);
+                if (framesSinceMousePressed[pos] == 1)
+                    serviceLocator.EventPropagator.Send(new EventTypes.OnMouseClickEvent(), args);
                 else
-                    EventPropagator.Send(new EventTypes.OnMousePressEvent(), args);
+                    serviceLocator.EventPropagator.Send(new EventTypes.OnMousePressEvent(), args);
             }
             else
             {
-                FSMP[pos] = 0;
-                MSMP[pos] = 0;
+                framesSinceMousePressed[pos] = 0;
+                millisecondsSinceMousePressed[pos] = 0;
 
-                FSMU[pos]++;
-                MSMU[pos] += TimeManager.DeltaTime;
+                framesSinceMouseUnpressed[pos]++;
+                millisecondsSinceMouseUnpressed[pos] += serviceLocator.Engine.deltaTime;
 
-                if (FSMU[pos] == 1)
-                    EventPropagator.Send(new EventTypes.OnMouseReleaseEvent(), new MouseEventArgs(button));
+                if (framesSinceMouseUnpressed[pos] == 1)
+                    serviceLocator.EventPropagator.Send(new EventTypes.OnMouseReleaseEvent(), new MouseEventArgs(button));
             }
         }
 
@@ -266,15 +248,15 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="button"></param>
         /// <returns></returns>
-        public static bool IsPressed(MouseButton button)
+        public bool IsPressed(MouseButton button)
         {
             // We can't just check if framesSinceMousePressed[ButtonToPosition(button)] > 0
             // because that would break UpdateButton.
             switch (button)
             {
-                case MouseButton.Left:   return Instance.currentMouseState.LeftButton == ButtonState.Pressed;
-                case MouseButton.Middle: return Instance.currentMouseState.MiddleButton == ButtonState.Pressed;
-                case MouseButton.Right:  return Instance.currentMouseState.RightButton == ButtonState.Pressed;
+                case MouseButton.Left:   return currentMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.Middle: return currentMouseState.MiddleButton == ButtonState.Pressed;
+                case MouseButton.Right:  return currentMouseState.RightButton == ButtonState.Pressed;
                 default: return false;
             }
         }
@@ -285,9 +267,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="button"></param>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public static bool IsHeld(MouseButton button, int frames)
+        public bool IsHeld(MouseButton button, int frames)
         {
-            return Instance.FSMP[ButtonToPosition(button)] >= frames;
+            return framesSinceMousePressed[ButtonToIndex(button)] >= frames;
         }
 
         /// <summary>
@@ -296,9 +278,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="button"></param>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static bool IsHeld(MouseButton button, double milliseconds)
+        public bool IsHeld(MouseButton button, double milliseconds)
         {
-            return Instance.MSMP[ButtonToPosition(button)] >= milliseconds;
+            return millisecondsSinceMousePressed[ButtonToIndex(button)] >= milliseconds;
         }
 
         /// <summary>
@@ -307,9 +289,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="button"></param>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public static bool IsUnheld(MouseButton button, int frames)
+        public bool IsUnheld(MouseButton button, int frames)
         {
-            return Instance.FSMU[ButtonToPosition(button)] >= frames;
+            return framesSinceMouseUnpressed[ButtonToIndex(button)] >= frames;
         }
 
         /// <summary>
@@ -318,9 +300,9 @@ namespace Phosphaze_V3.Framework.Input
         /// <param name="button"></param>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static bool IsUnheld(MouseButton button, double milliseconds)
+        public bool IsUnheld(MouseButton button, double milliseconds)
         {
-            return Instance.MSMU[ButtonToPosition(button)] >= milliseconds;
+            return millisecondsSinceMouseUnpressed[ButtonToIndex(button)] >= milliseconds;
         }
 
         /// <summary>
@@ -328,9 +310,9 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="button"></param>
         /// <returns></returns>
-        public static bool IsClicked(MouseButton button)
+        public bool IsClicked(MouseButton button)
         {
-            return Instance.FSMP[ButtonToPosition(button)] == 1;
+            return framesSinceMousePressed[ButtonToIndex(button)] == 1;
         }
 
         /// <summary>
@@ -338,21 +320,21 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="button"></param>
         /// <returns></returns>
-        public static bool IsReleased(MouseButton button)
+        public bool IsReleased(MouseButton button)
         {
             // Checking if LocalFrame != 1 ensures that this doesn't return true immediately as
             // soon as the game begins, which would normally occur unless the player was pressing
             // the button before the game began.
-            return Instance.FSMU[ButtonToPosition(button)] == 1 && Instance.LocalFrame != 1;
+            return framesSinceMouseUnpressed[ButtonToIndex(button)] == 1 && LocalFrame != 1;
         }
 
         /// <summary>
         /// Check if the mouse has not moved since the last call to Update.
         /// </summary>
         /// <returns></returns>
-        public static bool IsMouseStill()
+        public bool IsMouseStill()
         {
-            return Instance.FSMM > 0;
+            return framesSinceMouseMovement > 0;
         }
 
         /// <summary>
@@ -360,9 +342,9 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public static bool IsMouseStill(int frames)
+        public bool IsMouseStill(int frames)
         {
-            return Instance.FSMM >= frames;
+            return framesSinceMouseMovement >= frames;
         }
 
         /// <summary>
@@ -370,19 +352,19 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static bool IsMouseStill(double milliseconds)
+        public bool IsMouseStill(double milliseconds)
         {
-            return Instance.MSMM >= milliseconds;
+            return millisecondsSinceMouseMovement >= milliseconds;
         }
 
         /// <summary>
         /// Check if the mouse just began moving after being still for any variable period of time.
         /// </summary>
         /// <returns></returns>
-        public static bool MouseJustMoved()
+        public bool MouseJustMoved()
         {
-            return Instance.FSMM == 1 && 
-                   Instance.PFSMM > 0;
+            return framesSinceMouseMovement == 1 && 
+                   prevFramesSinceMouseMovement > 0;
         }
 
         /// <summary>
@@ -390,10 +372,10 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="frames"></param>
         /// <returns></returns>
-        public static bool MouseMovedAfter(int frames)
+        public bool MouseMovedAfter(int frames)
         {
-            return Instance.FSMM == 0 && 
-                   Instance.PFSMM >= frames;
+            return framesSinceMouseMovement == 0 && 
+                   prevFramesSinceMouseMovement >= frames;
         }
 
         /// <summary>
@@ -401,10 +383,10 @@ namespace Phosphaze_V3.Framework.Input
         /// </summary>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static bool MouseMovedAfter(double milliseconds)
+        public bool MouseMovedAfter(double milliseconds)
         {
-            return Instance.MSMM == 0 && 
-                   Instance.PMSMM >= milliseconds;
+            return millisecondsSinceMouseMovement == 0 && 
+                   prevMillisecondsSinceMouseMovement >= milliseconds;
         }
     }
 }

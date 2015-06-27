@@ -104,7 +104,7 @@ namespace Phosphaze_V3.Framework.Timing
         /// Update the Timeline with a given entity.
         /// </summary>
         /// <param name="entity"></param>
-        public void Update(ChronometricEntity entity)
+        public void Update(ServiceLocator serviceLocator, ChronometricEntity entity)
         {
             // Append all new chronometrics.
             while (timeChronometrics.Count > 0 && timeChronometrics[0].StartTime <= entity.LocalTime)
@@ -122,11 +122,11 @@ namespace Phosphaze_V3.Framework.Timing
             // Activate all currently active chronometrics.
             foreach (var timeChronometric in currentlyActiveTimeChrs)
                 if (timeChronometric.action != null && timeChronometric.Active(entity))
-                    timeChronometric.action(entity);
+                    timeChronometric.action(serviceLocator, entity);
 
             foreach (var frameChronometric in currentlyActiveFrameChrs)
                 if (frameChronometric.action != null && frameChronometric.Active(entity))
-                    frameChronometric.action(entity);
+                    frameChronometric.action(serviceLocator, entity);
 
             // Remove all previously active chronometrics.        
             currentlyActiveTimeChrs.RemoveAll(t => t.EndTime < entity.LocalTime);

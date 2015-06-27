@@ -40,339 +40,278 @@
 
 #region Using Statements
 
-using Phosphaze_V3.Framework.Extensions;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 
 #endregion
 
 namespace Phosphaze_V3.Framework.Forms
 {
+
     public class MultiformManager
     {
 
         /// <summary>
-        /// The mapping of names to registered multiforms.
+        /// The dictionary of registered multiforms.
         /// </summary>
-        Dictionary<string, Multiform> multiformMap = new Dictionary<string, Multiform>();
-        
-        /// <summary>
-        /// The previous multiform's name (or null).
-        /// </summary>
-        string previousMultiform;
+        private Dictionary<string, Multiform> registeredMultiforms =
+            new Dictionary<string, Multiform>();
 
         /// <summary>
-        /// The current multiform's name.
+        /// The list of currently active multiforms.
         /// </summary>
-        string currentMultiform;
+        private List<string> currentlyActive = new List<string>();
 
-        /// <summary>
-        /// The next multiform's name (or null).
-        /// </summary>
-        string nextMultiform;
+        /*
+         * PostUpdateEvents are things the manager IS TOLD to do during the first foreach loop in Update
+         * (which updates the Multiforms), but HAS to do AFTERWARDS. The reason they have to be done after
+         * the main foreach loop is because otherwise, they would cause a ConcurrentModificationException
+         * to be thrown (since they are modifiying the currentlyActive list).
+         */
 
-        // We don't allow for multiple multiforms to be active at the same time, but most
-        // of the time multiple multiforms are used to share information from multiform
-        // to multiform (i.e. a background that is the same in one multiform as in another).
-        // Because forms are already used to represent functionality in individual 
-        // multiforms, allowing for global multiforms solves this problem of shared 
-        // functionality.
-
-        /// <summary>
-        /// The manager of all global forms not attached to any multiform. The supplied
-        /// GlobalFormManager must be a derived class of GlobalFormManager so as to implement
-        /// its own functionality regarding the added multiforms.
-        /// </summary>
-        GlobalFormManager globalForms;
-
-        public MultiformManager(string initialMultiform) 
+        private abstract class PostUpdateEvent
         {
-            currentMultiform = initialMultiform;
+            public abstract void Perform(
+                Dictionary<string, Multiform> registered, 
+                List<string> current, 
+                ServiceLocator serviceLocator);
         }
 
         /// <summary>
-        /// Set the GlobalFormManager for this MultiformManager.
+        /// The event that corresponds to constructing a registered multiform.
         /// </summary>
-        /// <param name="manager"></param>
-        public void SetGlobalFormManager(GlobalFormManager manager)
+        private class ConstructEvent : PostUpdateEvent
         {
-            if (globalForms != null)
-                throw new ArgumentException("This MultiformManager already has an assigned GlobalFormManager.");
-            globalForms = manager;
+            string name;
+            MultiformData data;
+            public ConstructEvent(string name, MultiformData data)
+            {
+                this.name = name;
+                this.data = data;
+            }
+            public override void Perform(
+                Dictionary<string, Multiform> registered, 
+                List<string> current, 
+                ServiceLocator serviceLocator)
+            {
+                var multiform = registered[name];
+                current.Add(name);
+                multiform.Construct(serviceLocator, data);
+            }
         }
 
         /// <summary>
-        /// Register a multiform to this manager.
+        /// The event that corresponds to closing an active multiform.
+        /// </summary>
+        private class CloseEvent : PostUpdateEvent
+        {
+            string name;
+            public CloseEvent(string name) { this.name = name; }
+            public override void Perform(
+                Dictionary<string, Multiform> registered, 
+                List<string> current, 
+                ServiceLocator serviceLocator)
+            {
+                registered[name].Close(serviceLocator);
+                current.Remove(name);
+            }
+        }
+
+        /// <summary>
+        /// The event that corresponds to bringing a multiform to the front of the update list.
+        /// </summary>
+        private class BringToFrontEvent : PostUpdateEvent
+        {
+            string name;
+            public BringToFrontEvent(string name) { this.name = name; }
+            public override void Perform(
+                Dictionary<string, Multiform> registered, 
+                List<string> current, 
+                ServiceLocator serviceLocator)
+            {
+                current.Remove(name);
+                current.Insert(0, name);
+            }
+        }
+
+        /// <summary>
+        /// The event that corresponds to sending a multiform to the back of the update list.
+        /// </summary>
+        private class SendToBackEvent : PostUpdateEvent
+        {
+            string name;
+            public SendToBackEvent(string name) { this.name = name; }
+            public override void Perform(
+                Dictionary<string, Multiform> registered, 
+                List<string> current, 
+                ServiceLocator serviceLocator)
+            {
+                current.Remove(name);
+                current.Add(name);
+            }
+        }
+
+        /* 
+         * We have to store the list of multiforms to construct and close in their own lists because 
+         * if we tried to construct/close them immediately we would cause a ConcurrentModificationException 
+         * to be thrown, since the only location multiform's can be closed or constructed is from within
+         * a multiform being updated by the foreach loop in Update.
+         */
+
+        // The list of multiforms to construct in the next call to Update.
+        private List<PostUpdateEvent> postUpdateEvents = new List<PostUpdateEvent>();
+
+        public MultiformManager() { }
+
+        /// <summary>
+        /// Register a multiform by a given name.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="multiform"></param>
         public void RegisterMultiform(string name, Multiform multiform)
         {
-            multiformMap[name] = multiform;
+            registeredMultiforms[name] = multiform;
             multiform.SetManager(this);
         }
 
         /// <summary>
-        /// Set the next multiform.
+        /// Revoke the registered multiform by the given name. This means it is removed from the dictionary
+        /// of registered multiforms entirely, and the manager stops tracking it.
         /// </summary>
         /// <param name="name"></param>
-        public void SetNextMultifom(string name)
+        public void RevokeMultiform(string name)
         {
-            nextMultiform = name;
+            registeredMultiforms[name].SetManager(null);
+            registeredMultiforms.Remove(name);
         }
 
         /// <summary>
-        /// Return the current multiform.
-        /// </summary>
-        /// <returns></returns>
-        public Multiform GetCurrentMultiform()
-        {
-            return multiformMap[currentMultiform];
-        }
-
-        /// <summary>
-        /// Return the previous multiform or null.
-        /// </summary>
-        /// <returns></returns>
-        public Multiform GetPreviousMultiform()
-        {
-            return previousMultiform == null ? null : multiformMap[previousMultiform];
-        }
-
-        /// <summary>
-        /// Return the next multiform or null.
-        /// </summary>
-        /// <returns></returns>
-        public Multiform GetNextMultiform()
-        {
-            return nextMultiform == null ? null : multiformMap[nextMultiform];
-        }
-
-        /// <summary>
-        /// Return a registered multiform by its name.
+        /// Construct the registered multiform with the given name.
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        public Multiform GetMultiform(string name)
+        public void Construct(string name)
         {
-            return multiformMap[name];
+            Construct(name, null);
         }
 
         /// <summary>
-        /// Return a global form by its name.
+        /// Construct the registered multiform with the given name. This overload sends in
+        /// the given data into the multiform's Construct method.
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        public Form GetGlobalForm(string name)
+        /// <param name="data"></param>
+        public void Construct(string name, MultiformData data)
         {
-            return globalForms.Get(name);
+            if (!registeredMultiforms.ContainsKey(name))
+                throw new MultiformException(
+                    String.Format(
+                        "No multiform has been registered with the name \"{0}\"." +
+                        "\nCannot construct an unregistered multiform.", name)
+                        );
+            postUpdateEvents.Add(new ConstructEvent(name, data));
         }
 
         /// <summary>
-        /// Return an array of all global forms.
-        /// </summary>
-        /// <returns></returns>
-        public Form[] GetGlobalForms()
-        {
-            return globalForms.All();
-        }
-
-        /// <summary>
-        /// Clear the list of global forms.
-        /// </summary>
-        public void Clear()
-        {
-            globalForms.Clear();
-        }
-
-        /// <summary>
-        /// Remove a global form by its name.
+        /// Close the registered multiform with the given name.
         /// </summary>
         /// <param name="name"></param>
-        public void Remove(string name)
+        public void Close(string name)
         {
-            globalForms.Remove(name);
+            if (!currentlyActive.Contains(name))
+                throw new MultiformException(
+                    String.Format(
+                        "There is no currently active multiform with the name \"{0}\"." +
+                        "\nCannot close an inactive multiform.", name)
+                        );
+            postUpdateEvents.Add(new CloseEvent(name));
+        }
+
+        private MultiformException _UpdateOrderException(string name)
+        {
+            return new MultiformException(
+                    String.Format(
+                        "There is no currently active multiform with the name \"{0}\"." +
+                        "\nCannot change the update order of an inactive multiform.", name)
+                        );
         }
 
         /// <summary>
-        /// Add an anonymous form to the list of global forms.
-        /// </summary>
-        /// <param name="form"></param>
-        public void AddGlobalForm(Form form)
-        {
-            globalForms.Add(form);
-        }
-
-        /// <summary>
-        /// Add a named form to the list of global forms.
+        /// Bring the active multiform with the given name to the front of the update list. Multiforms
+        /// that are closer to the front of the update list get updated first and rendered last, whereas
+        /// multiforms closer to the back get updated last and rendered first. The reason for this is 
+        /// because multiforms that are closer to the front should be rendered on top of (i.e. in front of)
+        /// the multiforms closer to the bottom, which is the opposite to the order they are updated in.
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="form"></param>
-        public void AddGlobalForm(string name, Form form)
+        public void BringToFront(string name)
         {
-            globalForms.Add(name, form);
+            if (!currentlyActive.Contains(name))
+                throw _UpdateOrderException(name);
+            postUpdateEvents.Add(new BringToFrontEvent(name));
         }
 
         /// <summary>
-        /// Update the current multiform and handle transitions.
+        /// Send the active multiform with the given name to the back of the update list.
         /// </summary>
-        public void Update()
+        /// <param name="name"></param>
+        public void SendToBack(string name)
         {
-            var multiform = multiformMap[currentMultiform];
-            var state = multiform.state;
-            Update(multiform, state);
-            
-            // During an intertwined transition, there's a chance the destination multiform changes state
-            // from TransitionIn to Update before the source multiform changes state from TransitionOut to
-            // Closed. In this case, the currentMultiform gets set to the destination, but we still have to
-            // transition out the previous multiform.
-            if (previousMultiform != null && multiformMap[previousMultiform].state == MultiformState.TransitionOut)
-                multiformMap[previousMultiform].TransitionOut(currentMultiform);
-
-            globalForms.Update();
+            if (!currentlyActive.Contains(name))
+                throw _UpdateOrderException(name);
+            postUpdateEvents.Add(new SendToBackEvent(name));
         }
 
         /// <summary>
-        /// Update the current multiform based on it's state.
+        /// Update all the multiforms.
         /// </summary>
-        /// <param name="multiform"></param>
-        /// <param name="state"></param>
-        private void Update(Multiform multiform, MultiformState state)
+        /// <param name="serviceLocator"></param>
+        public void Update(ServiceLocator serviceLocator)
         {
-            switch (state)
+            Multiform m;
+            foreach (var name in currentlyActive)
             {
-                case MultiformState.Update:
-                    multiform.Update();
-                    break;
+                m = registeredMultiforms[name];
+                try
+                {
+                    m.Updater(serviceLocator); 
+                }
+                catch (NullReferenceException)
+                {
+                    throw new MultiformException(
+                        String.Format("The multiform with the name \"{0}\" has no updater.", name));
+                }   
+            }
 
-                /* There are two different types of transitions, Independent and Intertwined.
-                 * Independent means first the current Multiform's TransitionOut method is
-                 * called, then the current Multiform is set to the next Multiform and its
-                 * TransitionIn method is called.
-                 * 
-                 * Intertwined means both the current Multiform's TransitionOut method and
-                 * the next Multiform's TransitionIn method are called simultaneously.
-                 * 
-                 * During an Intertwined transition, if the destination's TransitionIn method
-                 * finishes before the source's TransitionOut method does (i.e. it's state gets
-                 * changed to Update before the source's state gets changed to Closed), then
-                 * currentMultiform is set to the destination and the previous multiform becomes
-                 * the currentMultiform.
-                 */
+            foreach (var evt in postUpdateEvents)
+                evt.Perform(registeredMultiforms, currentlyActive, serviceLocator);
+            postUpdateEvents.Clear();
+        }
 
-                case MultiformState.TransitionIn:
-                    multiform.TransitionIn(previousMultiform);
-                    break;
-                case MultiformState.TransitionOut:
-                    UpdateTransitionOut(multiform);
-                    break;
-                case MultiformState.Closed:
-                    CloseCurrentMultiform(multiform);
-                    break;
+        /// <summary>
+        /// Render all the currently multiforms.
+        /// </summary>
+        /// <param name="serviceLocator"></param>
+        public void Render(ServiceLocator serviceLocator)
+        {
+            Multiform m;
+            // Iterate through the currently active multiforms in reverse order so as to render
+            // them in reverse order. This makes multiforms at the front get rendered last, so
+            // as to appear on top of multiforms closer to the back.
+            for (int i = currentlyActive.Count - 1; i > 0; i--)
+            {
+                m = registeredMultiforms[currentlyActive[i]];
+                try
+                {
+                    m.Renderer(serviceLocator);
+                }
+                catch (NullReferenceException)
+                {
+                    throw new MultiformException(
+                        String.Format("The multiform with the name \"{0}\" has no renderer.", currentlyActive[i])
+                        );
+                }
             }
         }
 
-        /// <summary>
-        /// Upate the current (and possibly next) multiforms transitioning out.
-        /// </summary>
-        /// <param name="multiform"></param>
-        private void UpdateTransitionOut(Multiform multiform)
-        {
-            // Prevent transitioning if we don't have a nextMultiform.
-            if (nextMultiform == null)
-                throw new ArgumentException("Cannot transition without setting a destination multiform.");
-
-            var transitionType = multiform.GetTransitionType(nextMultiform);
-            if (transitionType == TransitionType.Intertwined)
-            {
-                var nextState = multiformMap[nextMultiform].state;
-                if (nextState == MultiformState.Closed)
-                    // This only occurs if we haven't actually begun transitioning the
-                    // next multiform.
-                    ConstructNextMultiform(multiform);
-                else if (nextState == MultiformState.TransitionIn)
-                    multiformMap[nextMultiform].TransitionIn(currentMultiform);
-                else if (nextState == MultiformState.Update)
-                    // If the next multiform finishes transitioning in before the current
-                    // multiform finishes transitioning out, close the current multiform and
-                    // shift the multiforms around so current becomes previous and next
-                    // becomes current.
-                    CloseCurrentMultiform(multiform);
-            }
-        }
-
-        /// <summary>
-        /// Close the current multiform and set up the next one.
-        /// </summary>
-        /// <param name="multiform"></param>
-        private void CloseCurrentMultiform(Multiform multiform)
-        {
-            var transitionType = multiform.GetTransitionType(nextMultiform);
-            if (transitionType == TransitionType.Independent)
-                ConstructNextMultiform(multiform);
-
-            // Shift the previous, current, and next multiforms.
-            previousMultiform = currentMultiform;
-            currentMultiform = nextMultiform;
-            nextMultiform = null;
-            
-        }
-
-        /// <summary>
-        /// Construct the next multiform.
-        /// </summary>
-        /// <param name="multiform"></param>
-        private void ConstructNextMultiform(Multiform multiform)
-        {
-            // Transition arguments are just packets of information passed between mutliforms.
-            var transitionArgs = multiform.PrepareTransitionArgs(nextMultiform);
-            multiformMap[nextMultiform].SetState(MultiformState.TransitionIn);
-            multiformMap[nextMultiform].Construct(transitionArgs);
-        }
-
-        /// <summary>
-        /// Render the current (and possibly next) multiform(s).
-        /// </summary>
-        public void Render()
-        {
-            // RENDER ORDER: Global Forms, Next Multiform (if transitioning in and 
-            // intertwined), Current Multiform.
-            globalForms.Render();
-
-            // We only render the next multiform if the current multiform's transition type
-            // is Intertwined and the next multiform is transitioning in.
-            if (nextMultiform != null && multiformMap[nextMultiform].state == MultiformState.TransitionIn)
-                multiformMap[nextMultiform].RenderTransitionIn(currentMultiform);
-
-            // Alternatively, during an intertwined transition the previous multiform could still
-            // be transition out, so we still have to render it. For more information, see the
-            // comments in Update() and Update(Multiform, MultiformState).
-            if (previousMultiform != null && multiformMap[previousMultiform].state == MultiformState.TransitionOut)
-                multiformMap[previousMultiform].RenderTransitionOut(currentMultiform);
-
-            Render(multiformMap[currentMultiform], multiformMap[currentMultiform].state);
-        }
-
-        /// <summary>
-        /// Render the current multiform appropriately relative to its current state.
-        /// </summary>
-        /// <param name="multiform"></param>
-        /// <param name="state"></param>
-        private void Render(Multiform multiform, MultiformState state)
-        {
-            switch (state)
-            {
-                case MultiformState.Update:
-                    multiform.Render();
-                    break;
-                case MultiformState.TransitionIn:
-                    multiform.RenderTransitionIn(previousMultiform);
-                    break;
-                case MultiformState.TransitionOut:
-                    multiform.RenderTransitionOut(nextMultiform);
-                    break;
-            }
-        }
     }
 }

@@ -187,7 +187,7 @@ namespace Phosphaze_V3.Framework.Display
         /// <summary>
         /// Apply changes to the display and prepare for rendering.
         /// </summary>
-        public void BeginUpdate()
+        public void BeginRender()
         {
             if (dirty)
                 ReinitScreenProperties();
@@ -195,9 +195,9 @@ namespace Phosphaze_V3.Framework.Display
         }
 
         /// <summary>
-        /// Finish the update phase.
+        /// Finish the render phase.
         /// </summary>
-        public void EndUpdate()
+        public void EndRender()
         {
             if (begun)
             {
