@@ -297,7 +297,7 @@ namespace Phosphaze_V3.Framework.Forms
             // Iterate through the currently active multiforms in reverse order so as to render
             // them in reverse order. This makes multiforms at the front get rendered last, so
             // as to appear on top of multiforms closer to the back.
-            for (int i = currentlyActive.Count - 1; i > 0; i--)
+            for (int i = currentlyActive.Count - 1; i >= 0; i--)
             {
                 m = registeredMultiforms[currentlyActive[i]];
                 try

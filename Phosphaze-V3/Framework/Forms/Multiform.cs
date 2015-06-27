@@ -186,6 +186,9 @@ namespace Phosphaze_V3.Framework.Forms
                 form.Value.StopListening();
         }
 
+        /// <summary>
+        /// Tell all the active forms to start listening to the event propagator.
+        /// </summary>
         protected void StartListening()
         {
             foreach (var form in anonymousForms)

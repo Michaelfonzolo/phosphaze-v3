@@ -88,6 +88,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test001\MainScreen.cs" />
     <Compile Include="Tests\Test001\Test001Engine.cs" />
+    <Compile Include="Tests\Test002\MainMultiform.cs" />
+    <Compile Include="Tests\Test002\Test002Engine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

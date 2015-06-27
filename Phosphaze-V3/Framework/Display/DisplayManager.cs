@@ -1,4 +1,6 @@
-﻿#region License
+﻿#define DEBUG
+
+#region License
 
 // Copyright (c) 2015 FCDM
 // Permission is hereby granted, free of charge, to any person obtaining 
@@ -177,6 +179,9 @@ namespace Phosphaze_V3.Framework.Display
             this.game = game;
 
             currentResolutionIndex = validResolutions.Length - 1; // Always default to native resolution.
+#if DEBUG
+            currentResolutionIndex = 0;
+#endif
             borderless = true;
             fullscreen = false;
             mouseVisible = false;
@@ -250,30 +255,34 @@ namespace Phosphaze_V3.Framework.Display
             game.IsMouseVisible = mouseVisible;
             window.IsBorderless = borderless;
 
-            if (!fullscreen)
-            {
-                // Center the display based on the native resolution.
-                var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(window.Handle);
-                var position = new System.Drawing.Point(
-                    (Resolution.native.width - currentResolution.width) / 2,
-                    (Resolution.native.height - currentResolution.height) / 2
-                    );
-
-                // This offset seems to width and height of the windows border,
-                // so it accounts for the slight off-centering (unless the window
-                // is larger than the native display).
-                if (!borderless)
-                {
-                    position.X -= Constants.WINDOW_BOUNDARY_OFFSET.X;
-                    position.Y -= Constants.WINDOW_BOUNDARY_OFFSET.Y;
-                }
-                form.Location = position;
-            }
-
             graphicsManager.IsFullScreen = fullscreen;
             graphicsManager.PreferredBackBufferWidth = currentResolution.width;
             graphicsManager.PreferredBackBufferHeight = currentResolution.height;
+
+            // Center the display based on the native resolution.
+            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(window.Handle);
+            var position = new System.Drawing.Point(
+                (Resolution.native.width - currentResolution.width) / 2,
+                (Resolution.native.height - currentResolution.height) / 2
+                );
+
+            // This offset seems to width and height of the windows border,
+            // so it accounts for the slight off-centering (unless the window
+            // is larger than the native display).
+            if (!borderless)
+            {
+                position.X -= Constants.WINDOW_BOUNDARY_OFFSET.X;
+                position.Y -= Constants.WINDOW_BOUNDARY_OFFSET.Y;
+            }
+            
             graphicsManager.ApplyChanges();
+
+            /* We have to reposition the form after we apply changes to the graphics manager
+             * otherwise if the user changes the resolution while in fullscreen, then goes into
+             * windowed mode, the window would be position relative to the previous resolution
+             * rather than the new resolution.
+             */
+            form.Location = position;
 
             dirty = false;
         }
@@ -352,6 +361,20 @@ namespace Phosphaze_V3.Framework.Display
         public void SetResolution(int index)
         {
             currentResolutionIndex = index % validResolutions.Length;
+            dirty = true;
+        }
+
+        public void NextResolution()
+        {
+            currentResolutionIndex++;
+            currentResolutionIndex %= validResolutions.Length;
+            dirty = true;
+        }
+
+        public void PrevResolution()
+        {
+            currentResolutionIndex--;
+            currentResolutionIndex %= validResolutions.Length;
             dirty = true;
         }
 

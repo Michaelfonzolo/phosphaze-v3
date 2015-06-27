@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Phosphaze_V3.Framework.Display;
-using Phosphaze_V3.Framework.Input;
 using Phosphaze_V3.Framework.Events;
 using Phosphaze_V3.Framework.Forms;
+using Phosphaze_V3.Framework.Input;
+using System;
 
 namespace Phosphaze_V3.Framework
 {

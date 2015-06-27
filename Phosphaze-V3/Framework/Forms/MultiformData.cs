@@ -27,8 +27,8 @@
  * 
  * Description
  * ===========
- * TransitionArguments is a simple class encapsulating a dictionary mapping strings to
- * arbitrary objects, which is used to pass information between multiforms.
+ * MultiformData is simply data that can be transmitted between active multiforms
+ * by the MultiformManager.
  */
 
 #endregion
