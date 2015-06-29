@@ -41,6 +41,8 @@
     <StartupObject>Phosphaze_V3.MainProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Framework\Cache\PropertyCache.cs" />
+    <Compile Include="Framework\Collision\CollisionDetection.cs" />
     <Compile Include="Framework\Display\DisplayManager.cs" />
     <Compile Include="Framework\Display\Resolution.cs" />
     <Compile Include="Framework\Engine.cs" />
@@ -54,7 +56,8 @@
     <Compile Include="Framework\Forms\Form.cs" />
     <Compile Include="Framework\Forms\MultiformException.cs" />
     <Compile Include="Framework\Forms\MultiformManager.cs" />
-    <Compile Include="Framework\Forms\VisualForm.cs" />
+    <Compile Include="Framework\Forms\Resources\MouseCollidableForm.cs" />
+    <Compile Include="Framework\Forms\Resources\StaticTextureForm.cs" />
     <Compile Include="Framework\Input\WordTracker.cs" />
     <Compile Include="Framework\Maths\SpecialFunctions.cs" />
     <Compile Include="Framework\ServiceLocator.cs" />
@@ -92,6 +95,7 @@
     <Compile Include="Tests\Test002\Test002Engine.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MSBuildProgramFiles32)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
