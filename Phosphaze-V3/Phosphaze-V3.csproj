@@ -41,8 +41,15 @@
     <StartupObject>Phosphaze_V3.MainProgram</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Framework\Cache\AttributeContainer.cs" />
     <Compile Include="Framework\Cache\PropertyCache.cs" />
-    <Compile Include="Framework\Collision\CollisionDetection.cs" />
+    <Compile Include="Framework\Collision\Collidable.cs" />
+    <Compile Include="Framework\Collision\CollisionPrecedences.cs" />
+    <Compile Include="Framework\Collision\CollisionResponse.cs" />
+    <Compile Include="Framework\Collision\EllipseCollider.cs" />
+    <Compile Include="Framework\Collision\PointCollider.cs" />
+    <Compile Include="Framework\Collision\RectCollider.cs" />
+    <Compile Include="Framework\Collision\SegmentCollider.cs" />
     <Compile Include="Framework\Display\DisplayManager.cs" />
     <Compile Include="Framework\Display\Resolution.cs" />
     <Compile Include="Framework\Engine.cs" />
@@ -59,6 +66,13 @@
     <Compile Include="Framework\Forms\Resources\MouseCollidableForm.cs" />
     <Compile Include="Framework\Forms\Resources\StaticTextureForm.cs" />
     <Compile Include="Framework\Input\WordTracker.cs" />
+    <Compile Include="Framework\Maths\Geometry\EllipseUtils.cs" />
+    <Compile Include="Framework\Maths\Geometry\IGeometric.cs" />
+    <Compile Include="Framework\Maths\Geometry\ITransformable.cs" />
+    <Compile Include="Framework\Maths\Geometry\LinearUtils.cs" />
+    <Compile Include="Framework\Maths\Geometry\RectUtils.cs" />
+    <Compile Include="Framework\Maths\Geometry\VectorUtils.cs" />
+    <Compile Include="Framework\Maths\RootSolver.cs" />
     <Compile Include="Framework\Maths\SpecialFunctions.cs" />
     <Compile Include="Framework\ServiceLocator.cs" />
     <Compile Include="Framework\Timing\After.cs" />
@@ -111,7 +125,6 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Framework\Maths\Geometry\" />
     <Folder Include="Framework\Particles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

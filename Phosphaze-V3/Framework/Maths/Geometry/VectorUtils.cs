@@ -30,6 +30,8 @@
  * A set of geometric utility methods regarding vectors.
  */
 
+#endregion
+
 #region Using Statements
 
 using Microsoft.Xna.Framework;
