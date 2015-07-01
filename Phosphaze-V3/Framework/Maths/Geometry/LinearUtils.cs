@@ -1,14 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region License
+
+// Copyright (c) 2015 FCDM
+// Permission is hereby granted, free of charge, to any person obtaining 
+// a copy of this software and associated documentation files (the "Software"), 
+// to deal in the Software without restriction, including without limitation the 
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+// copies of the Software, and to permit persons to whom the Software is furnished 
+// to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all 
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#endregion
+
+#region Header
+
+/* Author: Michael Ala
+ * Date of Creation: 6/25/2015
+ * 
+ * Description
+ * ===========
+ * A set of geometric utility methods regarding lines.
+ */
+
+#endregion
+
+#region Using Statements
+
 using Microsoft.Xna.Framework;
+
+#endregion
 
 namespace Phosphaze_V3.Framework.Maths.Geometry
 {
     public static class LinearUtils
     {
 
+        /// <summary>
+        /// Check if a point is in the "range" of a segment.
+        /// 
+        /// This essentially checks if the point is within the segment's bounding box.
+        /// </summary>
         public static bool IsPointInSegmentRange(
             double px, double py,
             double x1, double y1,
@@ -19,6 +58,9 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
             return (x1 <= px) == (px <= x2);
         }
 
+        /// <summary>
+        /// Calculate the intersection point between two lines (or null if they are parallel).
+        /// </summary>
         public static Vector2? LineIntersectionPoint(
             double x1, double y1, double x2, double y2,
             double x3, double y3, double x4, double y4)
@@ -57,6 +99,10 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
             }
         }
 
+        /// <summary>
+        /// Calculate the intersection point between a line and a line segment (or null if they
+        /// do not intersect).
+        /// </summary>
         public static Vector2? LineToSegmentIntersectionPoint(
             double x1, double y1, double x2, double y2,
             double x3, double y3, double x4, double y4)
@@ -67,6 +113,10 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
             return null;
         }
 
+        /// <summary>
+        /// Calculate the intersection point between two line segments (or null if they
+        /// do not intersect).
+        /// </summary>
         public static Vector2? SegmentIntersectionPoint(
             double x1, double y1, double x2, double y2,
             double x3, double y3, double x4, double y4)
@@ -81,6 +131,9 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
             return null;
         }
 
+        /// <summary>
+        /// Check if a point lies on a given line.
+        /// </summary>
         public static bool PointOnLine(
             double px, double py,
             double x1, double y1, double x2, double y2)
@@ -94,6 +147,9 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
             return py == m * px + b;
         }
 
+        /// <summary>
+        /// Check if a point lies on a given line.
+        /// </summary>
         public static bool PointOnSegment(
             double px, double py,
             double x1, double y1, double x2, double y2)

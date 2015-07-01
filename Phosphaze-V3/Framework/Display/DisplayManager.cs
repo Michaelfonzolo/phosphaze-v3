@@ -180,6 +180,7 @@ namespace Phosphaze_V3.Framework.Display
 
             currentResolutionIndex = validResolutions.Length - 1; // Always default to native resolution.
 #if DEBUG
+            // It's easier to debug in windowed mode.
             currentResolutionIndex = 0;
 #endif
             borderless = true;
