@@ -56,14 +56,18 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
             //   http://www.geometrictools.com/Documentation/IntersectionRectangleEllipse.pdf
             double q0, q1, q2;
 
-            var Q1 = new Vector2((float)((P1.X - P0.X) / A), (float)((P1.X - P0.X) / B));
-            q2 = Vector2.Dot(Q1, Q1);
-            if (q2 == 0)
-                return true;
-
             var Q0 = new Vector2((float)((P0.X - K.X) / A), (float)((P0.Y - K.Y) / B));
+            var Q1 = new Vector2((float)((P1.X - P0.X) / A), (float)((P1.X - P0.X) / B));
+            
             q0 = Vector2.Dot(Q0, Q0) - 1;
             q1 = Vector2.Dot(Q0, Q1);
+            q2 = Vector2.Dot(Q1, Q1);
+
+            if (q2 == 0)
+            {
+                double d = -q0 / q1;
+                return 0 <= d && d <= 1;
+            }
 
             double discr = q1 * q1 - q0 * q2;
             if (discr < 0)
