@@ -1,26 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Phosphaze_V3.Framework.Maths.Geometry;
+﻿#region License
+
+// Copyright (c) 2015 FCDM
+// Permission is hereby granted, free of charge, to any person obtaining 
+// a copy of this software and associated documentation files (the "Software"), 
+// to deal in the Software without restriction, including without limitation the 
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+// copies of the Software, and to permit persons to whom the Software is furnished 
+// to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all 
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#endregion
+
+#region Header
+
+/* Author: Michael Ala
+ * Date of Creation: 6/28/2015
+ * 
+ * Description
+ * ===========
+ * A builtin Collidable subclass representing a point in 2D space.
+ * 
+ * NOTE: Despite the name similarity between PointCollider, System.Drawing.Point, and
+ * Microsoft.Xna.Framework.Point, PointCollider's abcissa and ordinate are doubles, 
+ * not ints.
+ */
+
+#endregion
+
+#region Using Statements
+
 using Microsoft.Xna.Framework;
+using Phosphaze_V3.Framework.Maths.Geometry;
+using System;
+
+#endregion
 
 namespace Phosphaze_V3.Framework.Collision
 {
     public class PointCollider : Collidable, IGeometric, ITransformable
     {
 
+        /// <summary>
+        /// The PointCollider's precedence (0).
+        /// </summary>
         public override int Precedence { get { return CollisionPrecedences.POINT; } }
 
+        /// <summary>
+        /// The center of this point (the point itself).
+        /// </summary>
         public Vector2 Center { get { return new Vector2((float)X, (float)Y); } }
 
+        /// <summary>
+        /// The area of this point (zero).
+        /// </summary>
         public double Area { get { return 0; } }
 
+        /// <summary>
+        /// The perimeter of this point (zero).
+        /// </summary>
         public double Perimeter { get { return 0; } }
 
+        /// <summary>
+        /// The x coordinate of this point.
+        /// </summary>
         public double X { get; set; }
 
+        /// <summary>
+        /// The y coordinate of this point.
+        /// </summary>
         public double Y { get; set; }
+
+        /// <summary>
+        /// This point's bounding box (a box with zero width and height).
+        /// </summary>
+        /// <returns></returns>
+        public override double[] BoundingBox() { return new double[] { X, Y, 0, 0 }; }
 
         public PointCollider()
             : this(0, 0) { }
@@ -68,24 +131,42 @@ namespace Phosphaze_V3.Framework.Collision
             }
         }
 
+        /// <summary>
+        /// Set the position of this PointCollider.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SetPosition(double x, double y)
         {
             X = x;
             Y = y;
         }
 
+        /// <summary>
+        /// Set the position of this PointCollider.
+        /// </summary>
+        /// <param name="pos"></param>
         public void SetPosition(Vector2 pos)
         {
             X = pos.X;
             Y = pos.Y;
         }
 
+        /// <summary>
+        /// Translate this PointCollider by the given amount.
+        /// </summary>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
         public void Translate(double dx, double dy)
         {
             X += dx;
             Y += dy;
         }
 
+        /// <summary>
+        /// Translate this PointCollider by the given amount.
+        /// </summary>
+        /// <param name="delta"></param>
         public void Translate(Vector2 delta)
         {
             X += delta.X;
@@ -98,15 +179,37 @@ namespace Phosphaze_V3.Framework.Collision
          * own origin.
          */
         
+        /// <summary>
+        /// Rotate this point about its center by the given amount (does nothing).
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="degrees"></param>
         public void Rotate(double angle, bool degrees = true) { }
 
+        /// <summary>
+        /// Scale this point about its center by the given amount (does nothing).
+        /// </summary>
+        /// <param name="amount"></param>
         public void Scale(double amount) { }
 
+        /// <summary>
+        /// Rotate this point by the given amount relative to the given point.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="origin"></param>
+        /// <param name="degrees"></param>
+        /// <param name="relative"></param>
         public void Rotate(double angle, Vector2 origin, bool degrees = true, bool relative = true)
         {
             SetPosition(VectorUtils.Rotate(Center, angle, origin, degrees, relative));
         }
 
+        /// <summary>
+        /// Scale this point by the given amount relative to the given point.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="origin"></param>
+        /// <param name="relative"></param>
         public void Scale(double amount, Vector2 origin, bool relative = true)
         {
             SetPosition(VectorUtils.Scale(Center, amount, origin, relative));
@@ -117,16 +220,31 @@ namespace Phosphaze_V3.Framework.Collision
             return X == x && Y == y;
         }
 
+        /// <summary>
+        /// Check if this PointCollider is colliding with the given PointCollider.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(PointCollider other)
         {
             return new CollisionResponse(this, other, _eq(other.X, other.Y));
         }
 
+        /// <summary>
+        /// Check if this PointCollider is colliding with the given Vector2.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(Vector2 point)
         {
             return CollidingWith(new PointCollider(point));
         }
 
+        /// <summary>
+        /// Check if this PointCollider is colliding with the given Point.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(Point point)
         {
             return CollidingWith(new PointCollider(point));

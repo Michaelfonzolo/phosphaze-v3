@@ -1,24 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region License
+
+// Copyright (c) 2015 FCDM
+// Permission is hereby granted, free of charge, to any person obtaining 
+// a copy of this software and associated documentation files (the "Software"), 
+// to deal in the Software without restriction, including without limitation the 
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+// copies of the Software, and to permit persons to whom the Software is furnished 
+// to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all 
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#endregion
+
+#region Header
+
+/* Author: Michael Ala
+ * Date of Creation: 6/29/2015
+ * 
+ * Description
+ * ===========
+ * A builtin Collidable subclass representing an axis-oriented ellipse.
+ */
+
+#endregion
+
+#region Using Statements
+
 using Microsoft.Xna.Framework;
-using Phosphaze_V3.Framework.Maths.Geometry;
 using Phosphaze_V3.Framework.Cache;
+using Phosphaze_V3.Framework.Maths.Geometry;
+using System;
+using System.Collections.Generic;
+
+#endregion
 
 namespace Phosphaze_V3.Framework.Collision
 {
     public class EllipseCollider : Collidable, IGeometric, ITransformable
     {
 
+        /// <summary>
+        /// The EllipseCollider's precedence (3).
+        /// </summary>
         public override int Precedence { get { return CollisionPrecedences.ELLIPSE; } }
 
+        /// <summary>
+        /// The center of the ellipse.
+        /// </summary>
         public Vector2 Center { get { return new Vector2((float)X, (float)Y); } }
 
+        /// <summary>
+        /// The area of this ellipse.
+        /// </summary>
         public double Area { get { return Math.PI * A * B; } }
 
+        /// <summary>
+        /// The private internal cache for the perimeter, as it is a little expensive to calculate.
+        /// </summary>
         private PropertyCache<double> perimeterCache = new PropertyCache<double>();
 
+        /// <summary>
+        /// The perimeter of this ellipse.
+        /// 
+        /// This uses an approximate method discovered by Ramanujan. It is much
+        /// simpler than the ellipctic integral or infinite series methods, but
+        /// has an error term of h^5 where h = ((A - B)/(A + B))^2.
+        /// </summary>
         public double Perimeter
         {
             get
@@ -32,13 +87,34 @@ namespace Phosphaze_V3.Framework.Collision
             }
         }
 
+        /// <summary>
+        /// The x coordinate of the center of the ellipse.
+        /// </summary>
         public double X { get; private set; }
 
+        /// <summary>
+        /// The y coordinate of the center of the ellipse.
+        /// </summary>
         public double Y { get; private set; }
 
+        /// <summary>
+        /// The half-length of the horizontal axis of the ellipse.
+        /// </summary>
         public double A { get; private set; }
 
+        /// <summary>
+        /// The half-length of the vertical axis of the ellipse.
+        /// </summary>
         public double B { get; private set; }
+
+        /// <summary>
+        /// The ellipse's bounding box.
+        /// </summary>
+        /// <returns></returns>
+        public override double[] BoundingBox()
+        {
+            return new double[] { X - A, Y - B, 2 * A, 2 * B };
+        }
 
         public EllipseCollider()
             : this(0, 0, 0, 0) { }
@@ -112,30 +188,58 @@ namespace Phosphaze_V3.Framework.Collision
             }
         }
 
+        /// <summary>
+        /// Set the center of the ellipse to the given position.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SetPosition(double x, double y)
         {
             X = x;
             Y = y;
         }
 
+        /// <summary>
+        /// Set the center of the ellipse to the given position.
+        /// </summary>
+        /// <param name="pos"></param>
         public void SetPosition(Vector2 pos)
         {
             X = pos.X;
             Y = pos.Y;
         }
 
+        /// <summary>
+        /// Translate the ellipse by the given amount.
+        /// </summary>
+        /// <param name="dx"></param>
+        /// <param name="dy"></param>
         public void Translate(double dx, double dy)
         {
             X += dx;
             Y += dy;
         }
 
+        /// <summary>
+        /// Translate the ellipse by the given amount.
+        /// </summary>
+        /// <param name="delta"></param>
         public void Translate(Vector2 delta)
         {
             X += delta.X;
             Y += delta.Y;
         }
 
+        /// <summary>
+        /// Rotate the ellipse about the center by the given amount. 
+        /// 
+        /// Ellipses are axis-oriented, so attempting to rotate an EllipseCollider whose
+        /// vertical and horizontal axis lengths are different simply results in an error.
+        /// Otherwise, since a circle rotated about its center results in the same circle,
+        /// the method does nothing.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="degrees"></param>
         public void Rotate(double angle, bool degrees = true)
         {
             if (A != B)
@@ -143,6 +247,16 @@ namespace Phosphaze_V3.Framework.Collision
             // Literally do nothing, a circle rotated about its center is the same.
         }
 
+        /// <summary>
+        /// Rotate the ellipse about a given point by the given amount.
+        /// 
+        /// Ellipses are axis-oriented, so attempting to rotate an EllipseCollider whose
+        /// vertical and horizontal axis lengths are different simply results in an error.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="origin"></param>
+        /// <param name="degrees"></param>
+        /// <param name="relative"></param>
         public void Rotate(double angle, Vector2 origin, bool degrees = true, bool relative = true)
         {
             if (A != B)
@@ -150,25 +264,68 @@ namespace Phosphaze_V3.Framework.Collision
             SetPosition(VectorUtils.Rotate(Center, angle, origin, degrees, relative));
         }
 
+        /// <summary>
+        /// Scale the ellipse by the given amount.
+        /// </summary>
+        /// <param name="amount"></param>
         public void Scale(double amount)
         {
             A *= amount;
             B *= amount;
         }
 
+        /// <summary>
+        /// Scale the ellipse by the given amount relative to the given point.
+        /// 
+        /// Currently, this just results in an error.
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="origin"></param>
+        /// <param name="relative"></param>
         public void Scale(double amount, Vector2 origin, bool relative = true)
         {
             // Think about this. Use some calculus. I have an odd feeling that
             // scaling an ellipse off center results in a dumb shape like a
             // multifocal ellipse.
+            throw new ArgumentException("Cannot scale an ellipse off center.");
         }
 
+        /// <summary>
+        /// Check if this EllipseCollider is colliding with the given PointCollider.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(PointCollider point)
         {
             return new CollisionResponse(this, point, 
                 Math.Pow((point.X - X) / A, 2.0) + Math.Pow((point.Y - Y) / B, 2.0) <= 1);
         }
 
+        /// <summary>
+        /// Check if this EllipseCollider is colliding with the given Vector2.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public CollisionResponse CollidingWith(Vector2 point)
+        {
+            return CollidingWith(new PointCollider(point));
+        }
+
+        /// <summary>
+        /// Check if this EllipseCollider is colliding with the given Point.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public CollisionResponse CollidingWith(Point point)
+        {
+            return CollidingWith(new PointCollider(point));
+        }
+
+        /// <summary>
+        /// Check if this EllipseCollider is colliding with the given SegmentCollider.
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(SegmentCollider segment)
         {
             var c_res = new CollisionResponse(this, segment, false);
@@ -198,6 +355,11 @@ namespace Phosphaze_V3.Framework.Collision
             return c_res;
         }
 
+        /// <summary>
+        /// Check if this EllipseCollider is colliding with the given RectCollider.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(RectCollider rect)
         {
             bool result = false;
@@ -255,6 +417,11 @@ namespace Phosphaze_V3.Framework.Collision
             return new CollisionResponse(this, rect, result);
         }
 
+        /// <summary>
+        /// Check if this EllipseCollider is colliding with the given EllipseCollider.
+        /// </summary>
+        /// <param name="ellipse"></param>
+        /// <returns></returns>
         public CollisionResponse CollidingWith(EllipseCollider ellipse)
         {
             if (A == B && ellipse.A == ellipse.B)
