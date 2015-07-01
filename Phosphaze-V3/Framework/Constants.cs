@@ -61,6 +61,11 @@ namespace Phosphaze_V3.Framework
         public const double MIN_DTIME = 16.6666666666666;
 
         /// <summary>
+        /// The multiplicative constant to convert degrees into radians.
+        /// </summary>
+        public const double DEG_TO_RAD = Math.PI / 180;
+
+        /// <summary>
         /// The amount of pixels the border of a window offsets the display by.
         /// </summary>
         public static System.Drawing.Point WINDOW_BOUNDARY_OFFSET = new System.Drawing.Point(8, 30);

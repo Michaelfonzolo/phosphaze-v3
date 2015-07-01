@@ -54,6 +54,7 @@ namespace Phosphaze_V3
     public static class MainProgram
     {
 
+#if TESTING_SOMETHING_STUPID
         public class Circle : Collidable
         {
             public override int Precedence { get { return 2; } }
@@ -61,6 +62,7 @@ namespace Phosphaze_V3
             public bool CollidingWith(Rect r) { return false; }
             public bool CollidingWith(Circle c) { return false; }
         }
+#endif
 
         /// <summary>
         /// The main entry point for the application.
