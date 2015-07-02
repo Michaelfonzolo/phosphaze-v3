@@ -108,7 +108,6 @@ namespace Phosphaze_V3.Framework.Forms
         {
             anonymousForms.Add(form);
             form.SetParent(this);
-            form.Initialize(serviceLocator);
         }
 
         /// <summary>
@@ -121,7 +120,6 @@ namespace Phosphaze_V3.Framework.Forms
         {
             namedForms[name] = form;
             form.SetParent(this);
-            form.Initialize(serviceLocator);
         }
 
         /// <summary>

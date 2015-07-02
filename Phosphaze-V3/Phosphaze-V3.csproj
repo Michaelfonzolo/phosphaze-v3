@@ -63,8 +63,7 @@
     <Compile Include="Framework\Forms\Form.cs" />
     <Compile Include="Framework\Forms\MultiformException.cs" />
     <Compile Include="Framework\Forms\MultiformManager.cs" />
-    <Compile Include="Framework\Forms\Resources\MouseCollidableForm.cs" />
-    <Compile Include="Framework\Forms\Resources\StaticTextureForm.cs" />
+    <Compile Include="Framework\Forms\Resources\TextureForm.cs" />
     <Compile Include="Framework\Input\WordTracker.cs" />
     <Compile Include="Framework\Maths\Geometry\EllipseUtils.cs" />
     <Compile Include="Framework\Maths\Geometry\IGeometric.cs" />

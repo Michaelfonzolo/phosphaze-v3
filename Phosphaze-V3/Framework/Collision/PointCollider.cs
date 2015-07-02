@@ -198,10 +198,10 @@ namespace Phosphaze_V3.Framework.Collision
         /// <param name="angle"></param>
         /// <param name="origin"></param>
         /// <param name="degrees"></param>
-        /// <param name="relative"></param>
-        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool relative = true)
+        /// <param name="absoluteOrigin"></param>
+        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool absoluteOrigin = true)
         {
-            SetPosition(VectorUtils.Rotate(Center, angle, origin, degrees, relative));
+            SetPosition(VectorUtils.Rotate(Center, angle, origin, degrees, absoluteOrigin));
         }
 
         /// <summary>
@@ -209,10 +209,10 @@ namespace Phosphaze_V3.Framework.Collision
         /// </summary>
         /// <param name="amount"></param>
         /// <param name="origin"></param>
-        /// <param name="relative"></param>
-        public void Scale(double amount, Vector2 origin, bool relative = true)
+        /// <param name="absoluteOrigin"></param>
+        public void Scale(double amount, Vector2 origin, bool absoluteOrigin = true)
         {
-            SetPosition(VectorUtils.Scale(Center, amount, origin, relative));
+            SetPosition(VectorUtils.Scale(Center, amount, origin, absoluteOrigin));
         }
 
         private bool _eq(double x, double y)

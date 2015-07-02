@@ -77,40 +77,33 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
         /// </summary>
         public static Vector2 Rotate(
             Vector2 vec, double angle, Vector2 origin, 
-            bool degrees = true, bool relative = true)
+            bool degrees = true, bool absoluteOrigin = true)
         {
             if (degrees)
                 angle *= Constants.DEG_TO_RAD;
 
-            double x, y, nx, ny;
-
-            if (relative)
+            double cos = Math.Cos(angle);
+            double sin = Math.Sin(angle);
+            if (absoluteOrigin)
             {
-                x = -origin.X;
-                y = -origin.Y;
+                double x = vec.X - origin.X;
+                double y = vec.Y - origin.Y;
+
+                double nx = x * cos - y * sin + origin.X;
+                double ny = x * sin + y * cos + origin.Y;
+
+                return new Vector2((float)nx, (float)ny);
             }
             else
             {
-                x = vec.X - origin.X;
-                y = vec.Y - origin.Y;
-            }
-            double cos_theta = Math.Cos(angle);
-            double sin_theta = Math.Sin(angle);
+                double x = origin.X;
+                double y = origin.Y;
 
-            nx = x * cos_theta - y * sin_theta;
-            ny = y * sin_theta + x * cos_theta;
+                double nx = (1 - cos) * x + sin * y + vec.X;
+                double ny = (1 - cos) * y - sin * x + vec.Y;
 
-            if (relative)
-            {
-                nx += vec.X;
-                ny += vec.Y;
+                return new Vector2((float)nx, (float)ny);
             }
-            else
-            {
-                nx += origin.X;
-                ny += origin.Y;
-            }
-            return new Vector2((float)(nx), (float)(ny));
         }
 
         /// <summary>
@@ -129,12 +122,12 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
         /// <param name="vec"></param>
         /// <param name="amount"></param>
         /// <param name="origin"></param>
-        /// <param name="relative"></param>
+        /// <param name="absoluteOrigin"></param>
         /// <returns></returns>
         public static Vector2 Scale(
-            Vector2 vec, double amount, Vector2 origin, bool relative = true)
+            Vector2 vec, double amount, Vector2 origin, bool absoluteOrigin = true)
         {
-            if (relative)
+            if (!absoluteOrigin)
                 return vec + origin * (1f - (float)amount);
             return (vec - origin) * (float)amount + origin;
         }

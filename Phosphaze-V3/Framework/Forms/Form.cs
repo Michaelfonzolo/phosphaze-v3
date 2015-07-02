@@ -66,7 +66,7 @@ namespace Phosphaze_V3.Framework.Forms
         public Form(ServiceLocator serviceLocator) 
             : base(serviceLocator.EventPropagator) 
         {
-            Initialize(serviceLocator);
+            
         }
 
         /// <summary>
@@ -129,11 +129,6 @@ namespace Phosphaze_V3.Framework.Forms
         {
             anonymousEffectors.Clear();
             namedEffectors.Clear();
-        }
-
-        public virtual void Initialize(ServiceLocator serviceLocator)
-        {
-
         }
 
         /// <summary>

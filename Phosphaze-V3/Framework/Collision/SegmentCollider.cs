@@ -320,7 +320,7 @@ namespace Phosphaze_V3.Framework.Collision
         /// <param name="degrees"></param>
         public void Rotate(double angle, bool degrees = true)
         {
-            Rotate(angle, Center, degrees, false);
+            Rotate(angle, Center, degrees, true);
         }
 
         /// <summary>
@@ -330,10 +330,10 @@ namespace Phosphaze_V3.Framework.Collision
         /// <param name="origin"></param>
         /// <param name="degrees"></param>
         /// <param name="relative"></param>
-        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool relative = true)
+        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool absoluteOrigin = true)
         {
-            Start = VectorUtils.Rotate(Start, angle, origin, degrees, relative);
-            End = VectorUtils.Rotate(End, angle, origin, degrees, relative);
+            Start = VectorUtils.Rotate(Start, angle, origin, degrees, absoluteOrigin);
+            End = VectorUtils.Rotate(End, angle, origin, degrees, absoluteOrigin);
         }
 
         /// <summary>
@@ -343,8 +343,8 @@ namespace Phosphaze_V3.Framework.Collision
         public void Scale(double amount)
         {
             var c = Center;
-            Start = VectorUtils.Scale(Start, amount, c, false);
-            End = VectorUtils.Scale(End, amount, c, false);
+            Start = VectorUtils.Scale(Start, amount, c, true);
+            End = VectorUtils.Scale(End, amount, c, true);
         }
 
         /// <summary>
@@ -353,10 +353,10 @@ namespace Phosphaze_V3.Framework.Collision
         /// <param name="amount"></param>
         /// <param name="origin"></param>
         /// <param name="relative"></param>
-        public void Scale(double amount, Vector2 origin, bool relative = true)
+        public void Scale(double amount, Vector2 origin, bool absoluteOrigin = true)
         {
-            Start = VectorUtils.Scale(Start, amount, origin, relative);
-            End = VectorUtils.Scale(End, amount, origin, relative);
+            Start = VectorUtils.Scale(Start, amount, origin, absoluteOrigin);
+            End = VectorUtils.Scale(End, amount, origin, absoluteOrigin);
             lengthCache.dirty = true;
         }
 

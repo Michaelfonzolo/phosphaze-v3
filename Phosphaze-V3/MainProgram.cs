@@ -1,4 +1,4 @@
-﻿// #define TESTING_SOMETHING_STUPID
+﻿#define TESTING_SOMETHING_STUPID
 // #undef TESTING_SOMETHING_STUPID
 #region License
 
@@ -46,7 +46,10 @@ using Phosphaze_V3.Tests.Test002;
 
 namespace Phosphaze_V3
 {
-    using Phosphaze_V3.Framework.Collision;
+#if TESTING_SOMETHING_STUPID
+    using Phosphaze_V3.Framework.Maths.Geometry;
+    using Microsoft.Xna.Framework;
+#endif
 #if WINDOWS || LINUX
     /// <summary>
     /// The main class.
@@ -60,8 +63,14 @@ namespace Phosphaze_V3
         [STAThread]
         static void Main()
         {
+#if TESTING_SOMETHING_STUPID
+            var v1 = new Vector2(1, 0);
+            Console.WriteLine(v1);
+            Console.WriteLine(VectorUtils.Rotate(v1, 90, Vector2.Zero));
+#else
             using (var game = new Phosphaze(new Test002Engine()))
                 game.Run();
+#endif
         }
     }
 #endif

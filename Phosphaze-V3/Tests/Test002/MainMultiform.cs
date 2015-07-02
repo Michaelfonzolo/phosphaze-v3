@@ -25,7 +25,7 @@ namespace Phosphaze_V3.Tests.Test002
 
         public void TransitionIn(ServiceLocator serviceLocator)
         {
-            alpha += 0.01f;
+            alpha += 0.0025f;
             if (alpha >= 1f)
             {
                 alpha = 1f;
@@ -53,7 +53,13 @@ namespace Phosphaze_V3.Tests.Test002
 
         public void Render(ServiceLocator serviceLocator)
         {
-            serviceLocator.DisplayManager.Draw(texture, new Vector2(0.5f, 0.5f), Color.White*alpha);
+            //serviceLocator.DisplayManager.Draw(texture, new Vector2(0.5f, 0.5f), Color.White*alpha);
+            //serviceLocator.DisplayManager.Draw(
+            //    texture, new Vector2(0.5f, 0.5f), 
+            //    Color.White * alpha, 2 * alpha * (float)Math.PI, 1f);
+            serviceLocator.DisplayManager.Draw(
+                texture, new Vector2(0.5f, 0.5f),
+                Color.White * alpha, alpha * 2f * (float)Math.PI, 1f);
         }
 
     }

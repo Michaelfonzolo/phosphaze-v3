@@ -53,11 +53,11 @@ namespace Phosphaze_V3.Framework.Maths.Geometry
 
         void Rotate(double angle, bool degrees = true);
 
-        void Rotate(double angle, Vector2 origin, bool degrees = true, bool relative = true);
+        void Rotate(double angle, Vector2 origin, bool degrees = true, bool absoluteOrigin = true);
 
         void Scale(double amount);
 
-        void Scale(double amount, Vector2 origin, bool relative = true);
+        void Scale(double amount, Vector2 origin, bool absoluteOrigin = true);
 
     }
 }

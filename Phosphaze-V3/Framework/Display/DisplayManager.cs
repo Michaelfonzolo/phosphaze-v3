@@ -1,5 +1,5 @@
 ﻿#define DEBUG
-
+#undef DEBUG
 #region License
 
 // Copyright (c) 2015 FCDM
@@ -47,6 +47,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Phosphaze_V3.Framework.Extensions;
+using Phosphaze_V3.Framework.Maths.Geometry;
 using System;
 using System.Linq;
 
@@ -399,7 +400,9 @@ namespace Phosphaze_V3.Framework.Display
             return new Vector2(vec.X * currentResolution.width, vec.Y * currentResolution.height);
         }
 
-        private void DrawInit(ref float scale, ref Vector2 position, Vector2? offset, Vector2 center, bool centred)
+        private void DrawInit(
+            ref float scale, ref Vector2 position, Vector2? offset, 
+            Vector2 center, float rotation, bool centred)
         {
             if (!begun)
             {
@@ -410,9 +413,14 @@ namespace Phosphaze_V3.Framework.Display
             position = ScaleVector(position);
 
             if (centred)
+            {
                 position -= center * scale;
+            }
+
+            /*
             if (offset.HasValue)
                 position -= ScaleVector(offset.Value);
+             */
         }
 
         // The following region just contains a bunch of overloads for the Draw
@@ -590,8 +598,15 @@ namespace Phosphaze_V3.Framework.Display
                 spriteBatch.Begin();
                 begun = true;
             }
-            DrawInit(ref scale, ref position, offset, new Vector2(texture.Width, texture.Height) / 2f, centred);
-            spriteBatch.Draw(texture, position, source, color, rotation, Vector2.Zero, scale, fx, layer);
+            // DrawInit(ref scale, ref position, offset, new Vector2(texture.Width, texture.Height) / 2f, rotation, centred);
+            scale *= resolutionScale;
+            var P = ScaleVector(position);
+            var D = new Vector2(texture.Width, texture.Height) / 2f;
+            var A = P - D;
+            var Pp = VectorUtils.Rotate(D, -rotation, Vector2.Zero, degrees: false);
+            var r = P - Pp;
+            spriteBatch.Draw(texture, A, source, color, rotation, Vector2.Zero, scale, fx, layer);
+            // Fuck Monogame's offset parameter, it makes no fucking sense.
         }
 
         // Same as above, but even worse.
@@ -783,7 +798,7 @@ namespace Phosphaze_V3.Framework.Display
             float rotation, Vector2? offset, float scale, SpriteEffects fx,
             float layerDepth, bool centred = true)
         {
-            DrawInit(ref scale, ref position, offset, spriteFont.MeasureString(text) / 2f, centred);
+            DrawInit(ref scale, ref position, offset, spriteFont.MeasureString(text) / 2f, rotation, centred);
             spriteBatch.DrawString(spriteFont, text, position, color, rotation, Vector2.Zero, scale, fx, layerDepth);
         }
     }
