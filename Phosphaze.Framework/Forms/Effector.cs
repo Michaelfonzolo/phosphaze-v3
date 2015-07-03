@@ -55,11 +55,16 @@ namespace Phosphaze.Framework.Forms
         /// </summary>
         public bool dead { get; private set; }
 
+        private bool initialized = false;
+
         public Effector(Form form)
             : base()
         {
             this.form = form;
             dead = false;
+
+            Initialize();
+            initialized = true;
         }
 
         public Effector()
@@ -74,13 +79,21 @@ namespace Phosphaze.Framework.Forms
             if (this.form != null)
                 throw new ArgumentException("This effector is already attached to a form.");
             this.form = form;
+            Initialize();
+            initialized = true;
         }
+
+        protected virtual void Initialize() { }
 
         /// <summary>
         /// Update this effector.
         /// </summary>
         public virtual void Update(ServiceLocator serviceLocator)
         {
+            if (!initialized)
+                throw new EffectorException(
+                    "Cannot begin updating an effector that hasn't been initialized. " +
+                     "To initialize an effector, simply attach it to a form.");
             base.UpdateTime(serviceLocator);
         }
 

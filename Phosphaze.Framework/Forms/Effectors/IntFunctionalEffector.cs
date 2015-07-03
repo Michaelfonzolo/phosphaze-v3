@@ -6,5 +6,10 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public abstract class IntFunctionalEffector : FunctionalAttributeEffector<int> { }
+    public abstract class IntFunctionalEffector : FunctionalAttributeEffector<int> 
+    {
+        public IntFunctionalEffector(string attr) : base(attr) { }
+
+        public IntFunctionalEffector(string attr, Form form) : base(attr, form) { }
+    }
 }

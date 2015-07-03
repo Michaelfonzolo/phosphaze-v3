@@ -6,5 +6,10 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public abstract class DoubleFunctionalEffector : FunctionalAttributeEffector<double> { }
+    public abstract class DoubleFunctionalEffector : FunctionalAttributeEffector<double> 
+    {
+        public DoubleFunctionalEffector(string attr) : base(attr) { }
+
+        public DoubleFunctionalEffector(string attr, Form form) : base(attr, form) { }
+    }
 }

@@ -9,6 +9,10 @@ namespace Phosphaze.Framework.Forms.Effectors
 {
     public abstract class AdditiveVectorFunctionalEffector : VectorFunctionalEffector
     {
+        public AdditiveVectorFunctionalEffector(string attr) : base(attr) { }
+
+        public AdditiveVectorFunctionalEffector(string attr, Form form) : base(attr, form) { }
+
         protected override Vector2 Operate(Vector2 a, Vector2 b)
         {
             return a + b;

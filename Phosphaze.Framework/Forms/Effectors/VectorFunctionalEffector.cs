@@ -7,5 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public abstract class VectorFunctionalEffector : FunctionalAttributeEffector<Vector2> { }
+    public abstract class VectorFunctionalEffector : FunctionalAttributeEffector<Vector2> 
+    {
+        public VectorFunctionalEffector(string attr) : base(attr) { }
+
+        public VectorFunctionalEffector(string attr, Form form) : base(attr, form) { }
+    }
 }
