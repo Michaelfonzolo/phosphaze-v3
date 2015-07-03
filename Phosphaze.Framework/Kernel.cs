@@ -104,17 +104,6 @@ namespace Phosphaze.Framework
 
             if (engine.exited)
                 Environment.Exit(0);
-
-            // WHAT THE FUCK MONOGAME, YOUR FUCKING EXIT METHOD IS DEPRECATED??!?!??!?!?!?!?!?!?
-            // YOUR FUCKING EEEEXXXXIIIITTTTT METHOD???!?!?!?!?!?!?! WHAT THE FUCK KIND OF RETARDED
-            // PATHETIC PANSY-ASS SHIT EATING MONKEYS MADE THIS FUCKING THING?!?!?! HOW THE FUCK ARE
-            // WE SUPPOSED TO EXIT OUR FUCKING GAME?!?!?!?!?!? YOU FUCKING IMBECILES!!!!!!!! YOU
-            // FUCKING UNBELIEVABLE CUNTS!! HOW THE FUCK DID YOU EVEN RELEASE THIS FUCKING PIECE OF
-            // SHIT WITHOUT KNOWING THAT THERES NO FUCKING WAY TO CLOSE YOUR GAME!!?!?!?!???!?!?
-            // 
-            // FUCK OFF MONOGAME.
-            //
-            // FUCK OFF.
              //this.Exit();
         }
 
