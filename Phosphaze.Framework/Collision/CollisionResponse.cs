@@ -37,11 +37,11 @@
 
 #region Using Statements
 
-using Phosphaze_V3.Framework.Cache;
+using Phosphaze.Framework.Cache;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Collision
+namespace Phosphaze.Framework.Collision
 {
     public class CollisionResponse : AttributeContainer
     {

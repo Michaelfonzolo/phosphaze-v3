@@ -39,12 +39,12 @@
 #region Using Statements
 
 using Microsoft.Xna.Framework;
-using Phosphaze_V3.Framework.Maths.Geometry;
+using Phosphaze.Framework.Maths.Geometry;
 using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Collision
+namespace Phosphaze.Framework.Collision
 {
     public class PointCollider : Collidable, IGeometric, ITransformable
     {

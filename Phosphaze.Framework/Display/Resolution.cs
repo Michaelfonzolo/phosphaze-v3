@@ -39,7 +39,7 @@ using System.Windows.Forms;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Display
+namespace Phosphaze.Framework.Display
 {
     /// <summary>
     /// A valid screen resolution.

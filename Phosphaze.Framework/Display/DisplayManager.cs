@@ -45,14 +45,14 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Phosphaze_V3.Framework.Extensions;
-using Phosphaze_V3.Framework.Maths.Geometry;
+using Phosphaze.Framework.Extensions;
+using Phosphaze.Framework.Maths.Geometry;
 using System;
 using System.Linq;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Display
+namespace Phosphaze.Framework.Display
 {
     public class DisplayManager
     {

@@ -38,7 +38,7 @@ using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Maths
+namespace Phosphaze.Framework.Maths
 {
     public static class RootSolver
     {

@@ -34,35 +34,26 @@
 
 #region Using Statements
 
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Phosphaze_V3.Framework;
-using Phosphaze_V3.Framework.Forms;
-using Phosphaze_V3.Framework.Input;
-using Phosphaze_V3.Framework.Extensions;
-using Phosphaze_V3.Framework.Display;
-using Phosphaze_V3.Framework.Timing;
-using Phosphaze_V3.Framework.Events;
+using System;
 
 #endregion
 
-namespace Phosphaze_V3
+namespace Phosphaze.Framework
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Phosphaze : Game
+    public class Kernel : Game
     {
         GraphicsDeviceManager graphics;
         Engine engine;
 
-        public Phosphaze(Engine engine)
+        public Kernel(Engine engine)
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = engine.ContentFolder;
 
             engine.SendGraphicsDeviceManager(graphics);
             this.engine = engine;
@@ -112,7 +103,19 @@ namespace Phosphaze_V3
             engine.Update(gameTime);
 
             if (engine.exited)
-                Exit();
+                Environment.Exit(0);
+
+            // WHAT THE FUCK MONOGAME, YOUR FUCKING EXIT METHOD IS DEPRECATED??!?!??!?!?!?!?!?!?
+            // YOUR FUCKING EEEEXXXXIIIITTTTT METHOD???!?!?!?!?!?!?! WHAT THE FUCK KIND OF RETARDED
+            // PATHETIC PANSY-ASS SHIT EATING MONKEYS MADE THIS FUCKING THING?!?!?! HOW THE FUCK ARE
+            // WE SUPPOSED TO EXIT OUR FUCKING GAME?!?!?!?!?!? YOU FUCKING IMBECILES!!!!!!!! YOU
+            // FUCKING UNBELIEVABLE CUNTS!! HOW THE FUCK DID YOU EVEN RELEASE THIS FUCKING PIECE OF
+            // SHIT WITHOUT KNOWING THAT THERES NO FUCKING WAY TO CLOSE YOUR GAME!!?!?!?!???!?!?
+            // 
+            // FUCK OFF MONOGAME.
+            //
+            // FUCK OFF.
+             //this.Exit();
         }
 
         /// <summary>

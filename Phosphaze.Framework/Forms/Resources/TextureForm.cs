@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Phosphaze_V3.Framework.Cache;
-using Phosphaze_V3.Framework.Maths.Geometry;
+using Phosphaze.Framework.Cache;
+using Phosphaze.Framework.Maths.Geometry;
 
-namespace Phosphaze_V3.Framework.Forms.Resources
+namespace Phosphaze.Framework.Forms.Resources
 {
     public class TextureForm : Form, ITransformable
     {

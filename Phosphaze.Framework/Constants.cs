@@ -42,7 +42,7 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace Phosphaze_V3.Framework
+namespace Phosphaze.Framework
 {
     /// <summary>
     /// The constants used throughout Phosphaze.

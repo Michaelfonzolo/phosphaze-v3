@@ -35,15 +35,15 @@
 
 #region Using Statements
 
-using Phosphaze_V3.Framework.Events;
-using Phosphaze_V3.Framework.Extensions;
+using Phosphaze.Framework.Events;
+using Phosphaze.Framework.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Forms
+namespace Phosphaze.Framework.Forms
 {
     public class Form : EventListener
     {

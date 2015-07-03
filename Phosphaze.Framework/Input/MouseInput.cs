@@ -39,14 +39,14 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Phosphaze_V3.Framework.Events;
-using Phosphaze_V3.Framework.Timing;
+using Phosphaze.Framework.Events;
+using Phosphaze.Framework.Timing;
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Input
+namespace Phosphaze.Framework.Input
 {
     public sealed class MouseInput : ChronometricEntity
     {

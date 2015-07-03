@@ -35,7 +35,7 @@
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Collision
+namespace Phosphaze.Framework.Collision
 {
     public static class CollisionPrecedences
     {

@@ -5,10 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Phosphaze_V3.Framework;
-using Phosphaze_V3.Framework.Forms;
+using Phosphaze.Framework;
+using Phosphaze.Framework.Forms;
 
-namespace Phosphaze_V3.Tests.Test002
+namespace Phosphaze.Framework.Tests.Test002
 {
     public class MainMultiform : Multiform
     {

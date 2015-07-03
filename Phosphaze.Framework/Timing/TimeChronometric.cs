@@ -32,7 +32,7 @@
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Timing
+namespace Phosphaze.Framework.Timing
 {
     public abstract class TimeChronometric : Chronometric
     {

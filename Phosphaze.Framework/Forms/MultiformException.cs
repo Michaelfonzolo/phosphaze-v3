@@ -38,7 +38,7 @@ using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Forms
+namespace Phosphaze.Framework.Forms
 {
     public class MultiformException : Exception
     {

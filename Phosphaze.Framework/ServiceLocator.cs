@@ -37,14 +37,14 @@
 #region Using Statements
 
 using Microsoft.Xna.Framework.Content;
-using Phosphaze_V3.Framework.Display;
-using Phosphaze_V3.Framework.Events;
-using Phosphaze_V3.Framework.Forms;
-using Phosphaze_V3.Framework.Input;
+using Phosphaze.Framework.Display;
+using Phosphaze.Framework.Events;
+using Phosphaze.Framework.Forms;
+using Phosphaze.Framework.Input;
 
 #endregion
 
-namespace Phosphaze_V3.Framework
+namespace Phosphaze.Framework
 {
     public class ServiceLocator
     {

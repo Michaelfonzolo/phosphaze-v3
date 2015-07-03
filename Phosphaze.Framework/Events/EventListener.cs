@@ -35,12 +35,12 @@
 
 #region Using Statements
 
-using Phosphaze_V3.Framework.Timing;
+using Phosphaze.Framework.Timing;
 using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Events
+namespace Phosphaze.Framework.Events
 {
     public class EventListener : ChronometricEntity
     {

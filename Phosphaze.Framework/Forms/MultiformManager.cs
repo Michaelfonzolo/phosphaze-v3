@@ -45,7 +45,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Forms
+namespace Phosphaze.Framework.Forms
 {
 
     public class MultiformManager

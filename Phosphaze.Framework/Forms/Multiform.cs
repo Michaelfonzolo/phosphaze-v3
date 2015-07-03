@@ -37,15 +37,15 @@
 
 #region Using Statements
 
-using Phosphaze_V3.Framework.Extensions;
-using Phosphaze_V3.Framework.Timing;
+using Phosphaze.Framework.Extensions;
+using Phosphaze.Framework.Timing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Forms
+namespace Phosphaze.Framework.Forms
 {
     public abstract class Multiform : ChronometricEntity
     {

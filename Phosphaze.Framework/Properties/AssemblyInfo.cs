@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Phosphaze.Framework.Properties")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Phosphaze.Framework")]
+[assembly: AssemblyDescription("A set of classes, resources, and tools for building Phosphaze.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Phosphaze.Framework.Properties")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("FCDM")]
+[assembly: AssemblyProduct("Phosphaze")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

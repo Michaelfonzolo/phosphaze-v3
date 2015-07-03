@@ -38,7 +38,7 @@ using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Timing
+namespace Phosphaze.Framework.Timing
 {
     public class After : TimeChronometric
     {

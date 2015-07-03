@@ -39,7 +39,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Phosphaze_V3.Framework.Timing
+namespace Phosphaze.Framework.Timing
 {
     public abstract class Chronometric
     {

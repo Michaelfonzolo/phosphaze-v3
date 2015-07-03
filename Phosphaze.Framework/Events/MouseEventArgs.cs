@@ -35,12 +35,12 @@
 #region Using Statements
 
 using Microsoft.Xna.Framework;
-using Phosphaze_V3.Framework.Input;
+using Phosphaze.Framework.Input;
 using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Events
+namespace Phosphaze.Framework.Events
 {
     public class MouseEventArgs : EventArgs
     {

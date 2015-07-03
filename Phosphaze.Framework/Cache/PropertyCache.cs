@@ -40,7 +40,7 @@
 #endregion
 
 
-namespace Phosphaze_V3.Framework.Cache
+namespace Phosphaze.Framework.Cache
 {
     public class PropertyCache<T>
     {

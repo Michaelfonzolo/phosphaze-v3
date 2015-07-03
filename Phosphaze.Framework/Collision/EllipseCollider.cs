@@ -35,14 +35,14 @@
 #region Using Statements
 
 using Microsoft.Xna.Framework;
-using Phosphaze_V3.Framework.Cache;
-using Phosphaze_V3.Framework.Maths.Geometry;
+using Phosphaze.Framework.Cache;
+using Phosphaze.Framework.Maths.Geometry;
 using System;
 using System.Collections.Generic;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Collision
+namespace Phosphaze.Framework.Collision
 {
     public class EllipseCollider : Collidable, IGeometric, ITransformable
     {

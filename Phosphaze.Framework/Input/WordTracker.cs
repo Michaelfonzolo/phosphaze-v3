@@ -41,12 +41,12 @@
 #region Using Statements
 
 using Microsoft.Xna.Framework.Input;
-using Phosphaze_V3.Framework.Events;
+using Phosphaze.Framework.Events;
 using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Input
+namespace Phosphaze.Framework.Input
 {
     public class WordTracker : EventListener
     {

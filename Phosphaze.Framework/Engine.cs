@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Phosphaze_V3.Framework.Display;
-using Phosphaze_V3.Framework.Events;
-using Phosphaze_V3.Framework.Forms;
-using Phosphaze_V3.Framework.Input;
+using Phosphaze.Framework.Display;
+using Phosphaze.Framework.Events;
+using Phosphaze.Framework.Forms;
+using Phosphaze.Framework.Input;
 using System;
 
-namespace Phosphaze_V3.Framework
+namespace Phosphaze.Framework
 {
-    public abstract class Engine
+    public class Engine
     {
 
         /// <summary>
@@ -43,6 +43,8 @@ namespace Phosphaze_V3.Framework
         private KeyboardInput keyboardInput;
         private EventPropagator eventPropagator;
 
+        public string ContentFolder { get; private set; }
+
         private ServiceLocator serviceLocator;
 
         // So apparently the fuckin' Monogame Game object checks if a GraphicsDeviceManager
@@ -51,7 +53,11 @@ namespace Phosphaze_V3.Framework
         // fucking send in this stupid bullshit.
         private GraphicsDeviceManager graphics;
 
-        public Engine() { elapsedFrames = 0; }
+        public Engine(String contentFolder) 
+        {
+            ContentFolder = contentFolder;
+            elapsedFrames = 0; 
+        }
 
         public void Initialize(Game game)
         {
@@ -70,7 +76,10 @@ namespace Phosphaze_V3.Framework
             this.eventPropagator.SetServiceLocator(this.serviceLocator);
         }
 
-        public abstract void SetupMultiforms();
+        public virtual void SetupMultiforms()
+        {
+
+        }
 
         public void Update(GameTime gameTime)
         {

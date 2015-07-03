@@ -46,11 +46,11 @@
 #region Using Statements
 
 using Microsoft.CSharp.RuntimeBinder;
-using Phosphaze_V3.Framework.Maths.Geometry;
+using Phosphaze.Framework.Maths.Geometry;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Collision
+namespace Phosphaze.Framework.Collision
 {
     public abstract class Collidable
     {

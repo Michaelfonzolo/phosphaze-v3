@@ -39,7 +39,7 @@ using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Maths.Geometry
+namespace Phosphaze.Framework.Maths.Geometry
 {
     public static class VectorUtils
     {

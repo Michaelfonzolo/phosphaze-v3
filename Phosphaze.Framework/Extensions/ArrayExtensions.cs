@@ -32,7 +32,7 @@
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Extensions
+namespace Phosphaze.Framework.Extensions
 {
     public static class ArrayExtensions
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Phosphaze_V3.Framework;
-using Phosphaze_V3.Framework.Forms;
+using Phosphaze.Framework;
+using Phosphaze.Framework.Forms;
 using Microsoft.Xna.Framework.Input;
 
-namespace Phosphaze_V3.Tests.Test001
+namespace Phosphaze.Framework.Tests.Test001
 {
     public class MainScreen : Multiform
     {

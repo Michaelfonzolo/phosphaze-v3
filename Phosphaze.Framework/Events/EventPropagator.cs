@@ -40,7 +40,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Events
+namespace Phosphaze.Framework.Events
 {
     public sealed class EventPropagator
     {

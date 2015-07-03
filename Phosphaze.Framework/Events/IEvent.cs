@@ -38,7 +38,7 @@ using System;
 
 #endregion
 
-namespace Phosphaze_V3.Framework.Events
+namespace Phosphaze.Framework.Events
 {
     public interface IEvent
     {

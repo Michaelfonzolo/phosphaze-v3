@@ -37,10 +37,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Phosphaze.Framework;
+using Phosphaze.Framework.Tests.Test002;
 
 #endregion
 
-namespace Phosphaze_V3
+namespace Phosphaze
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -55,7 +57,7 @@ namespace Phosphaze_V3
         [STAThread]
         static void Main()
         {
-            using (var game = new Phosphaze(new Test002Engine()))
+            using (var game = new Kernel(new Test002Engine("Content")))
                 game.Run();
         }
     }
