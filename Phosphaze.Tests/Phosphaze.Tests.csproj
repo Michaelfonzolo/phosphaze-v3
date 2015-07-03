@@ -45,6 +45,8 @@
     <Compile Include="Framework.Tests\General\Test001\Test001Engine.cs" />
     <Compile Include="Framework.Tests\General\Test002\MainMultiform.cs" />
     <Compile Include="Framework.Tests\General\Test002\Test002Engine.cs" />
+    <Compile Include="Framework.Tests\General\Test003\MainMultiform.cs" />
+    <Compile Include="Framework.Tests\General\Test003\Test003Engine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Phosphaze.Framework\Phosphaze.Framework.csproj">
@@ -54,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.3.0.2238, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

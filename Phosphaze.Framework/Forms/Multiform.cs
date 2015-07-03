@@ -104,7 +104,7 @@ namespace Phosphaze.Framework.Forms
         /// Register a form.
         /// </summary>
         /// <param name="form"></param>
-        protected void RegisterForm(Form form, ServiceLocator serviceLocator)
+        protected void RegisterForm(Form form)
         {
             anonymousForms.Add(form);
             form.SetParent(this);
@@ -116,7 +116,7 @@ namespace Phosphaze.Framework.Forms
         /// <param name="name"></param>
         /// <param name="form"></param>
         /// <param name="serviceLocator"></param>
-        protected void RegisterForm(string name, Form form, ServiceLocator serviceLocator)
+        protected void RegisterForm(string name, Form form)
         {
             namedForms[name] = form;
             form.SetParent(this);
@@ -171,6 +171,30 @@ namespace Phosphaze.Framework.Forms
         public Form[] AllForms()
         {
             return anonymousForms.ToArray().Concat(namedForms.Values.ToArray());
+        }
+
+        /// <summary>
+        /// Update all the forms attached to this multiform.
+        /// </summary>
+        /// <param name="serviceLocator"></param>
+        protected void UpdateForms(ServiceLocator serviceLocator)
+        {
+            foreach (var form in anonymousForms)
+                form.Update(serviceLocator);
+            foreach (var form in namedForms)
+                form.Value.Update(serviceLocator);
+        }
+
+        /// <summary>
+        /// Render all the forms attached to this multiform.
+        /// </summary>
+        /// <param name="serviceLocator"></param>
+        protected void RenderForms(ServiceLocator serviceLocator)
+        {
+            foreach (var form in anonymousForms)
+                form.Render(serviceLocator);
+            foreach (var form in namedForms)
+                form.Value.Render(serviceLocator);
         }
 
         /// <summary>

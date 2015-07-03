@@ -35,6 +35,7 @@
 
 #region Using Statements
 
+using Phosphaze.Framework.Cache;
 using Phosphaze.Framework.Events;
 using Phosphaze.Framework.Extensions;
 using System;
@@ -63,10 +64,19 @@ namespace Phosphaze.Framework.Forms
         /// </summary>
         private Dictionary<string, Effector> namedEffectors = new Dictionary<string, Effector>();
 
+        /// <summary>
+        /// The container of attributes attached to this form.
+        /// 
+        /// We unfortunately can't just inherit from AttributeContainer because that would mess
+        /// with the inheritance chain (can't inherit from AttributeContainer and EventListener
+        /// simultaneously).
+        /// </summary>
+        public AttributeContainer Attributes { get; protected set; }
+
         public Form(ServiceLocator serviceLocator) 
             : base(serviceLocator.EventPropagator) 
         {
-            
+            Attributes = new AttributeContainer();
         }
 
         /// <summary>

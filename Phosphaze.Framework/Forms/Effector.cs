@@ -42,7 +42,7 @@ using System;
 
 namespace Phosphaze.Framework.Forms
 {
-    public abstract class Effector : ChronometricEntity
+    public class Effector : ChronometricEntity
     {
 
         /// <summary>
@@ -82,6 +82,11 @@ namespace Phosphaze.Framework.Forms
         public virtual void Update(ServiceLocator serviceLocator)
         {
             base.UpdateTime(serviceLocator);
+        }
+
+        public void Kill()
+        {
+            dead = true;
         }
 
     }

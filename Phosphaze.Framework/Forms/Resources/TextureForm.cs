@@ -16,8 +16,6 @@ namespace Phosphaze.Framework.Forms.Resources
 
         public Texture2D Texture { get; private set; }
 
-        public AttributeContainer VisualKernel { get; private set; }
-
         public TextureForm(
             ServiceLocator serviceLocator, string textureName, Vector2 position, bool centred = true)
             : base(serviceLocator)
@@ -25,12 +23,11 @@ namespace Phosphaze.Framework.Forms.Resources
             Position = position;
             Texture = serviceLocator.Content.Load<Texture2D>(textureName);
 
-            VisualKernel = new AttributeContainer();
-            VisualKernel.SetAttr<bool>("Centred", centred);
-            VisualKernel.SetAttr<double>("Alpha", 1.0);
-            VisualKernel.SetAttr<double>("Rotation", 0.0); // Always in degrees
-            VisualKernel.SetAttr<double>("Scale", 1.0);
-            VisualKernel.SetAttr<Color>("Color", Color.White);
+            Attributes.SetAttr<bool>("Centred", centred);
+            Attributes.SetAttr<double>("Alpha", 1.0);
+            Attributes.SetAttr<double>("Rotation", 0.0); // Always in degrees
+            Attributes.SetAttr<double>("Scale", 1.0);
+            Attributes.SetAttr<Color>("Color", Color.White);
         }
 
         public void SetPosition(double x, double y)
@@ -55,25 +52,38 @@ namespace Phosphaze.Framework.Forms.Resources
 
         public void Rotate(double angle, bool degrees = true)
         {
-            throw new NotImplementedException();
+            if (!degrees)
+                angle /= Constants.DEG_TO_RAD;
+            Attributes.SetAttr<double>("Rotation", Attributes.GetAttr<double>("Rotation") + angle);
         }
 
-        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool relative = true)
+        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool absoluteOrigin = true)
         {
-            throw new NotImplementedException();
+            Position = VectorUtils.Rotate(Position, angle, origin, degrees, absoluteOrigin);
+            Rotate(angle, degrees);
         }
 
         public void Scale(double amount)
         {
-            VisualKernel.SetAttr<double>("Scale", VisualKernel.GetAttr<double>("Scale") * amount);
+            Attributes.SetAttr<double>("Scale", Attributes.GetAttr<double>("Scale") * amount);
         }
 
-        public void Scale(double amount, Vector2 origin, bool relative = true)
+        public void Scale(double amount, Vector2 origin, bool absoluteOrigin = true)
         {
-            throw new NotImplementedException();
+            Position = VectorUtils.Scale(Position, amount, origin, absoluteOrigin);
+            Scale(amount);
         }
 
-
+        public override void Render(ServiceLocator serviceLocator)
+        {
+            serviceLocator.DisplayManager.Draw(
+                Texture, Position,
+                Attributes.GetAttr<Color>("Color") * (float)Attributes.GetAttr<double>("Alpha"), 
+                (float)Attributes.GetAttr<double>("Rotation"),
+                (float)Attributes.GetAttr<double>("Scale"), 
+                Attributes.GetAttr<bool>("Centred")
+                );
+        }
 
     }
 }

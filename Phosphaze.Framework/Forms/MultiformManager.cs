@@ -279,7 +279,7 @@ namespace Phosphaze.Framework.Forms
                 {
                     throw new MultiformException(
                         String.Format("The multiform with the name \"{0}\" has no updater.", name));
-                }   
+                }
             }
 
             foreach (var evt in postUpdateEvents)
