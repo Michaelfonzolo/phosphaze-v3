@@ -25,19 +25,27 @@ namespace Phosphaze_V3.Tests.Test002
 
         public void TransitionIn(ServiceLocator serviceLocator)
         {
+            base.UpdateTime(serviceLocator);
+            CheckInput(serviceLocator);
             alpha += 0.0025f;
             if (alpha >= 1f)
             {
-                alpha = 1f;
                 SetUpdater(Update);
             }
         }
 
         public void Update(ServiceLocator serviceLocator)
         {
+            base.UpdateTime(serviceLocator);
+            CheckInput(serviceLocator);
+            alpha += 0.0025f;
+        }
+
+        public void CheckInput(ServiceLocator serviceLocator)
+        {
             if (serviceLocator.Keyboard.IsReleased(Keys.Enter))
                 serviceLocator.DisplayManager.NextResolution();
-            
+
             if (serviceLocator.Keyboard.IsReleased(Keys.B))
                 serviceLocator.DisplayManager.ToggleBorder();
 
@@ -53,13 +61,10 @@ namespace Phosphaze_V3.Tests.Test002
 
         public void Render(ServiceLocator serviceLocator)
         {
-            //serviceLocator.DisplayManager.Draw(texture, new Vector2(0.5f, 0.5f), Color.White*alpha);
-            //serviceLocator.DisplayManager.Draw(
-            //    texture, new Vector2(0.5f, 0.5f), 
-            //    Color.White * alpha, 2 * alpha * (float)Math.PI, 1f);
             serviceLocator.DisplayManager.Draw(
                 texture, new Vector2(0.5f, 0.5f),
-                Color.White * alpha, alpha * 2f * (float)Math.PI, 1f);
+                Color.White * alpha, alpha * 2f*(float)Math.PI,
+                new Vector2(0.1f * alpha, 0.1f), 1f);
         }
 
     }

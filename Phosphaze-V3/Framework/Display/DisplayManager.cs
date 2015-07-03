@@ -1,5 +1,4 @@
 ﻿#define DEBUG
-#undef DEBUG
 #region License
 
 // Copyright (c) 2015 FCDM
@@ -413,14 +412,10 @@ namespace Phosphaze_V3.Framework.Display
             position = ScaleVector(position);
 
             if (centred)
-            {
-                position -= center * scale;
-            }
+                position -= VectorUtils.Rotate(center, rotation, Vector2.Zero, degrees: false) * scale;
 
-            /*
             if (offset.HasValue)
                 position -= ScaleVector(offset.Value);
-             */
         }
 
         // The following region just contains a bunch of overloads for the Draw
@@ -593,19 +588,11 @@ namespace Phosphaze_V3.Framework.Display
             float rotation, Vector2? offset, float scale, SpriteEffects fx, float layer,
             bool centred = true)
         {
-            if (!begun)
-            {
-                spriteBatch.Begin();
-                begun = true;
-            }
-            // DrawInit(ref scale, ref position, offset, new Vector2(texture.Width, texture.Height) / 2f, rotation, centred);
-            scale *= resolutionScale;
-            var P = ScaleVector(position);
-            var D = new Vector2(texture.Width, texture.Height) / 2f;
-            var A = P - D;
-            var Pp = VectorUtils.Rotate(D, -rotation, Vector2.Zero, degrees: false);
-            var r = P - Pp;
-            spriteBatch.Draw(texture, A, source, color, rotation, Vector2.Zero, scale, fx, layer);
+            DrawInit(
+                ref scale, ref position, offset, 
+                new Vector2(texture.Width, texture.Height) / 2f, 
+                rotation, centred);
+            spriteBatch.Draw(texture, position, source, color, rotation, Vector2.Zero, scale, fx, layer);
             // Fuck Monogame's offset parameter, it makes no fucking sense.
         }
 
