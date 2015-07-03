@@ -37,8 +37,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Phosphaze_V3.Tests.Test001;
-using Phosphaze_V3.Tests.Test002;
 
 #endregion
 
