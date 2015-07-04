@@ -44,8 +44,7 @@ namespace Phosphaze.Framework.Forms.Effectors
         {
             base.Update(serviceLocator);
 
-            var currentVal = form.Attributes.GetAttr<double>(attrName);
-            if ((increasing && currentVal >= finalValue) || currentVal <= finalValue)
+            if (LocalTime >= duration)
             {
                 form.Attributes.SetAttr<double>(attrName, finalValue);
                 Kill();
