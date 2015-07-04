@@ -25,7 +25,7 @@ namespace Phosphaze.Framework.Forms.Effectors
 
         protected override double Function(double time, int frame)
         {
-            return alpha * (Math.PI / 2 - Math.Asin(1 - 2 * time / duration));
+            return alpha * (Math.PI / 2 - Math.Asin(1 - 2 * time / duration)) + initialValue;
         }
 
     }

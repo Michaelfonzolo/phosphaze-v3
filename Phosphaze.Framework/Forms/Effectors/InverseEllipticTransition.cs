@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public class EllipticTransition : AbstractTransition
+    public class InverseEllipticTransition : AbstractTransition
     {
 
-        public EllipticTransition(string attr, double totalIncrement, double duration)
+        public InverseEllipticTransition(string attr, double totalIncrement, double duration)
             : base(attr, totalIncrement, duration) { }
 
-        public EllipticTransition(string attr, double totalIncrement, double duration, Form form)
+        public InverseEllipticTransition(string attr, double totalIncrement, double duration, Form form)
             : base(attr, totalIncrement, duration, form) { }
 
         protected override double Function(double time, int frame)
         {
-            return totalIncrement * Math.Sqrt(1 - Math.Pow(time / duration - 1, 2.0)) + initialValue;
+            return totalIncrement * (1 - Math.Sqrt(1 - Math.Pow(time / duration, 2.0))) + initialValue;
         }
 
     }

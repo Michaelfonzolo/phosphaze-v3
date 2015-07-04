@@ -63,6 +63,7 @@ namespace Phosphaze.Framework.Maths {
         private const double AIRY_C1 = 0.35502805388781723926;
         private const double AIRY_C2 = 0.258819403792806798405;
         private const double SQRT3 = 1.732050807568877293527;
+        private const double LN2 = 0.6931471805599453;
 
 
 		// Physical Constants in cgs Units
@@ -146,6 +147,11 @@ namespace Phosphaze.Framework.Maths {
 		/// Astronomical Unit (radius of the Earth's orbit). Units cm
 		/// </summary>
 		public const double AU = 1.50e13;
+
+        /// <summary>
+        /// The Euler-Mascheroni constant.
+        /// </summary>
+        public const double GAMMA = 0.5772156649015329;
 
         private static double[] GAMMA_P = {
 							 1.60119522476751861407E-4,
@@ -352,6 +358,38 @@ namespace Phosphaze.Framework.Maths {
                             -5.23246636471251500874E0,
                             9.57395864378383833152E-1,
                             -5.50828147163549611107E-2,
+                        };
+
+        private static double[] KNC = { 
+                            .30459198558715155634315638246624251,
+		                    .72037977439182833573548891941219706, 
+                            -.12454959243861367729528855995001087,
+		                    .27769457331927827002810119567456810e-1, 
+                            -.67762371439822456447373550186163070e-2,
+		                    .17238755142247705209823876688592170e-2, 
+                            -.44817699064252933515310345718960928e-3,
+		                    .11793660000155572716272710617753373e-3, 
+                            -.31253894280980134452125172274246963e-4,
+		                    .83173997012173283398932708991137488e-5, 
+                            -.22191427643780045431149221890172210e-5,
+		                    .59302266729329346291029599913617915e-6, 
+                            -.15863051191470655433559920279603632e-6,
+		                    .42459203983193603241777510648681429e-7, 
+                            -.11369129616951114238848106591780146e-7,
+		                    .304502217295931698401459168423403510e-8, 
+                            -.81568455080753152802915013641723686e-9,
+		                    .21852324749975455125936715817306383e-9, 
+                            -.58546491441689515680751900276454407e-10,
+		                    .15686348450871204869813586459513648e-10, 
+                            -.42029496273143231373796179302482033e-11,
+		                    .11261435719264907097227520956710754e-11, 
+                            -.30174353636860279765375177200637590e-12,
+		                    .80850955256389526647406571868193768e-13, 
+                            -.21663779809421233144009565199997351e-13,
+		                    .58047634271339391495076374966835526e-14, 
+                            -.15553767189204733561108869588173845e-14,
+		                    .41676108598040807753707828039353330e-15, 
+                            -.11167065064221317094734023242188463e-15 
                         };
 
 		// Function Methods
@@ -694,7 +732,7 @@ namespace Phosphaze.Framework.Maths {
 				}
 				else if (x > -1.0E-9)
 				{
-					return (z/((1.0 + 0.5772156649015329*x)*x));
+                    return (z / ((1.0 + GAMMA * x) * x));
 				}
 				z /= x;
 				x += 1.0;
@@ -708,7 +746,7 @@ namespace Phosphaze.Framework.Maths {
 				}
 				else if (x < 1.0E-9)
 				{
-					return (z/((1.0 + 0.5772156649015329*x)*x));
+                    return (z / ((1.0 + GAMMA * x) * x));
 				}
 				z /= x;
 				x += 1.0;
@@ -1589,6 +1627,48 @@ namespace Phosphaze.Framework.Maths {
             uf = AIRY_C1 * f;
             ug = AIRY_C2 * g;
             return SQRT3 * (uf + ug);
+        }
+
+        /// <summary>
+        /// Return the value of the digamma function (the logarithmic derivative of 
+        /// the gamma function) at x.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public double Digamma(double x)
+        {
+            if (x < 0.0)
+                return Digamma(1 - x) + Math.PI / Math.Tan(Math.PI * (1 - x));
+            else if (x < 1.0)
+                return Digamma(1 + x) - 1.0 / x;
+            else if (x == 1.0)
+                return GAMMA;
+            else if (x == 2.0)
+                return 1 - GAMMA;
+            else if (x == 3.0)
+                return 1.5 - GAMMA;
+            else if (x > 3.0)
+                return 0.5 * (Digamma(x / 2.0) + Digamma((x + 1) / 2.0)) + LN2;
+            else
+            {
+                double TN_1 = 1.0;
+                double TN = x - 2.0;
+                double TN1;
+
+                double result = KNC[0] + KNC[1] * TN;
+                x -= 2;
+
+                for (int i = 2; i < KNC.Length; i++)
+                {
+                    TN1 = 2.0 * x * TN - TN_1;
+                    result += KNC[i] * TN1;
+                    TN_1 = TN;
+                    TN = TN1;
+                }
+
+                return result;
+            }
+
         }
 	}
 }
