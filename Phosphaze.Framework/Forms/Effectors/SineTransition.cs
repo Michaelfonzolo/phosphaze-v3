@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public class SineTransition : AbstractTransition
+    public class SineTransition : AbstractPowerSineTransition
     {
 
-        protected override double Power { get { return 1.0; } set; }
+        protected override double Power { get { return 1.0; } set { throw new NotImplementedException(); } }
 
         public SineTransition(string attr, double totalIncrement, double duration)
             : base(attr, totalIncrement, duration) { }

@@ -9,7 +9,7 @@ namespace Phosphaze.Framework.Forms.Effectors
     public class SineSquaredTransition : AbstractPowerSineTransition
     {
 
-        protected override double Power { get { return 2.0; } set; }
+        protected override double Power { get { return 2.0; } set { throw new NotImplementedException(); } }
 
         public SineSquaredTransition(string attr, double totalIncrement, double duration)
             : base(attr, totalIncrement, duration) { }

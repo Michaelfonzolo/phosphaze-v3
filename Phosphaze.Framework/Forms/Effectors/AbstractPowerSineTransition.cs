@@ -9,7 +9,7 @@ namespace Phosphaze.Framework.Forms.Effectors
     public abstract class AbstractPowerSineTransition : AbstractTransition
     {
 
-        protected abstract double Power { get; set; }
+        protected virtual double Power { get; set; }
 
         private double alpha;
 

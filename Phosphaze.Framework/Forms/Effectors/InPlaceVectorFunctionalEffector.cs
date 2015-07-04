@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public class InPlaceVectorFunctionalEffector : VectorFunctionalEffector
+    public abstract class InPlaceVectorFunctionalEffector : VectorFunctionalEffector
     {
 
         public InPlaceVectorFunctionalEffector(string attr) : base(attr) { }
