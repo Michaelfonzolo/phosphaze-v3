@@ -43,6 +43,13 @@ namespace Phosphaze.Framework.Maths
     public static class RootSolver
     {
 
+        public class NewtonsMethodException : Exception
+        {
+            public NewtonsMethodException() : base() { }
+            public NewtonsMethodException(string msg) : base(msg) { }
+            public NewtonsMethodException(string msg, Exception inner) : base(msg, inner) { }
+        }
+
         /// <summary>
         /// Solve for the real roots of a quadratic. (Ax^2 + Bx + C == 0)
         /// </summary>
@@ -132,6 +139,34 @@ namespace Phosphaze.Framework.Maths
             X3 = L*(M - N) + P;
 
             return new double[] { X1, X2, X3 };
+        }
+
+        public static double NewtonsMethod(
+            Func<double, double> f, 
+            Func<double, double> df, 
+            double value, 
+            double initialGuess = 0,
+            double epsilon = 1e-9,
+            double perturbationConstant = 1e-5,
+            int maxIterations=1000)
+        {
+            double x_prev = 0;
+            double xn = initialGuess;
+
+            int currentIteration = 0;
+            var maxIterationsReached = new NewtonsMethodException(
+                "Max iterations reached, root does not converge.");
+
+            do
+            {
+                if (currentIteration == maxIterations)
+                    throw maxIterationsReached;
+                x_prev = xn;
+                xn = x_prev - (f(x_prev) - value) / df(x_prev);
+                currentIteration++;
+            } while (Math.Abs(xn - x_prev) > epsilon);
+
+            return xn;
         }
     }
 }
