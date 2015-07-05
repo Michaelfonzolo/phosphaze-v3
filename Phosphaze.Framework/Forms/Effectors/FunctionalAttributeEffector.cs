@@ -6,37 +6,35 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public abstract class AbstractFunctionalAttributeEffector<T> : Effector
+    public class FunctionalAttributeEffector : InPlaceDoubleFunctionalEffector
     {
 
-        protected string attrName { get; private set; }
+        public Func<double, double> func { get; private set; }
 
-        public AbstractFunctionalAttributeEffector(string attr)
-            : base()
+        public double initialValue { get; private set; }
+
+        public FunctionalAttributeEffector(string attribute, Func<double, double> func)
+            : base(attribute)
         {
-            attrName = attr;
+            this.func = func;
         }
 
-        public AbstractFunctionalAttributeEffector(string attr, Form form)
-            : base(form)
+        public FunctionalAttributeEffector(string attribute, Func<double, double> func, Form form)
+            : base(attribute, form)
         {
-            attrName = attr;
+            this.func = func;
         }
 
-        public override void Update(ServiceLocator serviceLocator)
+        protected override void Initialize()
         {
-            base.Update(serviceLocator);
-            form.Attributes.SetAttr<T>(
-                attrName, Operate(
-                    form.Attributes.GetAttr<T>(attrName),
-                    Function(LocalTime, LocalFrame)
-                    )
-                );
+            base.Initialize();
+            initialValue = form.Attributes.GetAttr<double>(attrName);
         }
 
-        protected abstract T Operate(T a, T b);
-
-        protected abstract T Function(double time, int frame);
+        protected override double Function(double time, int frame)
+        {
+            return func(time) + initialValue;
+        }
 
     }
 }

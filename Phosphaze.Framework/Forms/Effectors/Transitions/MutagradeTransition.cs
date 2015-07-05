@@ -18,23 +18,23 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public MutagradeTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , double slope
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative)
+            : base(attr, finalValue, duration, relative)
         {
             this.slope = slope;
         }
 
         public MutagradeTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , double slope
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative)
+            : base(attr, finalValue, duration, form, relative)
         {
             this.slope = slope;
         }

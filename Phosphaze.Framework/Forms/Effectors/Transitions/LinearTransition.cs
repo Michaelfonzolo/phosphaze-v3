@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
-    public class InverseArcsineTransition : AbstractTransition
+    public class LinearTransition : AbstractTransition
     {
 
-        private double alpha;
-
-        public InverseArcsineTransition(
+        public LinearTransition(
             string attr
             , double finalValue
             , double duration
             , bool relative = true)
             : base(attr, finalValue, duration, relative) { }
 
-        public InverseArcsineTransition(
+        public LinearTransition(
             string attr
             , double finalValue
             , double duration
@@ -26,15 +24,9 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
             , bool relative = true)
             : base(attr, finalValue, duration, form, relative) { }
 
-        protected override void Initialize()
-        {
-            base.Initialize();
-            alpha = deltaValue * 2.0 / Math.PI;
-        }
-
         protected override double Function(double time, int frame)
         {
-            return alpha * ( Math.PI / 2 - Math.Asin(1 - time/duration)) + initialValue;
+            return deltaValue / duration * time;
         }
 
     }

@@ -11,18 +11,18 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public InverseEllipticTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative) { }
+            : base(attr, finalValue, duration, relative) { }
 
         public InverseEllipticTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative) { }
+            : base(attr, finalValue, duration, form, relative) { }
 
         protected override double Function(double time, int frame)
         {

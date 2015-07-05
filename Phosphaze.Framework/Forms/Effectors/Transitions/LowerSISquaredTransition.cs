@@ -17,18 +17,18 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public LowerSISquaredTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative) { }
+            : base(attr, finalValue, duration, relative) { }
 
         public LowerSISquaredTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative) { }
+            : base(attr, finalValue, duration, relative) { }
 
         protected override void Initialize()
         {

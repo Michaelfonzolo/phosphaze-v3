@@ -13,18 +13,18 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public SineSquaredTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative) { }
+            : base(attr, finalValue, duration, relative) { }
 
         public SineSquaredTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative) { }
+            : base(attr, finalValue, duration, form, relative) { }
 
     }
 }

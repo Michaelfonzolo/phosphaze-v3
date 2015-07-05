@@ -19,19 +19,19 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , bool relative = true
             )
-            : this(attr, totalIncrement, duration, CubicBezierPresets.EaseInOut, relative) { }
+            : this(attr, finalValue, duration, CubicBezierPresets.EaseInOut, relative) { }
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , CubicBezierPresets preset
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative)
+            : base(attr, finalValue, duration, relative)
         {
             // We don't have to check the positions of the preset because all of them
             // are guaranteed to have valid control points.
@@ -41,14 +41,14 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , float ax
             , float ay
             , float bx
             , float by
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative)
+            : base(attr, finalValue, duration, relative)
         {
             CheckPositions(ax, bx);
             A = new Vector2(ax, ay);
@@ -57,12 +57,12 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , Vector2 A
             , Vector2 B
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative)
+            : base(attr, finalValue, duration, relative)
         {
             CheckPositions(A.X, B.X);
             this.A = A;
@@ -71,20 +71,20 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , Form form
             , bool relative = true)
-            : this(attr, totalIncrement, duration, CubicBezierPresets.EaseInOut, form, relative) { }
+            : this(attr, finalValue, duration, CubicBezierPresets.EaseInOut, form, relative) { }
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , CubicBezierPresets preset
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative)
+            : base(attr, finalValue, duration, form, relative)
         {
             A = preset.A;
             B = preset.B;
@@ -92,7 +92,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , float ax
             , float ay
@@ -100,7 +100,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
             , float by
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative)
+            : base(attr, finalValue, duration, form, relative)
         {
             CheckPositions(ax, bx);
             A = new Vector2(ax, ay);
@@ -109,13 +109,13 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public CubicBezierTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , Vector2 A
             , Vector2 B
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative)
+            : base(attr, finalValue, duration, form, relative)
         {
             CheckPositions(A, B);
             this.A = A;

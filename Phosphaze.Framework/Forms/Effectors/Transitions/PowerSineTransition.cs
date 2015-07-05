@@ -13,23 +13,23 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public PowerSineTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , double power
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative) 
+            : base(attr, finalValue, duration, relative) 
         {
             Power = power;
         }
 
         public PowerSineTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , double power
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative) 
+            : base(attr, finalValue, duration, form, relative) 
         {
             Power = power;
         }
