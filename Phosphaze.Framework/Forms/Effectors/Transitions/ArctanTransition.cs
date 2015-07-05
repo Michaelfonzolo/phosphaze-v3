@@ -16,23 +16,23 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public ArctanTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , double minSlope
             , bool relative = true)
-            : base(attr, totalIncrement, duration, relative) 
+            : base(attr, finalValue, duration, relative) 
         {
             this.minSlope = minSlope;
         }
 
         public ArctanTransition(
             string attr
-            , double totalIncrement
+            , double finalValue
             , double duration
             , double minSlope
             , Form form
             , bool relative = true)
-            : base(attr, totalIncrement, duration, form, relative)
+            : base(attr, finalValue, duration, form, relative)
         {
             this.minSlope = minSlope;
         }
