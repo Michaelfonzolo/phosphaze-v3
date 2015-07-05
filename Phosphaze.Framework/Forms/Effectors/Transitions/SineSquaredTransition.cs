@@ -11,11 +11,20 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         protected override double Power { get { return 2.0; } set { throw new NotImplementedException(); } }
 
-        public SineSquaredTransition(string attr, double totalIncrement, double duration)
-            : base(attr, totalIncrement, duration) { }
+        public SineSquaredTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) { }
 
-        public SineSquaredTransition(string attr, double totalIncrement, double duration, Form form)
-            : base(attr, totalIncrement, duration, form) { }
+        public SineSquaredTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative) { }
 
     }
 }

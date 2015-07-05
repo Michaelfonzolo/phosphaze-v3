@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Phosphaze.Framework.Maths;
 
 namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
-    public class QuadraticTransition : AbstractTransition
+    public class SITransition : AbstractTransition
     {
 
-        private double alpha;
+        private double alpha, beta;
 
-        public QuadraticTransition(
+        public SITransition(
             string attr
             , double totalIncrement
             , double duration
             , bool relative = true)
             : base(attr, totalIncrement, duration, relative) { }
 
-        public QuadraticTransition(
+        public SITransition(
             string attr
             , double totalIncrement
             , double duration
@@ -29,12 +30,16 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = deltaValue / duration / duration;
-        }
+            alpha = deltaValue / (2 * 1.6339648461);
+            beta = 15.707963 * 2 / duration;
+        } 
 
         protected override double Function(double time, int frame)
         {
-            return alpha * time * time + initialValue;
+            return alpha
+                * (SpecialFunctions.Si(beta * (time - 0.5))
+                    + 1.6339648461)
+                + initialValue;
         }
 
     }

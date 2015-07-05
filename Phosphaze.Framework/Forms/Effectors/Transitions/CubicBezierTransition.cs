@@ -18,12 +18,20 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         private double[] coeffs;
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration)
-            : this(attr, totalIncrement, duration, CubicBezierPresets.EaseInOut) { }
+            string attr
+            , double totalIncrement
+            , double duration
+            , bool relative = true
+            )
+            : this(attr, totalIncrement, duration, CubicBezierPresets.EaseInOut, relative) { }
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration, CubicBezierPresets preset)
-            : base(attr, totalIncrement, duration)
+            string attr
+            , double totalIncrement
+            , double duration
+            , CubicBezierPresets preset
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative)
         {
             // We don't have to check the positions of the preset because all of them
             // are guaranteed to have valid control points.
@@ -32,17 +40,29 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         }
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration,
-            float ax, float ay, float bx, float by)
-            : base(attr, totalIncrement, duration)
+            string attr
+            , double totalIncrement
+            , double duration
+            , float ax
+            , float ay
+            , float bx
+            , float by
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative)
         {
             CheckPositions(ax, bx);
             A = new Vector2(ax, ay);
             B = new Vector2(bx, by);
         }
 
-        public CubicBezierTransition(string attr, double totalIncrement, double duration, Vector2 A, Vector2 B)
-            : base(attr, totalIncrement, duration)
+        public CubicBezierTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , Vector2 A
+            , Vector2 B
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative)
         {
             CheckPositions(A.X, B.X);
             this.A = A;
@@ -50,21 +70,37 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         }
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration, Form form)
-            : this(attr, totalIncrement, duration, CubicBezierPresets.EaseInOut, form) { }
+            string attr
+            , double totalIncrement
+            , double duration
+            , Form form
+            , bool relative = true)
+            : this(attr, totalIncrement, duration, CubicBezierPresets.EaseInOut, form, relative) { }
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration, CubicBezierPresets preset, Form form)
-            : base(attr, totalIncrement, duration, form)
+            string attr
+            , double totalIncrement
+            , double duration
+            , CubicBezierPresets preset
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative)
         {
             A = preset.A;
             B = preset.B;
         }
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration,
-            float ax, float ay, float bx, float by, Form form)
-            : base(attr, totalIncrement, duration, form)
+            string attr
+            , double totalIncrement
+            , double duration
+            , float ax
+            , float ay
+            , float bx
+            , float by
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative)
         {
             CheckPositions(ax, bx);
             A = new Vector2(ax, ay);
@@ -72,8 +108,14 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         }
 
         public CubicBezierTransition(
-            string attr, double totalIncrement, double duration, Vector2 A, Vector2 B, Form form)
-            : base(attr, totalIncrement, duration, form)
+            string attr
+            , double totalIncrement
+            , double duration
+            , Vector2 A
+            , Vector2 B
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative)
         {
             CheckPositions(A, B);
             this.A = A;
@@ -115,7 +157,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         {
             var t = RootSolver.Cubic(coeffs[0], coeffs[1], coeffs[2], time / duration)[0];
             var y = coeffs[3] * Math.Pow(t, 3.0) + coeffs[4] * Math.Pow(t, 2.0) + coeffs[5] * t;
-            return totalIncrement * y + initialValue;
+            return deltaValue * y + initialValue;
         } 
 
     }

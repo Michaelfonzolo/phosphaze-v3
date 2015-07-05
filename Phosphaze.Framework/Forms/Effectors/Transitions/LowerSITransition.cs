@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Phosphaze.Framework.Maths;
 
 namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
-    public class QuadraticTransition : AbstractTransition
+    public class LowerSITransition : AbstractTransition
     {
 
-        private double alpha;
+        private double alpha, beta;
 
-        public QuadraticTransition(
+        public LowerSITransition(
             string attr
             , double totalIncrement
             , double duration
             , bool relative = true)
             : base(attr, totalIncrement, duration, relative) { }
 
-        public QuadraticTransition(
+        public LowerSITransition(
             string attr
             , double totalIncrement
             , double duration
@@ -29,12 +30,19 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = deltaValue / duration / duration;
+            // 15.707963 is the 6th root of Si'(x).
+            // Si(15.707963) = 1.6339648461028329
+            alpha = deltaValue / 1.6339648461028329;
+            beta = 15.707963 / duration;
         }
 
         protected override double Function(double time, int frame)
         {
-            return alpha * time * time + initialValue;
+            return alpha
+                * (SpecialFunctions.Si(
+                    beta * (time - 1))
+                    + 1.6339648461028329)
+                + initialValue;
         }
 
     }

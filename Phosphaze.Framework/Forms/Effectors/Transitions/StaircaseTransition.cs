@@ -11,14 +11,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public int steps { get; private set; }
 
-        public StaircaseTransition(string attr, double totalIncrement, double duration, int steps)
-            : base(attr, totalIncrement, duration) 
+        public StaircaseTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , int steps
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) 
         {
             this.steps = steps;
         }
 
-        public StaircaseTransition(string attr, double totalIncrement, double duration, int steps, Form form)
-            : base(attr, totalIncrement, duration, form) 
+        public StaircaseTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , int steps
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative) 
         {
             this.steps = steps;
         }

@@ -73,30 +73,38 @@
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Forms\Effector.cs" />
     <Compile Include="Forms\EffectorException.cs" />
-    <Compile Include="Forms\Effectors\AbstractPowerSineTransition.cs" />
-    <Compile Include="Forms\Effectors\AbstractTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\AbstractPowerSineTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\AbstractTransition.cs" />
     <Compile Include="Forms\Effectors\AdditiveDoubleFunctionalEffector.cs" />
     <Compile Include="Forms\Effectors\AdditiveIntFunctionalEffector.cs" />
     <Compile Include="Forms\Effectors\AdditiveVectorFunctionalEffector.cs" />
-    <Compile Include="Forms\Effectors\ArcsineTransition.cs" />
-    <Compile Include="Forms\Effectors\ArctanTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\ArcsineTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\ArctanTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\BiMutagradeTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\CubicBezierPresets.cs" />
+    <Compile Include="Forms\Effectors\Transitions\CubicBezierTransition.cs" />
     <Compile Include="Forms\Effectors\DoubleFunctionalEffector.cs" />
+    <Compile Include="Forms\Effectors\Transitions\EllipticTransition.cs" />
     <Compile Include="Forms\Effectors\FunctionalAttributeEffector.cs" />
     <Compile Include="Forms\Effectors\InPlaceDoubleFunctionalEffector.cs" />
     <Compile Include="Forms\Effectors\InPlaceIntFunctionalEffector.cs" />
     <Compile Include="Forms\Effectors\InPlaceVectorFunctionalEffector.cs" />
     <Compile Include="Forms\Effectors\IntFunctionalEffector.cs" />
-    <Compile Include="Forms\Effectors\InverseArcsineTransition.cs" />
-    <Compile Include="Forms\Effectors\LinearTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\InverseArcsineTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\InverseEllipticTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\LinearTransition.cs" />
     <Compile Include="Forms\Effectors\MultiplicativeDoubleFunctionalEffector.cs" />
     <Compile Include="Forms\Effectors\MultiplicativeIntFunctionalEffector.cs" />
-    <Compile Include="Forms\Effectors\PowerSineTransition.cs" />
-    <Compile Include="Forms\Effectors\PowerTransition.cs" />
-    <Compile Include="Forms\Effectors\QuadraticTransition.cs" />
-    <Compile Include="Forms\Effectors\SineSquaredTransition.cs" />
-    <Compile Include="Forms\Effectors\SineTransition.cs" />
-    <Compile Include="Forms\Effectors\SubtendedLinearTransition.cs" />
-    <Compile Include="Forms\Effectors\SymmetricArcsineTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\Mollifier.cs" />
+    <Compile Include="Forms\Effectors\Transitions\MutagradeTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\PowerSineTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\PowerTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\QuadraticTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\SineSquaredTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\SineTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\StaircaseTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\SubtendedLinearTransition.cs" />
+    <Compile Include="Forms\Effectors\Transitions\SymmetricArcsineTransition.cs" />
     <Compile Include="Forms\Effectors\VectorFunctionalEffector.cs" />
     <Compile Include="Forms\Form.cs" />
     <Compile Include="Forms\Multiform.cs" />
@@ -113,6 +121,8 @@
     <Compile Include="Maths\Geometry\LinearUtils.cs" />
     <Compile Include="Maths\Geometry\RectUtils.cs" />
     <Compile Include="Maths\Geometry\VectorUtils.cs" />
+    <Compile Include="Maths\Integrator.cs" />
+    <Compile Include="Maths\ODESolver.cs" />
     <Compile Include="Maths\RootSolver.cs" />
     <Compile Include="Maths\SpecialFunctions.cs" />
     <Compile Include="Kernel.cs" />
@@ -138,6 +148,7 @@
     <Compile Include="Timing\TimeChronometric.cs" />
     <Compile Include="Timing\Timeline.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

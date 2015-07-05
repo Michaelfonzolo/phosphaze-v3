@@ -13,14 +13,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         private double alpha;
 
-        public PowerTransition(string attr, double totalIncrement, double duration, double power)
-            : base(attr, totalIncrement, duration) 
+        public PowerTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double power
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) 
         {
             this.power = power;
         }
 
-        public PowerTransition(string attr, double totalIncrement, double duration, double power, Form form)
-            : base(attr, totalIncrement, duration, form)
+        public PowerTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double power
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative)
         {
             this.power = power;
         }
@@ -28,7 +39,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = Math.Pow(totalIncrement, 1.0 / power) / duration;
+            alpha = Math.Pow(deltaValue, 1.0 / power) / duration;
         }
 
         protected override double Function(double time, int frame)

@@ -9,7 +9,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
     public abstract class AbstractTransition : InPlaceDoubleFunctionalEffector
     {
 
-        public double totalIncrement { get; private set; }
+        public double deltaValue { get; private set; }
 
         public double initialValue { get; private set; }
 
@@ -19,25 +19,49 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         public bool increasing { get; private set; }
 
-        public AbstractTransition(string attr, double totalIncrement, double duration)
+        private double y;
+
+        private bool relative;
+
+        public AbstractTransition(
+            string attr
+            , double finalValue
+            , double duration
+            , bool relative = true)
             : base(attr) 
         {
-            this.totalIncrement = totalIncrement;
+            y = finalValue;
             this.duration = duration;
+            this.relative = relative;
         }
 
-        public AbstractTransition(string attr, double totalIncrement, double duration, Form form)
+        public AbstractTransition(
+            string attr
+            , double finalValue
+            , double duration
+            , Form form
+            , bool relative = true)
             : base(attr, form)
         {
-            this.totalIncrement = totalIncrement;
+            y = finalValue;
             this.duration = duration;
+            this.relative = relative;
         }
 
         protected override void Initialize()
         {
             initialValue = form.Attributes.GetAttr<double>(attrName);
-            finalValue = totalIncrement + initialValue;
-            increasing = totalIncrement > 0;
+            if (relative)
+            {
+                deltaValue = y;
+                increasing = deltaValue > 0;
+            }
+            else
+            {
+                deltaValue = y - initialValue;
+                increasing = y > initialValue;
+            }
+            finalValue = deltaValue + initialValue;
         }
 
         public override void Update(ServiceLocator serviceLocator)

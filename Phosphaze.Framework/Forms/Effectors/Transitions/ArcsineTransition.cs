@@ -11,16 +11,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         private double alpha;
 
-        public ArcsineTransition(string attr, double totalIncrement, double duration)
-            : base(attr, totalIncrement, duration) { }
+        public ArcsineTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) { }
 
-        public ArcsineTransition(string attr, double totalIncrement, double duration, Form form)
-            : base(attr, totalIncrement, duration, form) { }
+        public ArcsineTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative) { }
 
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = 2.0 / Math.PI * totalIncrement;
+            alpha = 2.0 / Math.PI * deltaValue;
         }
 
         protected override double Function(double time, int frame)

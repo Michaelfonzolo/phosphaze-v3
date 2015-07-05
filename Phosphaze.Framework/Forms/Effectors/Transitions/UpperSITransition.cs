@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Phosphaze.Framework.Maths;
 
 namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
-    public abstract class AbstractPowerSineTransition : AbstractTransition
+    public class UpperSITransition : AbstractTransition
     {
 
-        protected virtual double Power { get; set; }
+        private double alpha, beta;
 
-        private double alpha;
-
-        public AbstractPowerSineTransition(
+        public UpperSITransition(
             string attr
-            , double finalValue
+            , double totalIncrement
             , double duration
             , bool relative = true)
-            : base(attr, finalValue, duration, relative) { }
+            : base(attr, totalIncrement, duration, relative) { }
 
-        public AbstractPowerSineTransition(
+        public UpperSITransition(
             string attr
-            , double finalValue
+            , double totalIncrement
             , double duration
             , Form form
             , bool relative = true)
-            : base(attr, finalValue, duration, form, relative) { }
+            : base(attr, totalIncrement, duration, form, relative) { }
 
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = Math.PI / (2.0 * duration);
+            alpha = deltaValue / 1.6339648461028329;
+            beta = 15.707963 / duration;
         }
 
         protected override double Function(double time, int frame)
         {
-            return deltaValue * Math.Sin(alpha * time) + initialValue;
+            return alpha * SpecialFunctions.Si(time * beta) + initialValue;
         }
 
     }

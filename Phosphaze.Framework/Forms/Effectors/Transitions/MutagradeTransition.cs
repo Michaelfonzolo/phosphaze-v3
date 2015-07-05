@@ -16,14 +16,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         private double beta;
 
-        public MutagradeTransition(string attr, double totalIncrement, double duration, double slope)
-            : base(attr, totalIncrement, duration)
+        public MutagradeTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double slope
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative)
         {
             this.slope = slope;
         }
 
-        public MutagradeTransition(string attr, double totalIncrement, double duration, double slope, Form form)
-            : base(attr, totalIncrement, duration, form)
+        public MutagradeTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double slope
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative)
         {
             this.slope = slope;
         }
@@ -48,7 +59,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         protected override double Function(double time, int frame)
         {
-            return totalIncrement * alpha * Math.Pow(time / duration, beta - 1) + initialValue;
+            return deltaValue * alpha * Math.Pow(time / duration, beta - 1) + initialValue;
         }
 
     }

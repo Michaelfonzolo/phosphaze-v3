@@ -11,14 +11,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         protected override double Power { get; set; }
 
-        public PowerSineTransition(string attr, double totalIncrement, double duration, double power)
-            : base(attr, totalIncrement, duration) 
+        public PowerSineTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double power
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) 
         {
             Power = power;
         }
 
-        public PowerSineTransition(string attr, double totalIncrement, double duration, double power, Form form)
-            : base(attr, totalIncrement, duration, form) 
+        public PowerSineTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double power
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative) 
         {
             Power = power;
         }

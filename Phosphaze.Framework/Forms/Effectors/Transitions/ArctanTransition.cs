@@ -14,14 +14,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         private double alpha, beta;
 
-        public ArctanTransition(string attr, double totalIncrement, double duration, double minSlope)
-            : base(attr, totalIncrement, duration) 
+        public ArctanTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double minSlope
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) 
         {
             this.minSlope = minSlope;
         }
 
-        public ArctanTransition(string attr, double totalIncrement, double duration, double minSlope, Form form)
-            : base(attr, totalIncrement, duration, form)
+        public ArctanTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , double minSlope
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative)
         {
             this.minSlope = minSlope;
         }
@@ -30,15 +41,15 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         {
             base.Initialize();
             beta = RootSolver.NewtonsMethod(
-                x => x * Math.Tan(2 * totalIncrement / x),
+                x => x * Math.Tan(2 * deltaValue / x),
                 x => { 
-                    var u = 2 * totalIncrement / x; 
+                    var u = 2 * deltaValue / x; 
                     return Math.Tan(u) - u*Math.Pow( 1 / Math.Cos(u), 2.0); 
                 },
                 2 * minSlope * duration,
                 initialGuess: 1.0
                 );
-            alpha = duration / Math.Tan(totalIncrement / beta);
+            alpha = duration / Math.Tan(deltaValue / beta);
         }
 
         protected override double Function(double time, int frame)

@@ -11,16 +11,25 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         private double alpha;
 
-        public SymmetricArcsineTransition(string attr, double totalIncrement, double duration)
-            : base(attr, totalIncrement, duration) { }
+        public SymmetricArcsineTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, relative) { }
 
-        public SymmetricArcsineTransition(string attr, double totalIncrement, double duration, Form form)
-            : base(attr, totalIncrement, duration, form) { }
+        public SymmetricArcsineTransition(
+            string attr
+            , double totalIncrement
+            , double duration
+            , Form form
+            , bool relative = true)
+            : base(attr, totalIncrement, duration, form, relative) { }
 
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = totalIncrement / Math.PI;
+            alpha = deltaValue / Math.PI;
         }
 
         protected override double Function(double time, int frame)
