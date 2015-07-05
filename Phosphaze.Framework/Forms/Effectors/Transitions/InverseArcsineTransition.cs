@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phosphaze.Framework.Forms.Effectors
+namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
     public class InverseArcsineTransition : AbstractTransition
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Phosphaze.Framework.Maths;
 
-namespace Phosphaze.Framework.Forms.Effectors
+namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
     public class ArctanTransition : AbstractTransition
     {

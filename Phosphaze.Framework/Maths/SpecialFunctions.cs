@@ -1,4 +1,4 @@
-// AUTHOR: Miroslav Stampar
+// AUTHORS: Miroslav Stampar & Michael Ala
 
 /*
 **************************************************************************
@@ -31,7 +31,7 @@
 *************************************************************************/
 
 
-/**
+/*
 * This class contains physical constants and special functions not found
 * in the System.Math class.
 * Like the System.Math class this class is final and cannot be
@@ -1635,7 +1635,7 @@ namespace Phosphaze.Framework.Maths {
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public double Digamma(double x)
+        public static double Digamma(double x)
         {
             if (x < 0.0)
                 return Digamma(1 - x) + Math.PI / Math.Tan(Math.PI * (1 - x));

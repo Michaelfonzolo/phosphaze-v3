@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phosphaze.Framework.Forms.Effectors
+namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
-    public class SubtendedLinearTransition : AdditiveDoubleFunctionalEffector
+    public class LinearTransition : AdditiveDoubleFunctionalEffector
     {
-        private double initialValue;
 
-        public double finalValue { get; private set; }
+        private double finalValue;
+
+        public double totalIncrement { get; private set; }
 
         public double duration { get; private set; }
 
@@ -18,29 +19,29 @@ namespace Phosphaze.Framework.Forms.Effectors
 
         private bool increasing;
 
-        public SubtendedLinearTransition(string name, double totalIncrement, double duration)
+        public LinearTransition(string name, double totalIncrement, double duration)
             : base(name)
         {
             _init(totalIncrement, duration);
         }
 
-        public SubtendedLinearTransition(string name, double totalIncrement, double duration, Form form)
+        public LinearTransition(string name, double totalIncrement, double duration, Form form)
             : base(name, form)
         {
             _init(totalIncrement, duration);
         }
 
-        private void _init(double final, double duration)
+        private void _init(double totalIncrement, double duration)
         {
-            finalValue = final;
+            this.totalIncrement = totalIncrement;
             this.duration = duration;
+            increment = totalIncrement / duration * Constants.MIN_DTIME;
+            increasing = totalIncrement > 0;
         }
 
         protected override void Initialize()
         {
-            initialValue = form.Attributes.GetAttr<double>(attrName);
-            increment = (finalValue - initialValue) / duration * Constants.MIN_DTIME;
-            increasing = increment > 0;
+            finalValue = form.Attributes.GetAttr<double>(attrName) + totalIncrement;
         }
 
         public override void Update(ServiceLocator serviceLocator)

@@ -4,29 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phosphaze.Framework.Forms.Effectors
+namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
-    public class SymmetricArcsineTransition : AbstractTransition
+    public class ArcsineTransition : AbstractTransition
     {
 
         private double alpha;
 
-        public SymmetricArcsineTransition(string attr, double totalIncrement, double duration)
+        public ArcsineTransition(string attr, double totalIncrement, double duration)
             : base(attr, totalIncrement, duration) { }
 
-        public SymmetricArcsineTransition(string attr, double totalIncrement, double duration, Form form)
+        public ArcsineTransition(string attr, double totalIncrement, double duration, Form form)
             : base(attr, totalIncrement, duration, form) { }
 
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = totalIncrement / Math.PI;
+            alpha = 2.0 / Math.PI * totalIncrement;
         }
 
         protected override double Function(double time, int frame)
         {
-            return alpha * (Math.PI / 2 - Math.Asin(1 - 2 * time / duration)) + initialValue;
+            return alpha * Math.Asin(time / duration) + initialValue;
         }
-
     }
 }
