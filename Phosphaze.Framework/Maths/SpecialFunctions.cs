@@ -1,4 +1,4 @@
-// AUTHORS: Miroslav Stampar & Michael Ala
+﻿// AUTHORS: Miroslav Stampar & Michael Ala
 
 /*
 **************************************************************************
@@ -1668,7 +1668,80 @@ namespace Phosphaze.Framework.Maths {
 
                 return result;
             }
+        }
 
+        /// <summary>
+        /// Evaluate the sine integral at x.
+        /// 
+        /// The sine integral is defined as
+        /// 
+        ///          x
+        ///         /
+        /// Si(x) = | sinc(t) dt
+        ///         /
+        ///          0
+        ///          
+        /// with sinc(t) = sin(t)/t.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static double Si(double x)
+        {
+            var x2 = x * x;
+            // This is the Padé Approximant of Si, given by
+            //      https://en.wikipedia.org/wiki/Trigonometric_integral
+            return x*(1.0 
+                + x2*(-4.54393409816329991e-2
+                    + x2*(1.15457225751016682e-3 
+                        + x2*(-1.41018536821330254e-5 
+                            + x2*(9.43280809438713025e-8
+                                + x2*(-3.53201978997168357e-10 
+                                    + x2*(7.08240282274875911e-13 
+                                        + x2*(-6.05338212010422477e-16))))))))
+                / (1.0 
+                    + x2*(1.01162145739225565e-2 
+                        + x2*(4.99175116169755106e-5 
+                            + x2*(1.55654986308745614e-7 
+                                + x2*(3.28067571055789734e-10 
+                                    + x2*(4.5049097575386581e-13 
+                                        + x2*(3.21107051193712168e-16)))))));
+        }
+
+        /// <summary>
+        /// Evaluate the cosine integral at x.
+        /// 
+        /// The cosine integral is defined as
+        /// 
+        ///                      x
+        ///                     /
+        /// Ci(x) = γ + ln(x) + | (cos(t) - 1)/t dt
+        ///                     /
+        ///                      0
+        ///                     
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static double Ci(double x)
+        {
+            var x2 = x * x;
+            // This is the Padé Approximant of Si, given by
+            //      https://en.wikipedia.org/wiki/Trigonometric_integral
+            return 0.577215664901532861 + Math.Log(x)
+                + x2 * (-0.25
+                    + x2 * (7.51851524438898291e-3
+                        + x2 * (-1.27528342240267686e-4
+                            + x2 * (1.05297363846239184e-6
+                                + x2 * (-4.68889508144848019e-9
+                                    + x2 * (1.06480802891189243e-11
+                                        + x2 * (-9.93728488857585407e-15)))))))
+                / (1.0
+                    + x2 * (1.1592605689110735e-2
+                        + x2 * (6.72126800814254432e-5
+                            + x2 * (2.55533277086129636e-7
+                                + x2 * (6.97071295760958946e-10
+                                    + x2 * (1.38536352772778619e-12
+                                        + x2 * (1.89106054713059759e-15
+                                            + x2 * (1.39759616731376855e-18))))))));
         }
 	}
 }
