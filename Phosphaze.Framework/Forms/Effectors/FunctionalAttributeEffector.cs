@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Phosphaze.Framework.Forms.Effectors
 {
-    public abstract class FunctionalAttributeEffector<T> : Effector
+    public abstract class AbstractFunctionalAttributeEffector<T> : Effector
     {
 
         protected string attrName { get; private set; }
 
-        public FunctionalAttributeEffector(string attr)
+        public AbstractFunctionalAttributeEffector(string attr)
             : base()
         {
             attrName = attr;
         }
 
-        public FunctionalAttributeEffector(string attr, Form form)
+        public AbstractFunctionalAttributeEffector(string attr, Form form)
             : base(form)
         {
             attrName = attr;
