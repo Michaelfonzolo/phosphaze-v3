@@ -1,10 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region License
+
+// Copyright (c) 2015 FCDM
+// Permission is hereby granted, free of charge, to any person obtaining 
+// a copy of this software and associated documentation files (the "Software"), 
+// to deal in the Software without restriction, including without limitation the 
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+// copies of the Software, and to permit persons to whom the Software is furnished 
+// to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all 
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+// PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION 
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+// SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#endregion
+
+#region Header
+
+/* Author: Michael Ala
+ * Date of Creation: 7/5/2015
+ * 
+ * Description
+ * ===========
+ * The CubicBezierTransition is an Abstract Transition whose transition function f(x)
+ * is defined as
+ * 
+ *      f(x) = (1 + 3b - 3q) t^3 + 3(q - 2b) t^2 + 3b t
+ *      
+ * where t is the specific number such that
+ * 
+ *        x = (1 + 3a - 3p) t^3 + 3(p - 2a) t^2 + 3a t
+ *        
+ * Here a, b, p, and q are parameters. They represent the coordinates of the second
+ * and third control points of the cubic bezier curve respectively (the control polygon
+ * of the curve is <0, 0>, <a, b>, <p, q>, <1, 1>).
+ */
+
+#endregion
+
+#region Using Statements
+
 using Microsoft.Xna.Framework;
 using Phosphaze.Framework.Maths;
+using System;
+
+#endregion
 
 namespace Phosphaze.Framework.Forms.Effectors.Transitions
 {
