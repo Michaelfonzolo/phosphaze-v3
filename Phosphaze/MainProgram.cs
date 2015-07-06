@@ -38,9 +38,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Phosphaze.Framework;
-using Phosphaze.Framework.Tests.Test001;
-using Phosphaze.Framework.Tests.Test002;
-using Phosphaze.Framework.Tests.Test003;
 
 #endregion
 
@@ -59,8 +56,10 @@ namespace Phosphaze
         [STAThread]
         static void Main()
         {
-            using (var game = new Kernel(new Test003Engine("Content")))
+            /*
+            using (var game = new Kernel(new Test004Engine("Content")))
                 game.Run();
+             */
         }
     }
 #endif

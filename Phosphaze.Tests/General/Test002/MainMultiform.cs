@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Phosphaze.Framework;
 using Phosphaze.Framework.Forms;
 
-namespace Phosphaze.Framework.Tests.Test002
+namespace Phosphaze.MultiformTests.Test002
 {
     public class MainMultiform : Multiform
     {

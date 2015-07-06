@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Phosphaze.Framework;
 using Phosphaze.Framework.Forms;
 
-namespace Phosphaze.Framework.Tests.Test003
+namespace Phosphaze.MultiformTests.Test003
 {
     public class Test003Engine : Engine
     {

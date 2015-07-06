@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Phosphaze.Framework;
-using Phosphaze.Framework.Forms;
 
-namespace Phosphaze.Framework.Tests.Test002
+namespace Phosphaze.MultiformTests.Test004
 {
-    public class Test002Engine : Engine
+    public class Test004Engine : Engine
     {
 
-        public Test002Engine(string contentFolder)
+        public Test004Engine(string contentFolder)
             : base(contentFolder) { }
 
         public override void SetupMultiforms()

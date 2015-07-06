@@ -6,7 +6,7 @@ using Phosphaze.Framework;
 using Phosphaze.Framework.Forms;
 using Microsoft.Xna.Framework.Input;
 
-namespace Phosphaze.Framework.Tests.Test001
+namespace Phosphaze.MultiformTests.Test001
 {
     public class MainScreen : Multiform
     {

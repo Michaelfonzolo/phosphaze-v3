@@ -67,8 +67,12 @@ namespace Phosphaze.Framework.Forms
             initialized = true;
         }
 
-        public Effector()
-            : this(null) { }
+        public Effector() 
+        {
+            form = null;
+            dead = false;
+            // We can't call Initialize from here, because no form has been attached.
+        }
 
         /// <summary>
         /// Attach this effector to a form only if it isn't already.
@@ -83,6 +87,11 @@ namespace Phosphaze.Framework.Forms
             initialized = true;
         }
 
+        /// <summary>
+        /// Initialization of the effector. This will only be called once as soon as
+        /// the effector gets attached to a form. If you do not initialize the effector
+        /// with a form, it will wait until it gets attached to call Initialize.
+        /// </summary>
         protected virtual void Initialize() { }
 
         /// <summary>

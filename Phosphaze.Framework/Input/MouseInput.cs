@@ -135,6 +135,31 @@ namespace Phosphaze.Framework.Input
         /// </summary>
         public int deltaScrollWheelValue { get { return scrollWheelValue - prevScrollWheelVal; } }
 
+        public double mouseSpeed
+        {
+            get
+            {
+                var _v = prevMousePositions.Peek();
+                var v1 = new Vector2(_v.X, _v.Y);
+                var v2 = new Vector2(mousePosition.X, mousePosition.Y);
+                return Vector2.Distance(v1, v2);
+            }
+        }
+
+        /// <summary>
+        /// Return the velocity of the mouse movement in
+        /// </summary>
+        public Vector2 mouseVelocity
+        {
+            get
+            {
+                var _v = prevMousePositions.Peek();
+                var v1 = new Vector2(_v.X, _v.Y);
+                var v2 = new Vector2(mousePosition.X, mousePosition.Y);
+                return v2 - v1;
+            }
+        }
+
         /// <summary>
         /// Prevent external instantiation, as this is a singleton.
         /// </summary>

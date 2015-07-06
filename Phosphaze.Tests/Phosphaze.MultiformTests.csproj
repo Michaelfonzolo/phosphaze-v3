@@ -41,12 +41,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework.Tests\General\Test001\MainScreen.cs" />
-    <Compile Include="Framework.Tests\General\Test001\Test001Engine.cs" />
-    <Compile Include="Framework.Tests\General\Test002\MainMultiform.cs" />
-    <Compile Include="Framework.Tests\General\Test002\Test002Engine.cs" />
-    <Compile Include="Framework.Tests\General\Test003\MainMultiform.cs" />
-    <Compile Include="Framework.Tests\General\Test003\Test003Engine.cs" />
+    <Compile Include="General\Test001\MainScreen.cs" />
+    <Compile Include="General\Test001\Test001Engine.cs" />
+    <Compile Include="General\Test002\MainMultiform.cs" />
+    <Compile Include="General\Test002\Test002Engine.cs" />
+    <Compile Include="General\Test003\MainMultiform.cs" />
+    <Compile Include="General\Test003\Test003Engine.cs" />
+    <Compile Include="General\Test004\MainMultiform.cs" />
+    <Compile Include="General\Test004\Test004Engine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Phosphaze.Framework\Phosphaze.Framework.csproj">

@@ -156,6 +156,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         protected override double Function(double time, int frame)
         {
             var t = RootSolver.Cubic(coeffs[0], coeffs[1], coeffs[2], time / duration)[0];
+            Console.WriteLine("T: " + t);
             var y = coeffs[3] * Math.Pow(t, 3.0) + coeffs[4] * Math.Pow(t, 2.0) + coeffs[5] * t;
             return deltaValue * y + initialValue;
         } 

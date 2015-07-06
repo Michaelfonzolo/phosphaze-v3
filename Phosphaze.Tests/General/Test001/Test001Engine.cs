@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Phosphaze.Framework;
 
-namespace Phosphaze.Framework.Tests.Test001
+namespace Phosphaze.MultiformTests.Test001
 {
     public class Test001Engine : Engine
     {

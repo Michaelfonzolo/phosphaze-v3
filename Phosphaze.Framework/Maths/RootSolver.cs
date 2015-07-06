@@ -35,6 +35,7 @@
 #region Using Statements
 
 using System;
+using System.Linq;
 
 #endregion
 
@@ -59,15 +60,25 @@ namespace Phosphaze.Framework.Maths
         /// <returns></returns>
         public static double[] Quadratic(double A, double B, double C)
         {
+            if (A == 0)
+            {
+                if (B == 0)
+                    throw new ArgumentException(
+                        "Invalid quadratic. The first and second " +
+                        "coefficients cannot both be zero."
+                        );
+                return new double[] { -C / B };
+            }
             double r = B * B - 4 * A * C;
-            if (r < 0)
-                return new double[] { };
-            else if (r == 0)
+            if (Math.Abs(r) < 1e-8)
                 return new double[] { -B / (2 * A) };
+            else if (r < 0)
+                return new double[] { };
+            r = Math.Sqrt(r);
             double A2 = 2 * A;
             return new double[] {
-                ((r - B)/A2),
-                ((-r - B)/A2)
+                ((-B + r)/A2),
+                ((-B - r)/A2)
             };
         }
 
@@ -81,6 +92,8 @@ namespace Phosphaze.Framework.Maths
         /// <returns></returns>
         public static double[] Cubic(double A, double B, double C, double D)
         {
+            if (A == 0)
+                return Quadratic(B, C, D);
             double B_over_A = B / A;
             double F, G, H;
             
@@ -138,7 +151,9 @@ namespace Phosphaze.Framework.Maths
             X2 = L*(M + N) + P;
             X3 = L*(M - N) + P;
 
-            return new double[] { X1, X2, X3 };
+            var result = new double[] { X1, X2, X3 };
+            Array.Sort(result);
+            return result;
         }
 
         public static double NewtonsMethod(

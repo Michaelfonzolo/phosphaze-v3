@@ -84,9 +84,9 @@
       <Project>{61d76bf4-c5c3-4c12-ae14-f8f0c0bb8deb}</Project>
       <Name>Phosphaze.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Phosphaze.Tests\Phosphaze.Tests.csproj">
+    <ProjectReference Include="..\Phosphaze.Tests\Phosphaze.MultiformTests.csproj">
       <Project>{fdb6a5e8-5e9d-46b8-96cb-909a9d771585}</Project>
-      <Name>Phosphaze.Tests</Name>
+      <Name>Phosphaze.MultiformTests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
