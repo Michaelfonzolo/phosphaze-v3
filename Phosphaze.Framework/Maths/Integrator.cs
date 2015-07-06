@@ -9,47 +9,25 @@ namespace Phosphaze.Framework.Maths
     public static class Integrator
     {
 
-        public static double Romberg(Func<double, double> f, double a, double b, int m, int n)
-        {
-            if (m == 0)
-            {
-                if (n == 0)
-                    return 0.5 * (b - a) * (f(a) + f(b));
-                else
-                {
-                    var result = 0.5 * Romberg(f, a, b, 0, n - 1);
-                    var upper = 1 << (n - 1);
-
-                    var h = (b - a)/(1 << n);
-                    double sum = 0;
-                    for (int k = 1; k <= upper; k++)
-                    {
-                        sum += f(a + (2 * k - 1) * h);
-                    }
-                    result += h * sum;
-                    return result;
-                }
-            }
-            else
-            {
-                var k = 1 << 2*m;
-                return 1 / (k - 1) * (k * Romberg(f, a, b, m - 1, n) - Romberg(f, a, b, m - 1, n - 1));
-            }
-        }
-
-        public static double Trapezoidal(Func<double, double> f, double a, double b, int n)
-        {
-            return Romberg(f, a, b, 0, n);
-        }
+        // Note to self: Never use Romberg's method in the future, it is utter garbage.
 
         public static double Simpsons(Func<double, double> f, double a, double b, int n)
         {
-            return Romberg(f, a, b, 1, n);
-        }
+            if (n % 2 != 0)
+                throw new ArgumentException("The number of steps must be even.");
+            if (a == b)
+                return 0;
+            double s = (b - a) / n, alpha = s / 3.0, interval = s, m = 4.0;
+            double sum = f(a) + f(b);
 
-        public static double Booles(Func<double, double> f, double a, double b, int n)
-        {
-            return Romberg(f, a, b, 2, n);
+            for (int i = 0; i < n - 1; i++)
+            {
+                sum += m * f(a + interval);
+                m = 6 - m;
+                interval += s;
+            }
+
+            return alpha * sum;
         }
 
     }

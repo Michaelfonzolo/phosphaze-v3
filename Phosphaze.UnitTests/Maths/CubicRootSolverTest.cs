@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Phosphaze.Framework.Maths;
 using Phosphaze.UnitTests.TestUtils;
 
@@ -40,19 +35,19 @@ namespace Phosphaze.UnitTests.Maths
         {
 
             DoubleCollectionAssert.AreEqual(
-                RootSolver.Cubic(1, 0, -3, 1), EXPECTED_RESULT_1, EPSILON, "CubicRootSolver.Test001 failed.");
+                EXPECTED_RESULT_1, RootSolver.Cubic(1, 0, -3, 1), EPSILON, "CubicRootSolver.Test001 failed.");
             DoubleCollectionAssert.AreEqual(
-                RootSolver.Cubic(1, -7, 3, 1), EXPECTED_RESULT_2, EPSILON, "CubicRootSolver.Test002 failed.");
+                EXPECTED_RESULT_2, RootSolver.Cubic(1, -7, 3, 1), EPSILON, "CubicRootSolver.Test002 failed.");
             DoubleCollectionAssert.AreEqual(
-                RootSolver.Cubic(15, 5, 5, 19), EXPECTED_RESULT_3, EPSILON, "CubicRootSolver.Test003 failed.");
+                EXPECTED_RESULT_3, RootSolver.Cubic(15, 5, 5, 19), EPSILON, "CubicRootSolver.Test003 failed.");
             DoubleCollectionAssert.AreEqual(
-                RootSolver.Cubic(-71, -3, 0, 55), EXPECTED_RESULT_4, EPSILON, "CubicRootSolver.Test004 failed.");
+                EXPECTED_RESULT_4, RootSolver.Cubic(-71, -3, 0, 55), EPSILON, "CubicRootSolver.Test004 failed.");
             Assert.AreEqual(
-                RootSolver.Cubic(1, 0, 0, -1)[0], 1.0, EPSILON, "CubicRootSolver.Test005 failed.");
+                1.0, RootSolver.Cubic(1, 0, 0, -1)[0], EPSILON, "CubicRootSolver.Test005 failed.");
             Assert.AreEqual(
-                RootSolver.Cubic(1, 0, 0, 1)[0], -1.0, EPSILON, "CubicRootSolver.Test006 failed.");
+                -1.0, RootSolver.Cubic(1, 0, 0, 1)[0], EPSILON, "CubicRootSolver.Test006 failed.");
             DoubleCollectionAssert.AreEqual(
-                RootSolver.Cubic(0, 1, 2, 3), RootSolver.Quadratic(1, 2, 3), EPSILON, "CubicRootSolver.Test007 failed.");
+                RootSolver.Quadratic(1, 2, 3), RootSolver.Cubic(0, 1, 2, 3), EPSILON, "CubicRootSolver.Test007 failed.");
 
         }
     }

@@ -27,7 +27,7 @@
  * 
  * Description
  * ===========
- * A set of utility for finding the roots of various types of polynomials.
+ * A set of utility for finding the roots of various types of functions.
  */
 
 #endregion
@@ -162,7 +162,6 @@ namespace Phosphaze.Framework.Maths
             double value, 
             double initialGuess = 0,
             double epsilon = 1e-9,
-            double perturbationConstant = 1e-5,
             int maxIterations=1000)
         {
             double x_prev = 0;
@@ -183,5 +182,6 @@ namespace Phosphaze.Framework.Maths
 
             return xn;
         }
+        
     }
 }

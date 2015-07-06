@@ -98,7 +98,6 @@
     <Compile Include="Forms\Effectors\Transitions\LinearTransition.cs" />
     <Compile Include="Forms\Effectors\Transitions\LowerSISquaredTransition.cs" />
     <Compile Include="Forms\Effectors\Transitions\LowerSITransition.cs" />
-    <Compile Include="Forms\Effectors\Transitions\MutagradeTransition.cs" />
     <Compile Include="Forms\Effectors\Transitions\PowerSineTransition.cs" />
     <Compile Include="Forms\Effectors\Transitions\PowerTransition.cs" />
     <Compile Include="Forms\Effectors\Transitions\QuadraticTransition.cs" />
