@@ -26,7 +26,7 @@ namespace Phosphaze.UnitTests.Maths
         private static readonly double EXPECTED_RESULT_3 = 6.41488318625337;
 
         [TestMethod]
-        public void Test1()
+        public void NewtonsMethodTest1()
         {
 
             Assert.AreEqual(

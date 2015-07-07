@@ -20,7 +20,7 @@ namespace Phosphaze.UnitTests.Maths
         private static readonly double EXPECTED_RESULT_3 = 1.7433485921143947;
 
         [TestMethod]
-        public void Test1()
+        public void IntegratorTest1()
         {
 
             Assert.AreEqual(

@@ -32,7 +32,7 @@ namespace Phosphaze.UnitTests.Maths
         };
 
         [TestMethod]
-        public void Test1()
+        public void QuadraticRootSolverTest1()
         {
             DoubleCollectionAssert.AreEqual(
                 EXPECTED_RESULT_1, RootSolver.Quadratic(-1, 2, 3), EPSILON, "QuadraticRootSolver.Test001 failed.");

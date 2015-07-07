@@ -31,7 +31,7 @@ namespace Phosphaze.UnitTests.Maths
         };
 
         [TestMethod]
-        public void Test1()
+        public void CubicRootSolverTest1()
         {
 
             DoubleCollectionAssert.AreEqual(
