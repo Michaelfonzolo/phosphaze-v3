@@ -48,6 +48,8 @@
 using Microsoft.Xna.Framework;
 using Phosphaze.Framework.Maths;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -200,11 +202,23 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         protected override double Function(double time, int frame)
         {
-            var t = RootSolver.Cubic(coeffs[0], coeffs[1], coeffs[2], time / duration)[0];
-            Console.WriteLine("T: " + t);
+            var t = GetValid(RootSolver.Cubic(coeffs[0], coeffs[1], coeffs[2], -time / duration));
             var y = coeffs[3] * Math.Pow(t, 3.0) + coeffs[4] * Math.Pow(t, 2.0) + coeffs[5] * t;
             return deltaValue * y + initialValue;
         } 
 
+        private double GetValid(double[] roots)
+        {
+            var new_roots = new List<double>();
+            foreach (var r in roots)
+            {
+                if (r < 0 || r > 1)
+                    continue;
+                new_roots.Add(r);
+            }
+            if (new_roots.Count == 0)
+                return 1;
+            return new_roots.Min();
+        }
     }
 }

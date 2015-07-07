@@ -75,7 +75,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
 
         protected override double Function(double time, int frame)
         {
-            return Math.Floor(steps * time / duration);
+            return deltaValue / steps * Math.Floor(steps * time / duration) + initialValue;
         }
     }
 }

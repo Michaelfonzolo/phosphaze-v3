@@ -25,9 +25,23 @@ namespace Phosphaze.MultiformTests.Test004
             SetUpdater(Update);
             SetRenderer(Render);
 
-            // texture.AddEffector(new LinearTransition(TextureForm.ALPHA_ATTR, 1.0, 1000));  -- OK
+            texture.AddEffector(new LinearTransition(TextureForm.ALPHA_ATTR, 1.0, 1000)); // -- OK
             // texture.AddEffector(new ArcsineTransition(TextureForm.ALPHA_ATTR, 1.0, 1000, relative: false)); -- OK
-            texture.AddEffector(new CubicBezierTransition("Alpha", 1.0, 3000));
+            // texture.AddEffector(new CubicBezierTransition("Alpha", 1.0, 3000, CubicBezierPresets.Canyon)); -- OK
+            // texture.AddEffector(new EllipticTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new InverseArcsineTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new InverseEllipticTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new LowerSISquaredTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new LowerSITransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new PowerSineTransition("Alpha", 1.0, 3000, 4)); -- OK
+            // texture.AddEffector(new PowerTransition("Alpha", 1.0, 3000, 7)); -- OK
+            // texture.AddEffector(new QuadraticTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new SineSquaredTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new SineTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new SITransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new StaircaseTransition("Alpha", 1.0, 3000, 10)); -- OK
+            // texture.AddEffector(new SymmetricArcsineTransition("Alpha", 1.0, 3000)); -- OK
+            // texture.AddEffector(new UpperSITransition("Alpha", 0.9, 3000)); -- OK
         }
 
         private void CheckInput(ServiceLocator serviceLocator)

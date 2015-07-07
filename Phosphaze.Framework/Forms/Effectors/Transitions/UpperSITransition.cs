@@ -47,6 +47,7 @@
 
 #region Using Statements
 
+using System;
 using Phosphaze.Framework.Maths;
 
 #endregion
@@ -76,13 +77,13 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         protected override void Initialize()
         {
             base.Initialize();
-            alpha = deltaValue / 1.6339648461028329;
+            alpha = deltaValue / SpecialFunctions.SiApprox(5 * Math.PI);
             beta = 15.707963 / duration;
         }
 
         protected override double Function(double time, int frame)
         {
-            return alpha * SpecialFunctions.Si(time * beta) + initialValue;
+            return alpha * SpecialFunctions.SiApprox(time * beta) + initialValue;
         }
 
     }

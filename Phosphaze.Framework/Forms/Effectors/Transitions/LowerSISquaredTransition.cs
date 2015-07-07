@@ -62,7 +62,7 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
     {
 
         private Func<double, double> _func = 
-            x => SpecialFunctions.Si(Math.Sign(x) * x * x);
+            x => SpecialFunctions.SiApprox(Math.Sign(x) * x * x);
 
         private double alpha, beta;
 
@@ -85,12 +85,12 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         {
             base.Initialize();
             alpha = deltaValue / 1.633964846102816;
-            beta = 3.9633272 / duration;
+            beta = 3.9633272;
         }
 
         protected override double Function(double time, int frame)
         {
-            return alpha * (_func(beta * (time - 1)) + 1.633964846102816) + initialValue;
+            return alpha * (_func(beta * (time / duration - 1)) + 1.633964846102816) + initialValue;
         }
 
     }

@@ -1671,7 +1671,8 @@ namespace Phosphaze.Framework.Maths {
         }
 
         /// <summary>
-        /// Evaluate the sine integral at x.
+        /// Approximately evaluate the sine integral at x. This approximation only converges
+        /// for |x| <= 5π.
         /// 
         /// The sine integral is defined as
         /// 
@@ -1685,8 +1686,14 @@ namespace Phosphaze.Framework.Maths {
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static double Si(double x)
+        public static double SiApprox(double x)
         {
+            return Integrator.Simpsons(t => Math.Sin(t) / t, 1e-8, x, 1 << 10);
+            // 7/6/2015: This approximation isn't convergent enough on x > 4π
+            // to be used by UpperSITransition. The above statement works, but
+            // is seriously inefficient. Consider implementing something from
+            // the Cephes library later on.
+            /*
             var x2 = x * x;
             // This is the Padé Approximant of Si, given by
             //      https://en.wikipedia.org/wiki/Trigonometric_integral
@@ -1705,10 +1712,12 @@ namespace Phosphaze.Framework.Maths {
                                 + x2*(3.28067571055789734e-10 
                                     + x2*(4.5049097575386581e-13 
                                         + x2*(3.21107051193712168e-16)))))));
+             */
         }
 
         /// <summary>
-        /// Evaluate the cosine integral at x.
+        /// Approximately evaluate the cosine integral at x. This approximation only converges
+        /// for |x| <= 5π.
         /// 
         /// The cosine integral is defined as
         /// 
@@ -1721,7 +1730,7 @@ namespace Phosphaze.Framework.Maths {
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static double Ci(double x)
+        public static double CiApprox(double x)
         {
             var x2 = x * x;
             // This is the Padé Approximant of Si, given by

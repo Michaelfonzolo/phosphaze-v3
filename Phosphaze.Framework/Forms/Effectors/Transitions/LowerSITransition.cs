@@ -79,14 +79,14 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
             // 15.707963 is the 6th root of Si'(x).
             // Si(15.707963) = 1.6339648461028329
             alpha = deltaValue / 1.6339648461028329;
-            beta = 15.707963 / duration;
+            beta = 15.707963;
         }
 
         protected override double Function(double time, int frame)
         {
             return alpha
-                * (SpecialFunctions.Si(
-                    beta * (time - 1))
+                * (SpecialFunctions.SiApprox(
+                    beta * (time / duration - 1))
                     + 1.6339648461028329)
                 + initialValue;
         }

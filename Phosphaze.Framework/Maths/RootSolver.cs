@@ -156,6 +156,20 @@ namespace Phosphaze.Framework.Maths
             return result;
         }
 
+        /// <summary>
+        /// Use the Newton-Raphson method to attempt to approximate the root of a function.
+        /// 
+        /// In particular, this function takes in three parameters, f, df, and v. f and df
+        /// are the function and its derivative respectively. This method then returns
+        /// x such that f(x) = v (i.e. the root of f(x) - v = 0).
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="df"></param>
+        /// <param name="value"></param>
+        /// <param name="initialGuess"></param>
+        /// <param name="epsilon"></param>
+        /// <param name="maxIterations"></param>
+        /// <returns></returns>
         public static double NewtonsMethod(
             Func<double, double> f, 
             Func<double, double> df, 

@@ -78,13 +78,13 @@ namespace Phosphaze.Framework.Forms.Effectors.Transitions
         {
             base.Initialize();
             alpha = deltaValue / (2 * 1.6339648461);
-            beta = 15.707963 * 2 / duration;
+            beta = 15.707963 * 2;
         } 
 
         protected override double Function(double time, int frame)
         {
             return alpha
-                * (SpecialFunctions.Si(beta * (time - 0.5))
+                * (SpecialFunctions.SiApprox(beta * (time / duration - 0.5))
                     + 1.6339648461)
                 + initialValue;
         }
