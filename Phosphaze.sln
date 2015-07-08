@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phosphaze", "Phosphaze\Phos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phosphaze.Framework", "Phosphaze.Framework\Phosphaze.Framework.csproj", "{61D76BF4-C5C3-4C12-AE14-F8F0C0BB8DEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phosphaze.MultiformTests", "Phosphaze.Tests\Phosphaze.MultiformTests.csproj", "{FDB6A5E8-5E9D-46B8-96CB-909A9D771585}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phosphaze.MultiformTests", "Phosphaze.MultiformTests\Phosphaze.MultiformTests.csproj", "{FDB6A5E8-5E9D-46B8-96CB-909A9D771585}"
 	ProjectSection(ProjectDependencies) = postProject
 		{61D76BF4-C5C3-4C12-AE14-F8F0C0BB8DEB} = {61D76BF4-C5C3-4C12-AE14-F8F0C0BB8DEB}
 	EndProjectSection

@@ -30,7 +30,7 @@
   * The StaircaseTransition is an AbstractTransition whose transition function f(x) is
  * defined as
  * 
- *      f(x) = floor(s x)
+ *      f(x) = floor(s x) / s
  *      
  * where s is the number of steps.
  */
