@@ -51,7 +51,7 @@ namespace Phosphaze.Framework.Display
         /// <summary>
         /// The aspect ratio of the screen.
         /// </summary>
-        public double aspectRatio { get { return width / height; } }
+        public double aspectRatio { get { return (float)width / height; } }
 
         /// <summary>
         /// The center of the screen.
@@ -63,6 +63,12 @@ namespace Phosphaze.Framework.Display
         /// sprites relative to the maximum valid resolution height.
         /// </summary>
         public int min { get { return width < height ? width : height; } }
+
+        public int max { get { return width > height ? width : height; } }
+
+        public bool IsLandscape { get { return width > height; } }
+
+        public bool IsPortrait { get { return width < height; } }
 
         public Resolution(int w, int h)
         {

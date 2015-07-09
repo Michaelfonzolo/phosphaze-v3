@@ -58,6 +58,36 @@ namespace Phosphaze.Framework.Display
     {
 
         /// <summary>
+        /// The resolution the game is "intended" to be drawn at.
+        /// </summary>
+        public static Resolution BASE_RESOLUTION = new Resolution(1280, 960);
+
+        private RenderTarget2D TARGET;
+
+        private Vector2 TARGET_OFFSET
+        {
+            get
+            {
+                if (currentResolution.aspectRatio > BASE_RESOLUTION.aspectRatio)
+                    return new Vector2((float)(0.5 * (currentResolution.width - TARGET_SCALE * BASE_RESOLUTION.width)), 0f);
+                else if (currentResolution.aspectRatio < BASE_RESOLUTION.aspectRatio)
+                    return new Vector2(0f, (float)(0.5 * (currentResolution.height - TARGET_SCALE * BASE_RESOLUTION.height)));
+                return Vector2.Zero;
+            }
+        }
+
+        private float TARGET_SCALE
+        {
+            get
+            {
+                return Math.Min(
+                    (float)currentResolution.width / BASE_RESOLUTION.width,
+                    (float)currentResolution.height / BASE_RESOLUTION.height
+                    );
+            }
+        }
+
+        /// <summary>
         /// The valid standard resolutions.
         /// </summary>
         public static Resolution[] standardResolutions = {
@@ -91,16 +121,6 @@ namespace Phosphaze.Framework.Display
         public int currentResolutionIndex { get; private set; }
 
         public Resolution currentResolution { get { return validResolutions[currentResolutionIndex]; } }
-
-        /// <summary>
-        /// The maximum height from which all sprites are scaled relative to.
-        /// </summary>
-        public static readonly int maxResolutionHeight = validResolutions.Max(r => r.height);
-
-        /// <summary>
-        /// The amount by which to scale objects relative to the current resolution.
-        /// </summary>
-        public float resolutionScale { get { return (float)currentResolution.min / maxResolutionHeight; } }
 
         /* Monogame had the ingenious idea of spreading all the properties for
          * the window out over 5 different classes! So we have to keep them all
@@ -150,6 +170,11 @@ namespace Phosphaze.Framework.Display
         /// <summary>
         /// Whether or not spriteBatch.Begin has been called.
         /// </summary>
+        private bool spriteBatchBegun = false;
+
+        /// <summary>
+        /// Whether or not DisplayManager.BeginRender has been called.
+        /// </summary>
         private bool begun = false;
 
         /// <summary>
@@ -187,6 +212,8 @@ namespace Phosphaze.Framework.Display
             fullscreen = false;
             mouseVisible = false;
 
+            TARGET = new RenderTarget2D(graphicsDevice, BASE_RESOLUTION.width, BASE_RESOLUTION.height);
+
             ReinitScreenProperties();
         }
 
@@ -197,7 +224,11 @@ namespace Phosphaze.Framework.Display
         {
             if (dirty)
                 ReinitScreenProperties();
-            graphicsDevice.Clear(bgFill);
+            graphicsDevice.Clear(bgFill); // Clear the back buffer.
+
+            graphicsDevice.SetRenderTarget(TARGET);
+            graphicsDevice.Clear(bgFill); // Clear the render target.
+            begun = true;
         }
 
         /// <summary>
@@ -205,11 +236,43 @@ namespace Phosphaze.Framework.Display
         /// </summary>
         public void EndRender()
         {
-            if (begun)
+            if (spriteBatchBegun)
             {
                 spriteBatch.End();
-                begun = false;
+                spriteBatchBegun = false;
             }
+            begun = false;
+
+            graphicsDevice.SetRenderTarget(null);
+
+            // Properly draw the scaled and shifted TARGET onto the back buffer.
+
+            spriteBatch.Begin(
+                // Okay, I'll be honest, I just copied this from a comment on SO,
+                // but it doesn't seem to yield that impressive an effect over just
+                // leaving the entries as null.
+                /*
+                SpriteSortMode.Deferred, 
+                BlendState.NonPremultiplied, 
+                SamplerState.PointClamp, 
+                DepthStencilState.Default, 
+                RasterizerState.CullNone
+                 */
+                );
+
+            /*
+            Console.WriteLine(
+                "Resolution: " + currentResolution
+                + ", Scale: " + TARGET_SCALE
+                + ", Offset: " + TARGET_OFFSET);
+             */
+
+            spriteBatch.Draw(
+                TARGET, TARGET_OFFSET, null, Color.White, 0f,
+                Vector2.Zero, TARGET_SCALE, SpriteEffects.None, 0f
+                );
+
+            spriteBatch.End();
         }
 
         /// <summary>
@@ -227,7 +290,7 @@ namespace Phosphaze.Framework.Display
             SamplerState samplerState = null, DepthStencilState depthStencilState = null,
             RasterizerState rasterizerState = null, Effect effect = null, Matrix? transformMatrix = null)
         {
-            if (begun)
+            if (spriteBatchBegun)
                 spriteBatch.End();
 
             spriteBatch.Begin(
@@ -235,14 +298,15 @@ namespace Phosphaze.Framework.Display
                 depthStencilState, rasterizerState, 
                 effect, transformMatrix
                 );
+            spriteBatchBegun = true;
         }
 
         public void ClearSpriteBatchProperties()
         {
-            if (begun)
+            if (spriteBatchBegun)
             {
                 spriteBatch.End();
-                begun = false;
+                spriteBatchBegun = false;
             }
         }
 
@@ -396,7 +460,7 @@ namespace Phosphaze.Framework.Display
 
         private Vector2 ScaleVector(Vector2 vec)
         {
-            return new Vector2(vec.X * currentResolution.width, vec.Y * currentResolution.height);
+            return new Vector2(vec.X * BASE_RESOLUTION.width, vec.Y * BASE_RESOLUTION.height);
         }
 
         private void DrawInit(
@@ -404,11 +468,13 @@ namespace Phosphaze.Framework.Display
             Vector2 center, float rotation, bool centred)
         {
             if (!begun)
+                throw new DisplayManagerException(
+                    "Cannot draw before DisplayManager.BeginRender has been called.");
+            if (!spriteBatchBegun)
             {
                 spriteBatch.Begin();
-                begun = true;
+                spriteBatchBegun = true;
             }
-            scale *= resolutionScale;
             position = ScaleVector(position);
 
             if (centred)
