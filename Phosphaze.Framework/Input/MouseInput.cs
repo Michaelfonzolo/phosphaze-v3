@@ -120,6 +120,14 @@ namespace Phosphaze.Framework.Input
         /// </summary>
         public Point mousePosition { get; private set; }
 
+        public Vector2 mousePosAsVec
+        {
+            get
+            {
+                return new Vector2(mousePosition.X, mousePosition.Y);
+            }
+        }
+
         /// <summary>
         /// The previous cumulative scroll wheel value.
         /// </summary>

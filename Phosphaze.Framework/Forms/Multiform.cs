@@ -197,6 +197,11 @@ namespace Phosphaze.Framework.Forms
                 form.Value.Render(serviceLocator);
         }
 
+        protected void RenderForm(string name, ServiceLocator serviceLocator)
+        {
+            namedForms[name].Render(serviceLocator);
+        }
+
         /// <summary>
         /// Tell all the active forms to stop listening to the event propagator.
         /// </summary>

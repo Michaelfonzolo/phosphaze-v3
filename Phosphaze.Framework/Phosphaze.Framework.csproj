@@ -45,6 +45,9 @@
     <Reference Include="MonoGame.Framework, Version=3.3.0.2238, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -62,6 +65,7 @@
     <Compile Include="Collision\SegmentCollider.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Display\DisplayManager.cs" />
+    <Compile Include="Display\DisplayManagerException.cs" />
     <Compile Include="Display\Resolution.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Events\EventListener.cs" />

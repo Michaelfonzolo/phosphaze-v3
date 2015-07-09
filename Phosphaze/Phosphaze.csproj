@@ -61,6 +61,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="MainProgram.cs" />
+    <Compile Include="Multiforms\IntroMultiform\MainMultiform.cs" />
+    <Compile Include="PhosphazeEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +86,7 @@
       <Project>{61d76bf4-c5c3-4c12-ae14-f8f0c0bb8deb}</Project>
       <Name>Phosphaze.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Phosphaze.Tests\Phosphaze.MultiformTests.csproj">
+    <ProjectReference Include="..\Phosphaze.MultiformTests\Phosphaze.MultiformTests.csproj">
       <Project>{fdb6a5e8-5e9d-46b8-96cb-909a9d771585}</Project>
       <Name>Phosphaze.MultiformTests</Name>
     </ProjectReference>
@@ -114,6 +116,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
