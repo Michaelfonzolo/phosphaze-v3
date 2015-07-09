@@ -60,7 +60,7 @@ namespace Phosphaze
         [STAThread]
         static void Main()
         {
-            using (var game = new Kernel(new Test004Engine("Content")))
+            using (var game = new Kernel(new PhosphazeEngine("Content")))
                 game.Run();
         }
     }
