@@ -9,7 +9,7 @@ using Phosphaze.Framework.Maths.Geometry;
 
 namespace Phosphaze.Framework.Forms.Resources
 {
-    public class TextureForm : Form, ITransformable
+    public class TextureForm : TransformableForm
     {
 
         public const string CENTRED_ATTR = "CENTRED";
@@ -69,45 +69,55 @@ namespace Phosphaze.Framework.Forms.Resources
             Attributes.SetAttr<double>(ALPHA_ATTR, 1.0 - Attributes.GetAttr<double>(ALPHA_ATTR)); 
         }
 
-        public void SetPosition(double x, double y)
+        public override void SetPosition(double x, double y)
         {
             Position = new Vector2((float)x, (float)y);
         }
 
-        public void SetPosition(Vector2 pos)
+        public override void SetPosition(Vector2 pos)
         {
             Position = pos;
         }
 
-        public void Translate(double dx, double dy)
+        public override void SetPositionX(double x)
+        {
+            Position = new Vector2((float)x, Position.Y);
+        }
+
+        public override void SetPositionY(double y)
+        {
+            Position = new Vector2(Position.X, (float)y);
+        }
+
+        public override void Translate(double dx, double dy)
         {
             Position += new Vector2((float)dx, (float)dy);
         }
 
-        public void Translate(Vector2 delta)
+        public override void Translate(Vector2 delta)
         {
             Position += delta;
         }
 
-        public void Rotate(double angle, bool degrees = true)
+        public override void Rotate(double angle, bool degrees = true)
         {
             if (!degrees)
                 angle /= Constants.DEG_TO_RAD;
             Attributes.SetAttr<double>(ROTATION_ATTR, Attributes.GetAttr<double>(ROTATION_ATTR) + angle);
         }
 
-        public void Rotate(double angle, Vector2 origin, bool degrees = true, bool absoluteOrigin = true)
+        public override void Rotate(double angle, Vector2 origin, bool degrees = true, bool absoluteOrigin = true)
         {
             Position = VectorUtils.Rotate(Position, angle, origin, degrees, absoluteOrigin);
             Rotate(angle, degrees);
         }
 
-        public void Scale(double amount)
+        public override void Scale(double amount)
         {
             Attributes.SetAttr<double>(SCALE_ATTR, Attributes.GetAttr<double>(SCALE_ATTR) * amount);
         }
 
-        public void Scale(double amount, Vector2 origin, bool absoluteOrigin = true)
+        public override void Scale(double amount, Vector2 origin, bool absoluteOrigin = true)
         {
             Position = VectorUtils.Scale(Position, amount, origin, absoluteOrigin);
             Scale(amount);
