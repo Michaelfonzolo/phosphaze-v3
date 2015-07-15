@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2B138494-B68A-491F-BB70-0F31910064F9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NeonVM</RootNamespace>
+    <AssemblyName>NeonVM</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NTL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Neon\CommentParsingState.cs" />
+    <Compile Include="Neon\Instructions\BIN_ADD.cs" />
+    <Compile Include="Neon\Instructions\BIN_AND.cs" />
+    <Compile Include="Neon\Instructions\BIN_DIV.cs" />
+    <Compile Include="Neon\Instructions\BIN_MOD.cs" />
+    <Compile Include="Neon\Instructions\BIN_MUL.cs" />
+    <Compile Include="Neon\Instructions\BIN_OR.cs" />
+    <Compile Include="Neon\Instructions\BIN_POW.cs" />
+    <Compile Include="Neon\Instructions\BIN_SUB.cs" />
+    <Compile Include="Neon\Instructions\BUILD_RVEC.cs" />
+    <Compile Include="Neon\Instructions\BUILD_VEC.cs" />
+    <Compile Include="Neon\Instructions\IInstruction.cs" />
+    <Compile Include="Neon\Instructions\LDB.cs" />
+    <Compile Include="Neon\Instructions\LDC.cs" />
+    <Compile Include="Neon\Instructions\LDL.cs" />
+    <Compile Include="Neon\Instructions\UN_NEG.cs" />
+    <Compile Include="Neon\Instructions\UN_NOT.cs" />
+    <Compile Include="Neon\Instructions\UN_POS.cs" />
+    <Compile Include="Neon\NeonExceptions.cs" />
+    <Compile Include="Neon\NeonParseException.cs" />
+    <Compile Include="Neon\NeonSyntaxException.cs" />
+    <Compile Include="Neon\NeonObject.cs" />
+    <Compile Include="Neon\ParsingState.cs" />
+    <Compile Include="Neon\ShuntingYard.cs" />
+    <Compile Include="Neon\Tokenizer.cs" />
+    <Compile Include="Neon\TokenizerException.cs" />
+    <Compile Include="Neon\Tokens.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
