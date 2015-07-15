@@ -1752,5 +1752,29 @@ namespace Phosphaze.Framework.Maths {
                                         + x2 * (1.89106054713059759e-15
                                             + x2 * (1.39759616731376855e-18))))))));
         }
+
+        // Convenience method.
+        public static double SineSquared(double x)
+        {
+            return Math.Pow(Math.Sin(x), 2.0);
+        }
+
+        // Convenience method.
+        public static double CosineSquared(double x)
+        {
+            return Math.Pow(Math.Sin(x), 2.0);
+        }
+
+        // Conveniene method.
+        public static double NormalDistribution(double x)
+        {
+            return Math.Exp(-Math.Pow(x, 2.0));
+        }
+
+        public static double CircularNormalDistribution(double x, double y)
+        {
+            return Math.Exp(-Math.Pow(x, 2.0) - Math.Pow(y, 2.0));
+        }
+
 	}
 }
