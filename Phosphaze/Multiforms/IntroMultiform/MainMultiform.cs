@@ -12,6 +12,7 @@ using Phosphaze.Framework.Extensions;
 using Phosphaze.Framework.Forms;
 using Phosphaze.Framework.Forms.Resources;
 using Phosphaze.Framework.Forms.Effectors;
+using Phosphaze.Framework.Forms.Effectors.Motion;
 using Phosphaze.Framework.Forms.Effectors.Transitions;
 using Phosphaze.Framework.Input;
 using Phosphaze.Framework.Maths;
@@ -32,9 +33,12 @@ namespace Phosphaze.Multiforms.IntroMultiform
         {
             var background = new TextureForm(
                 serviceLocator, "IntroContent/Backgrounds/MainBackground", new Vector2(0.5f, 0.5f));
+
             background.Scale(0.9);
             background.ToggleVisibility();
+
             background.AddEffector(new InverseArcsineTransition(TextureForm.ALPHA_ATTR, 0.93, 4000));
+            background.AddEffector(new SmoothScrollEffector(0.09, 8000));
 
             RegisterForm(Background, background);
 
@@ -44,9 +48,6 @@ namespace Phosphaze.Multiforms.IntroMultiform
 
         private void Update(ServiceLocator serviceLocator)
         {
-            UpdateTime(serviceLocator);
-            UpdateForms(serviceLocator);
-
             if (serviceLocator.Keyboard.IsReleased(Keys.Escape))
                 serviceLocator.Engine.Exit();
 
@@ -54,15 +55,21 @@ namespace Phosphaze.Multiforms.IntroMultiform
                 serviceLocator.DisplayManager.NextResolution();
 
             var bg = (TextureForm)GetForm(Background);
+            
             if (At(4000))
                 bg.AddEffector(new FunctionalAttributeEffector(
-                    "Alpha", x => - 0.1 * Math.Pow(Math.Sin(x / 4000), 2.0)));
-
-            bg.SetPosition(0.5f + 0.045f*Math.Pow(Math.Sin(LocalTime/8000), 2.0), 0.49f);
+                    TextureForm.ALPHA_ATTR, x => - 0.1 * Math.Pow(Math.Sin(x / 4000), 2.0)));
 
             var mpos = serviceLocator.Mouse.mousePosAsVec - Resolution.native.center;
-            var offset = new Vector2(0.000025f * mpos.X, 0.00001f * mpos.Y);
-            bg.Translate(offset);
+            var offset = new Vector2(0.000035f * mpos.X, 0.00002f * mpos.Y)
+                * (float)SpecialFunctions.CircularNormalDistribution(
+                    1.5 * mpos.X / serviceLocator.DisplayManager.currentResolution.width,
+                    1.5 * mpos.Y / serviceLocator.DisplayManager.currentResolution.height);
+            offset += VectorUtils.Ones / 2.0f;
+            bg.SetPosition(offset);
+
+            UpdateTime(serviceLocator);
+            UpdateForms(serviceLocator);
         }
 
         private void Render(ServiceLocator serviceLocator)
