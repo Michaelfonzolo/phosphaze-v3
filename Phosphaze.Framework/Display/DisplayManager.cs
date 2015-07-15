@@ -49,6 +49,7 @@ using Phosphaze.Framework.Extensions;
 using Phosphaze.Framework.Maths.Geometry;
 using System;
 using System.Linq;
+using System.Windows.Forms;
 
 #endregion
 
@@ -192,6 +193,25 @@ namespace Phosphaze.Framework.Display
         /// </summary>
         public bool mouseVisible { get; private set; }
 
+        public Rectangle WindowRect
+        {
+            get
+            {
+                var bounds = window.ClientBounds;
+                var pos = ((Form)Control.FromHandle(window.Handle)).Location;
+                return new Rectangle(
+                    pos.X, pos.Y, bounds.Width, bounds.Height);
+            }
+        }
+
+        public Vector2 WindowTopLeftCorner
+        {
+            get
+            {
+                return VectorUtils.FromPoint(((Form)Control.FromHandle(window.Handle)).Location);
+            }
+        }
+
         public DisplayManager(
             Game game, GraphicsDeviceManager graphicsManager, 
             SpriteBatch spriteBatch, Color backgroundFill)
@@ -325,7 +345,7 @@ namespace Phosphaze.Framework.Display
             graphicsManager.PreferredBackBufferHeight = currentResolution.height;
 
             // Center the display based on the native resolution.
-            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(window.Handle);
+            var form = (Form)Control.FromHandle(window.Handle);
             var position = new System.Drawing.Point(
                 (Resolution.native.width - currentResolution.width) / 2,
                 (Resolution.native.height - currentResolution.height) / 2
