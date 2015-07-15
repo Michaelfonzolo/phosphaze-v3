@@ -47,6 +47,10 @@ namespace Phosphaze.Framework.Maths.Geometry
 
         void SetPosition(Vector2 pos);
 
+        void SetPositionX(double x);
+
+        void SetPositionY(double y);
+
         void Translate(double dx, double dy);
 
         void Translate(Vector2 delta);

@@ -247,6 +247,20 @@ namespace Phosphaze.Framework.Collision
             coordsCache.dirty = true;
         }
 
+        public void SetPositionX(double x)
+        {
+            X = x;
+            centerCache.dirty = true;
+            coordsCache.dirty = true;
+        }
+
+        public void SetPositionY(double y)
+        {
+            Y = y;
+            centerCache.dirty = true;
+            coordsCache.dirty = true;
+        }
+
         /// <summary>
         /// Translate this rectangle by the given amount.
         /// </summary>

@@ -249,6 +249,20 @@ namespace Phosphaze.Framework.Collision
             End += delta;
         }
 
+        public void SetPositionX(double x)
+        {
+            var delta = new Vector2((float)x - Center.X, 0);
+            Start += delta;
+            End += delta;
+        }
+
+        public void SetPositionY(double y)
+        {
+            var delta = new Vector2(0, (float)y - Center.Y);
+            Start += delta;
+            End += delta;
+        }
+
         /// <summary>
         /// Translate the start of this line segment separate from the end position.
         /// </summary>

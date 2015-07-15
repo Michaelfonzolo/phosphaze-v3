@@ -209,6 +209,16 @@ namespace Phosphaze.Framework.Collision
             Y = pos.Y;
         }
 
+        public void SetPositionX(double x)
+        {
+            X = x;
+        }
+
+        public void SetPositionY(double y)
+        {
+            Y = y;
+        }
+
         /// <summary>
         /// Translate the ellipse by the given amount.
         /// </summary>
