@@ -79,6 +79,7 @@
     <Compile Include="Forms\EffectorException.cs" />
     <Compile Include="Forms\Effectors\CumulativeFunctionalAttributeEffector.cs" />
     <Compile Include="Forms\Effectors\FunctionalAttributeEffector.cs" />
+    <Compile Include="Forms\Effectors\Motion\SmoothScrollEffector.cs" />
     <Compile Include="Forms\Effectors\MultiplicativeFunctionalAttributeEffector.cs" />
     <Compile Include="Forms\Effectors\Transitions\AbstractPowerSineTransition.cs" />
     <Compile Include="Forms\Effectors\Transitions\AbstractTransition.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Forms\MultiformData.cs" />
     <Compile Include="Forms\MultiformException.cs" />
     <Compile Include="Forms\MultiformManager.cs" />
+    <Compile Include="Forms\Resources\TransformableForm.cs" />
     <Compile Include="Forms\Resources\TextureForm.cs" />
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\MouseInput.cs" />
