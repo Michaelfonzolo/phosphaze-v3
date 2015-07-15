@@ -44,6 +44,50 @@ namespace Phosphaze.Framework.Maths.Geometry
     public static class VectorUtils
     {
 
+        public static Vector2 FromPoint(Point p)
+        {
+            return new Vector2(p.X, p.Y);
+        }
+
+        public static Vector2 FromPoint(System.Drawing.Point p)
+        {
+            return new Vector2(p.X, p.Y);
+        }
+
+        /// <summary>
+        /// The unit vector pointing left (<-1, 0>).
+        /// </summary>
+        public static Vector2 Left = new Vector2(-1, 0);
+
+        /// <summary>
+        /// The unit vector pointing right (<1, 0>).
+        /// </summary>
+        public static Vector2 Right = new Vector2(1, 0);
+
+        /// <summary>
+        /// The unit vector pointing up (<0, 1>).
+        /// </summary>
+        public static Vector2 Up = new Vector2(0, 1);
+
+        /// <summary>
+        /// The unit vector point down (<0, -1>).
+        /// </summary>
+        public static Vector2 Down = new Vector2(0, -1);
+
+        /// <summary>
+        /// The up direction relative to the game world. Since the game coordinate space is
+        /// flipped on it's y-axis, this corresponds to the vector <0, -1>.
+        /// </summary>
+        public static Vector2 GameWorldUp = Down;
+
+        /// <summary>
+        /// The down direction relative to the game world. Since the game coordinate space is
+        /// flipped on it's y-axis, this corresponds to the vector <0, 1>.
+        /// </summary>
+        public static Vector2 GameWorldDown = Up;
+
+        public static Vector2 Ones = new Vector2(1, 1);
+
         /// <summary>
         /// Return the unit vector pointing at the given angle relative to the positive x-axis.
         /// </summary>
