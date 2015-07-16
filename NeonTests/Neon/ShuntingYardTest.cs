@@ -171,6 +171,10 @@ namespace NeonTests.Neon
 
         public static string[] PROGRAM_24 = new string[] { "<|", "5", ",", "7" };
 
+        public static string[] PROGRAM_25 = new string[] { "<<", "1", ",", "2", ",", "3", ">>" };
+
+        public static string[] PROGRAM_26 = new string[] { "<|", "1", ",", "2", ",", "3", "|>" };
+
         [TestMethod]
         public void ShuntingYardTest001()
         {
@@ -268,6 +272,13 @@ namespace NeonTests.Neon
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void InvalidVectorComponentCountTest()
+        {
+            new ShuntingYard(new List<string>(PROGRAM_25)).Parse();
+        }
+
+        [TestMethod]
         public void BuildRelativeVectorTest001()
         {
             _TestShuntingYard(EXPECTED_RESULT_18, PROGRAM_18);
@@ -287,6 +298,13 @@ namespace NeonTests.Neon
         public void MismatchedClosingRelativeVectorDelimiterTest001()
         {
             new ShuntingYard(new List<string>(PROGRAM_22)).Parse();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void InvalidRelativeVectorComponentCountTest()
+        {
+            new ShuntingYard(new List<string>(PROGRAM_26)).Parse();
         }
 
         private void _TestShuntingYard(IInstruction[] expected, string[] program)
