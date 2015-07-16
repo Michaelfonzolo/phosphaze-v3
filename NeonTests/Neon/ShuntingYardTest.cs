@@ -176,7 +176,7 @@ namespace NeonTests.Neon
         public static string[] PROGRAM_26 = new string[] { "<|", "1", ",", "2", ",", "3", "|>" };
 
         [TestMethod]
-        public void ShuntingYardTest001()
+        public void ShuntingYard_BasicTest()
         {
             _TestShuntingYard(EXPECTED_RESULT_1, PROGRAM_1);
             _TestShuntingYard(EXPECTED_RESULT_2, PROGRAM_2);
@@ -194,34 +194,34 @@ namespace NeonTests.Neon
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedBracketsTest001()
+        public void ShuntingYard_MismatchedBracketsTest1()
         {
             new ShuntingYard(new List<string>(PROGRAM_4)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedBracketsTest002()
+        public void ShuntingYard_MismatchedBracketsTest2()
         {
             new ShuntingYard(new List<string>(PROGRAM_5)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedBracketsTest003()
+        public void ShuntingYard_MismatchedBracketsTest3()
         {
             new ShuntingYard(new List<string>(PROGRAM_6)).Parse();
         }
 
         [TestMethod]
-        public void AvoidSingleLineCommentsTest001()
+        public void ShuntingYard_AvoidSingleLineCommentsTest()
         {
             _TestShuntingYard(EXPECTED_RESULT_7, PROGRAM_7);
             _TestShuntingYard(EXPECTED_RESULT_8, PROGRAM_8);
         }
 
         [TestMethod]
-        public void AvoidMultiLineCommentsTest001()
+        public void ShuntingYard_AvoidMultiLineCommentsTest()
         {
             _TestShuntingYard(EXPECTED_RESULT_9, PROGRAM_9);
             _TestShuntingYard(EXPECTED_RESULT_10, PROGRAM_10);
@@ -230,27 +230,27 @@ namespace NeonTests.Neon
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedMultilineCommentsTest001()
+        public void ShuntingYard_MismatchedMultilineCommentsTest1()
         {
             new ShuntingYard(new List<string>(PROGRAM_12)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedMultilineCommentsTest002()
+        public void ShuntingYard_MismatchedMultilineCommentsTest2()
         {
             new ShuntingYard(new List<string>(PROGRAM_13)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedMultilineCommentsTest003()
+        public void ShuntingYard_MismatchedMultilineCommentsTest3()
         {
             new ShuntingYard(new List<string>(PROGRAM_14)).Parse();
         }
 
         [TestMethod]
-        public void BuildVectorTest001()
+        public void ShuntingYard_BuildVectorTest()
         {
             _TestShuntingYard(EXPECTED_RESULT_15, PROGRAM_15);
             _TestShuntingYard(EXPECTED_RESULT_16, PROGRAM_16);
@@ -259,27 +259,27 @@ namespace NeonTests.Neon
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedOpeningVectorDelimiterTest001()
+        public void ShuntingYard_MismatchedOpeningVectorDelimiterTest()
         {
             new ShuntingYard(new List<string>(PROGRAM_23)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedClosingVectorDelimiterTest001()
+        public void ShuntingYard_MismatchedClosingVectorDelimiterTest()
         {
             new ShuntingYard(new List<string>(PROGRAM_21)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void InvalidVectorComponentCountTest()
+        public void ShuntingYard_InvalidVectorComponentCountTest()
         {
             new ShuntingYard(new List<string>(PROGRAM_25)).Parse();
         }
 
         [TestMethod]
-        public void BuildRelativeVectorTest001()
+        public void ShuntingYard_BuildRelativeVectorTest()
         {
             _TestShuntingYard(EXPECTED_RESULT_18, PROGRAM_18);
             _TestShuntingYard(EXPECTED_RESULT_19, PROGRAM_19);
@@ -288,21 +288,21 @@ namespace NeonTests.Neon
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedOpeningRelativeVectorDelimiterTest001()
+        public void ShuntingYard_MismatchedOpeningRelativeVectorDelimiterTest()
         {
             new ShuntingYard(new List<string>(PROGRAM_24)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void MismatchedClosingRelativeVectorDelimiterTest001()
+        public void ShuntingYard_MismatchedClosingRelativeVectorDelimiterTest()
         {
             new ShuntingYard(new List<string>(PROGRAM_22)).Parse();
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonSyntaxException))]
-        public void InvalidRelativeVectorComponentCountTest()
+        public void ShuntingYard_InvalidRelativeVectorComponentCountTest()
         {
             new ShuntingYard(new List<string>(PROGRAM_26)).Parse();
         }
