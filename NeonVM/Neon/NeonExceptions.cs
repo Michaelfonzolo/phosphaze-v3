@@ -94,5 +94,19 @@ namespace NeonVM.Neon
                 );
         }
 
+        public static NeonSyntaxException Exception0013(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Unclosed opening vector delimiter on line {0}.", lineNum)
+                );
+        }
+
+        public static NeonSyntaxException Exception0014(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Unclosed opening relative vector delimiter on line {0}.", lineNum)
+                );
+        }
+
     }
 }
