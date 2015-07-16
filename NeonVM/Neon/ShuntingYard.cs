@@ -19,6 +19,12 @@ namespace NeonVM.Neon
             public static EXPR_START_INSTR Instance = new EXPR_START_INSTR(); 
         }
 
+        // A dummy instruction representing the start of an array.
+        private class ARRAY_START_INSTR : DUMMY_INSTR, IInstruction
+        {
+            public static ARRAY_START_INSTR Instance = new ARRAY_START_INSTR();
+        }
+
         // A dummy instruction representing the start of a vector.
         private class VEC_START_INSTR : DUMMY_INSTR, IInstruction 
         { 
@@ -29,6 +35,11 @@ namespace NeonVM.Neon
         private class RVEC_START_INSTR : DUMMY_INSTR, IInstruction
         {
             public static RVEC_START_INSTR Instance = new RVEC_START_INSTR();
+        }
+
+        private class ELEM_SEP_INSTR : DUMMY_INSTR, IInstruction
+        {
+            public static ELEM_SEP_INSTR Instance = new ELEM_SEP_INSTR();
         }
 
         private static IInstruction[] OPERATORS 
@@ -105,6 +116,34 @@ namespace NeonVM.Neon
             {Tokens.RVEC_START, NeonExceptions.Exception0014}
         };
 
+        private static bool IsOp(string i)
+        {
+            return BINARY_OPERATOR_TOKENS.ContainsKey(i)
+                || UNARY_OPERATOR_TOKENS.ContainsKey(i);
+        }
+
+        private static bool IsBinary(string i)
+        {
+            return BINARY_OPERATOR_TOKENS.ContainsKey(i);
+        }
+
+        private static bool IsUnary(string i)
+        {
+            return UNARY_OPERATOR_TOKENS.ContainsKey(i);
+        }
+
+        private static int Associativity(IInstruction op)
+        {
+            // 1 - Left Associative
+            // -1 - Right Associative
+            return LEFT_ASSOCIATIVE.Contains(Array.IndexOf<IInstruction>(OPERATORS, op)) ? 1 : -1;
+        }
+
+        private static int Prec(IInstruction op)
+        {
+            return Array.IndexOf<IInstruction>(OPERATORS, op);
+        }
+
         private Stack<string> tokenStack;
 
         private Stack<IInstruction> operatorStack = new Stack<IInstruction>();
@@ -114,7 +153,7 @@ namespace NeonVM.Neon
         private int lineNumber = 0;
 
         private Dictionary<string, Stack<int>> bracketLineStarts
-            = new Dictionary<string,Stack<int>>()
+            = new Dictionary<string, Stack<int>>()
         {
             {Tokens.EXPR_START,  new Stack<int>()},
             {Tokens.ARRAY_START, new Stack<int>()},
@@ -146,34 +185,6 @@ namespace NeonVM.Neon
                 {Tokens.RVEC_END,   _Parse_RVEC_END},
                 {Tokens.ELEM_SEP,   _Parse_ELEM_SEP}
             };
-        }
-
-        private static bool IsOp(string i)
-        {
-            return BINARY_OPERATOR_TOKENS.ContainsKey(i)
-                || UNARY_OPERATOR_TOKENS.ContainsKey(i);
-        }
-
-        private static bool IsBinary(string i)
-        {
-            return BINARY_OPERATOR_TOKENS.ContainsKey(i);
-        }
-
-        private static bool IsUnary(string i)
-        {
-            return UNARY_OPERATOR_TOKENS.ContainsKey(i);
-        }
-
-        private static int Associativity(IInstruction op)
-        {
-            // 1 - Left Associative
-            // -1 - Right Associative
-            return LEFT_ASSOCIATIVE.Contains(Array.IndexOf<IInstruction>(OPERATORS, op)) ? 1 : -1;
-        }
-
-        private static int Prec(IInstruction op)
-        {
-            return Array.IndexOf<IInstruction>(OPERATORS, op);
         }
 
         private void PopOpsUntil(IInstruction terminal, Stack<int> lineStarts, NeonSyntaxException exception)
@@ -348,6 +359,12 @@ namespace NeonVM.Neon
             bracketLineStarts[Tokens.EXPR_START].Push(lineNumber);
         }
 
+        private void _Parse_ARRAY_START()
+        {
+            operatorStack.Push(ARRAY_START_INSTR.Instance);
+
+        }
+
         private void _Parse_VEC_START()
         {
             BeginVec(
@@ -384,7 +401,7 @@ namespace NeonVM.Neon
                 _exc0010 = null;
 
             EndVec(
-                VEC_START_INSTR.Instance,
+                ELEM_SEP_INSTR.Instance,
                 bracketLineStarts[Tokens.VEC_START],
                 NeonExceptions.Exception0009(lineNumber),
                 NeonExceptions.Exception0010(lineNumber),
@@ -414,6 +431,26 @@ namespace NeonVM.Neon
             switch (parsingState.Type)
             {
                 case ParsingStateType.Vector:
+                    IInstruction terminal;
+                    if ((int)parsingState.Attributes["componentCount"] == 1)
+                        terminal = VEC_START_INSTR.Instance;
+                    else
+                        terminal = ELEM_SEP_INSTR.Instance;
+
+                    var top = operatorStack.Peek();
+                    while (top != terminal)
+                    {
+                        instructions.Add(operatorStack.Pop());
+                        top = operatorStack.Peek();
+                        // No need to check if the opStack is empty because we are guaranteed
+                        // to encounter a terminal character if lineStarts.Count > 0.
+                    }
+                    operatorStack.Pop();
+                    operatorStack.Push(ELEM_SEP_INSTR.Instance);
+
+                    parsingState.Attributes["componentCount"]
+                        = (int)(parsingState.Attributes["componentCount"]) + 1;
+                    break;
                 case ParsingStateType.RelativeVector:
                     parsingState.Attributes["componentCount"]
                         = (int)(parsingState.Attributes["componentCount"]) + 1;

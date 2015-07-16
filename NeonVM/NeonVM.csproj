@@ -49,6 +49,7 @@
     <Compile Include="Neon\Instructions\BIN_OR.cs" />
     <Compile Include="Neon\Instructions\BIN_POW.cs" />
     <Compile Include="Neon\Instructions\BIN_SUB.cs" />
+    <Compile Include="Neon\Instructions\BUILD_ARRAY.cs" />
     <Compile Include="Neon\Instructions\BUILD_RVEC.cs" />
     <Compile Include="Neon\Instructions\BUILD_VEC.cs" />
     <Compile Include="Neon\Instructions\IInstruction.cs" />
