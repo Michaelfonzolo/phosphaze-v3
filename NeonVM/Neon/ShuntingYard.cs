@@ -187,19 +187,24 @@ namespace NeonVM.Neon
             };
         }
 
-        private void PopOpsUntil(IInstruction terminal, Stack<int> lineStarts, NeonSyntaxException exception)
+        private void PopOpsUntil(IInstruction terminal)
         {
-            if (operatorStack.Count == 0 || lineStarts.Count == 0)
-                throw exception;
             var top = operatorStack.Peek();
             while (top != terminal)
             {
                 instructions.Add(operatorStack.Pop());
                 top = operatorStack.Peek();
-                // No need to check if the opStack is empty because we are guaranteed
-                // to encounter a terminal character if lineStarts.Count > 0.
             }
-            operatorStack.Pop(); // Get rid of the dummy operator (i.e. the left bracket)
+            operatorStack.Pop();
+        }
+
+        private void PopOpsUntil(IInstruction terminal, Stack<int> lineStarts, NeonSyntaxException exception)
+        {
+            if (operatorStack.Count == 0 || lineStarts.Count == 0)
+                throw exception;
+
+            PopOpsUntil(terminal);
+            
             lineStarts.Pop();
         }
 
@@ -418,7 +423,7 @@ namespace NeonVM.Neon
                 _exc0012 = null;
 
             EndVec(
-                RVEC_START_INSTR.Instance,
+                ELEM_SEP_INSTR.Instance,
                 bracketLineStarts[Tokens.RVEC_START],
                 NeonExceptions.Exception0011(lineNumber),
                 NeonExceptions.Exception0012(lineNumber),
@@ -428,30 +433,30 @@ namespace NeonVM.Neon
 
         private void _Parse_ELEM_SEP()
         {
+            IInstruction terminal;
             switch (parsingState.Type)
             {
                 case ParsingStateType.Vector:
-                    IInstruction terminal;
                     if ((int)parsingState.Attributes["componentCount"] == 1)
                         terminal = VEC_START_INSTR.Instance;
                     else
                         terminal = ELEM_SEP_INSTR.Instance;
 
-                    var top = operatorStack.Peek();
-                    while (top != terminal)
-                    {
-                        instructions.Add(operatorStack.Pop());
-                        top = operatorStack.Peek();
-                        // No need to check if the opStack is empty because we are guaranteed
-                        // to encounter a terminal character if lineStarts.Count > 0.
-                    }
-                    operatorStack.Pop();
+                    PopOpsUntil(terminal);
                     operatorStack.Push(ELEM_SEP_INSTR.Instance);
 
                     parsingState.Attributes["componentCount"]
                         = (int)(parsingState.Attributes["componentCount"]) + 1;
                     break;
                 case ParsingStateType.RelativeVector:
+                    if ((int)parsingState.Attributes["componentCount"] == 1)
+                        terminal = RVEC_START_INSTR.Instance;
+                    else
+                        terminal = ELEM_SEP_INSTR.Instance;
+
+                    PopOpsUntil(terminal);
+                    operatorStack.Push(ELEM_SEP_INSTR.Instance);
+
                     parsingState.Attributes["componentCount"]
                         = (int)(parsingState.Attributes["componentCount"]) + 1;
                     break;

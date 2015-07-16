@@ -177,6 +177,20 @@ namespace NeonTests.Neon
             BUILD_RVEC.Instance
         };
 
+        public static string[] PROGRAM_28 = new string[] { "<|", "1", "+", "1", ",", "2", "*", "3", "+", "4", "|>" };
+        public static IInstruction[] EXPECTED_RESULT_28 = new IInstruction[]
+        {
+            new LDC(new NeonObject()),
+            new LDC(new NeonObject()),
+            BIN_ADD.Instance,
+            new LDC(new NeonObject()),
+            new LDC(new NeonObject()),
+            BIN_MUL.Instance,
+            new LDC(new NeonObject()),
+            BIN_ADD.Instance,
+            BUILD_RVEC.Instance
+        };
+
         public static string[] PROGRAM_21 = new string[] { "5", ">>" };
 
         public static string[] PROGRAM_22 = new string[] { "5", "|>" };
@@ -299,6 +313,7 @@ namespace NeonTests.Neon
             _TestShuntingYard(EXPECTED_RESULT_18, PROGRAM_18);
             _TestShuntingYard(EXPECTED_RESULT_19, PROGRAM_19);
             _TestShuntingYard(EXPECTED_RESULT_20, PROGRAM_20);
+            _TestShuntingYard(EXPECTED_RESULT_28, PROGRAM_28);
         }
 
         [TestMethod]
