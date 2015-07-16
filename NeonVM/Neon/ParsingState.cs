@@ -26,6 +26,8 @@ namespace NeonVM.Neon
         Default,
         SingleLineComment,
         MultiLineComment,
+        Array,
+        Dictionary,
         Vector,
         RelativeVector
     }

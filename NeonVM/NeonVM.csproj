@@ -41,7 +41,6 @@
     <Folder Include="NTL\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Neon\CommentParsingState.cs" />
     <Compile Include="Neon\Instructions\BIN_ADD.cs" />
     <Compile Include="Neon\Instructions\BIN_AND.cs" />
     <Compile Include="Neon\Instructions\BIN_DIV.cs" />

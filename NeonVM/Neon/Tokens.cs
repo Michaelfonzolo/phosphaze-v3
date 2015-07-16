@@ -33,21 +33,17 @@ namespace NeonVM.Neon
 
         public const string CALL_END = ")";
 
-        public const string DICT_START = "[";
+        public const string ARRAY_START = "[";
 
-        public const string DICT_END = "]";
+        public const string ARRAY_END = "]";
 
-        public const string CONT_RANGE_START = "[";
+        public const string DICT_START = "[[";
 
-        public const string CONT_RANGE_END = "]";
+        public const string DICT_END = "]]";
 
         public const string BLOCK_START = "{";
 
         public const string BLOCK_END = "}";
-
-        public const string ARRAY_START = "{";
-
-        public const string ARRAY_END = "}";
 
         public const string ELEM_SEP = ",";
 
@@ -100,8 +96,6 @@ namespace NeonVM.Neon
         public const string RVEC_END = "|>";
 
         public const string ATTR_GET = "->";
-
-        public const string CONT_RANGE_GEN = "->";
 
         public const string LAMBDA_MAP = "=>";
 
