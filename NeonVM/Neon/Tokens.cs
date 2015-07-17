@@ -6,118 +6,130 @@ using System.Threading.Tasks;
 
 namespace NeonVM.Neon
 {
-    public static class Tokens
+    internal static class Tokens
     {
 
-        public const string BIN_ADD = "+";
+        internal const string BIN_ADD = "+";
 
-        public const string BIN_SUB = "-";
+        internal const string BIN_SUB = "-";
 
-        public const string BIN_MUL = "*";
+        internal const string BIN_MUL = "*";
 
-        public const string BIN_DIV = "/";
+        internal const string BIN_DIV = "/";
 
-        public const string BIN_POW = "^";
+        internal const string BIN_POW = "^";
 
-        public const string BIN_MOD = "%";
+        internal const string BIN_MOD = "%";
 
-        public const string UN_POS = "+";
+        internal const string UN_POS = "+";
 
-        public const string UN_NEG = "-";
+        internal const string UN_NEG = "-";
 
-        public const string EXPR_START = "(";
+        internal const string EXPR_START = "(";
 
-        public const string EXPR_END = ")";
+        internal const string EXPR_END = ")";
 
-        public const string CALL_START = "(";
+        internal const string CALL_START = "(";
 
-        public const string CALL_END = ")";
+        internal const string CALL_END = ")";
 
-        public const string ARRAY_START = "[";
+        internal const string ARRAY_START = "[";
 
-        public const string ARRAY_END = "]";
+        internal const string ARRAY_END = "]";
 
-        public const string DICT_START = "[[";
+        internal const string DICT_START = "[[";
 
-        public const string DICT_END = "]]";
+        internal const string DICT_END = "]]";
 
-        public const string BLOCK_START = "{";
+        internal const string BLOCK_START = "{";
 
-        public const string BLOCK_END = "}";
+        internal const string BLOCK_END = "}";
 
-        public const string ELEM_SEP = ",";
+        internal const string ELEM_SEP = ",";
 
-        public const string ASSIGN = "=";
+        internal const string ASSIGN = "=";
 
-        public const string EOL = ";";
+        internal const string EOL = ";";
 
-        public const string KEY_VAR_CONN = ":";
+        internal const string KEY_VAR_CONN = ":";
 
-        public const string BIN_AND = "&&";
+        internal const string BIN_AND = "&&";
 
-        public const string BIN_OR = "||";
+        internal const string BIN_OR = "||";
 
-        public const string UN_NOT = "!";
+        internal const string UN_NOT = "!";
 
-        public const string BOOL_GT = ">";
+        internal const string BOOL_GT = ">";
 
-        public const string BOOL_LT = "<";
+        internal const string BOOL_LT = "<";
 
-        public const string BOOL_EQ = "==";
+        internal const string BOOL_EQ = "==";
 
-        public const string BOOL_GE = ">=";
+        internal const string BOOL_GE = ">=";
 
-        public const string BOOL_LE = "<=";
+        internal const string BOOL_LE = "<=";
 
-        public const string BOOL_NE = "!=";
+        internal const string BOOL_NE = "!=";
 
-        public const string IP_ADD = "+=";
+        internal const string IP_ADD = "+=";
 
-        public const string IP_SUB = "-=";
+        internal const string IP_SUB = "-=";
 
-        public const string IP_MUL = "*=";
+        internal const string IP_MUL = "*=";
 
-        public const string IP_DIV = "/=";
+        internal const string IP_DIV = "/=";
 
-        public const string IP_POW = "^=";
+        internal const string IP_POW = "^=";
 
-        public const string IP_MOD = "%=";
+        internal const string IP_MOD = "%=";
 
-        public const string IP_AND = "&&=";
+        internal const string IP_AND = "&&=";
 
-        public const string IP_OR = "||=";
+        internal const string IP_OR = "||=";
 
-        public const string VEC_START = "<<";
+        internal const string VEC_START = "<<";
 
-        public const string VEC_END = ">>";
+        internal const string VEC_END = ">>";
 
-        public const string RVEC_START = "<|";
+        internal const string RVEC_START = "<|";
 
-        public const string RVEC_END = "|>";
+        internal const string RVEC_END = "|>";
 
-        public const string ATTR_GET = "->";
+        internal const string ATTR_GET = "->";
 
-        public const string LAMBDA_MAP = "=>";
+        internal const string LAMBDA_MAP = "=>";
 
-        public const string DISCRETE_RANGE_GEN = "...";
+        internal const string DISCRETE_RANGE_GEN = "...";
 
-        public const string TIME_COMMAND = "$";
+        internal const string TIME_COMMAND = "$";
 
-        public const string AT_INTERVALS = "@";
+        internal const string AT_INTERVALS = "@";
 
-        public const string DURING_INTERVALS = "%";
+        internal const string DURING_INTERVALS = "%";
 
-        public const string SINGLE_LINE_COMMENT = "//";
+        internal const string SINGLE_LINE_COMMENT = "//";
 
-        public const string INDEF_COMMENT_START = "/*";
+        internal const string INDEF_COMMENT_START = "/*";
 
-        public const string INDEF_COMMENT_END = "*/";
+        internal const string INDEF_COMMENT_END = "*/";
 
-        public const string UNUSED = "#";
+        internal const string UNUSED = "#";
 
-        public const string WORD = @"[a-zA-Z_][a-zA-Z0-9_]*";
+        internal const string WORD = @"[a-zA-Z_][a-zA-Z0-9_]*";
 
-        public const string NUMBER = @"[0-9]+(\.[0-9]+)?";
+        internal const string NUMBER = @"[0-9]+(\.[0-9]+)?";
+
+
+        // Internal Tokens
+        // ===============
+        // Internal tokens are internal representations of tokens that are not actually
+        // valid syntax. For example, INTERNAL_UN_POS is 'u+', which just serves to differentiate
+        // between the binary addition and unary positive operators in the ShuntingYard algorithm,
+        // since they are both represented as a '+'.
+
+        internal const string INTERNAL_UN_POS = "u+";
+
+        internal const string INTERNAL_UN_NEG = "u-";
 
     }
 }

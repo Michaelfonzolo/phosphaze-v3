@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace NeonVM.Neon.Instructions
 {
-    public class BUILD_ARRAY : IInstruction
+    public class BIN_GE : IInstruction
     {
 
-        public int Elements { get; private set; }
-
-        public BUILD_ARRAY(int elements) { Elements = elements; }
+        private BIN_GE() { }
+        public static BIN_GE Instance = new BIN_GE();
 
     }
 }

@@ -47,6 +47,7 @@ namespace NeonVM.Neon
         {
             BIN_OR.Instance,
             BIN_AND.Instance,
+            BUILD_RANGE.Instance,
             BIN_MOD.Instance,
             BIN_ADD.Instance,
             BIN_SUB.Instance,
@@ -63,32 +64,33 @@ namespace NeonVM.Neon
         {
             {Tokens.BIN_OR, 0},
             {Tokens.BIN_AND, 1},
-            {Tokens.BIN_ADD, 3},
-            {Tokens.BIN_SUB, 4},
-            {Tokens.BIN_MUL, 5},
-            {Tokens.BIN_DIV, 6},
-            {Tokens.BIN_POW, 7},
-            {Tokens.BIN_MOD, 2}
+            {Tokens.DISCRETE_RANGE_GEN, 2},
+            {Tokens.BIN_ADD, 4},
+            {Tokens.BIN_SUB, 5},
+            {Tokens.BIN_MUL, 6},
+            {Tokens.BIN_DIV, 7},
+            {Tokens.BIN_POW, 8},
+            {Tokens.BIN_MOD, 3}
         };
 
         private static Dictionary<string, int> UNARY_OPERATOR_TOKENS
             = new Dictionary<string, int>()
         {
-            {Tokens.UN_NOT, 8},
-            {Tokens.UN_NEG, 9},
-            {Tokens.UN_POS, 10}
+            {Tokens.UN_NOT, 9},
+            {Tokens.UN_NEG, 10},
+            {Tokens.UN_POS, 11}
         };
 
         private static int[] LEFT_ASSOCIATIVE
             = new int[]
         {
-            0, 1, 2, 3, 4, 5, 6
+            0, 1, 3, 4, 5, 6, 7
         };
 
         private static int[] RIGHT_ASSOCIATIVE
             = new int[]
         {
-            7, 8, 9, 10
+            2, 8, 9, 10, 11
         };
 
         private static string[] BRACKET_TOKENS
