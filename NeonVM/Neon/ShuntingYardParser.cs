@@ -103,7 +103,7 @@ namespace NeonVM.Neon
         /// <summary>
         /// A list of the indices of operators in OP_INSTR_ORDERED_BY_PRECEDENCE that are non-associative.
         /// 
-        /// An operator '~' is non-associative if the statement a ~ b ~ c is undefined.
+        /// An operator '~' is non-associative if the expression a ~ b ~ c is undefined.
         /// </summary>
         private static int[] NON_ASSOCIATIVE_OP_INDICES
             = new int[]
@@ -159,14 +159,6 @@ namespace NeonVM.Neon
             {Tokens.BLOCK_START, ParsingStateType.Default},
             {Tokens.VEC_START,   ParsingStateType.Vector},
             {Tokens.RVEC_START,  ParsingStateType.RelativeVector}
-        };
-
-        private static Dictionary<string, Func<int, NeonSyntaxException>> BRACKETS_THAT_REQUIRE_ELEM_SEP =
-            new Dictionary<string, Func<int, NeonSyntaxException>>() 
-        {
-            // Change this later
-            {Tokens.VEC_START, NeonExceptions.Exception0014},
-            {Tokens.RVEC_START, NeonExceptions.Exception0014}
         };
 
         private struct INT_FUNC_PAIR
@@ -304,17 +296,6 @@ namespace NeonVM.Neon
         private static ParsingStateType GetBracketParsingState(string token)
         {
             return LEFT_BRACKET_TO_PARSING_STATE[token];
-        }
-
-        private static bool BracketRequiresElemSep(string token)
-        {
-            return BRACKETS_THAT_REQUIRE_ELEM_SEP.ContainsKey(token);
-        }
-
-        private static void ThrowIfBracketRequiresElemSep(string token, int lineNumber)
-        {
-            if (BRACKETS_THAT_REQUIRE_ELEM_SEP.ContainsKey(token))
-                throw BRACKETS_THAT_REQUIRE_ELEM_SEP[token](lineNumber);
         }
 
         private static void ThrowIfBracketRequiresSpecificElemCount(string token, int count, int lineNumber)
@@ -482,16 +463,10 @@ namespace NeonVM.Neon
                     {
                         var elementCount = (int)parsingState.Attributes["elementCount"];
 
-                        string terminal;
-                        if (!(bool)parsingState.Attributes["encounteredElemSep"])
-                        {
-                            ThrowIfBracketRequiresElemSep(token, lineNumber);
-                            terminal = RIGHT_TO_LEFT_BRACKETS[token];
-                        }
-                        else
-                        {
-                            terminal = Tokens.ELEM_SEP;
-                        }
+                        string terminal = 
+                            !(bool)parsingState.Attributes["encounteredElemSep"]
+                            ? RIGHT_TO_LEFT_BRACKETS[token]
+                            : Tokens.ELEM_SEP;
 
                         ThrowIfBracketRequiresSpecificElemCount(token, elementCount, lineNumber);
 
