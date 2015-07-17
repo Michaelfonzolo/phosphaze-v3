@@ -17,7 +17,7 @@ namespace NeonVM.Neon
         /// <summary>
         /// A list of all operator instructions, ordered by precedence (least to greatest).
         /// </summary>
-        private static IInstruction[] OP_INSTR_ORDERED_BY_PRECEDENCE
+        private static readonly IInstruction[] OP_INSTR_ORDERED_BY_PRECEDENCE
             = new IInstruction[]
         {
             BIN_OR.Instance,
@@ -44,7 +44,7 @@ namespace NeonVM.Neon
         /// A dictionary mapping binary operator tokens to their precedence, which is also their
         /// index in OP_INSTR_ORDERED_BY_PRECEDENCE.
         /// </summary>
-        private static Dictionary<string, int> BIN_OP_TOKEN_TO_PREC
+        private static readonly Dictionary<string, int> BIN_OP_TOKEN_TO_PREC
             = new Dictionary<string, int>()
         {
             {Tokens.BIN_OR, 0},
@@ -68,7 +68,7 @@ namespace NeonVM.Neon
         /// A dictionary mapping unary operator tokens to their precedence, which is also their
         /// index in OP_INSTR_ORDERED_BY_PRECEDENCE.
         /// </summary>
-        private static Dictionary<string, int> UN_OP_TOKEN_TO_PREC
+        private static readonly Dictionary<string, int> UN_OP_TOKEN_TO_PREC
             = new Dictionary<string, int>()
         {
             {Tokens.UN_NOT, 15},
@@ -83,7 +83,7 @@ namespace NeonVM.Neon
         /// 
         /// An operator '~' is left associative if a ~ b ~ c == (a ~ b) ~ c.
         /// </summary>
-        private static int[] LEFT_ASSOCIATIVE_OP_INDICES
+        private static readonly int[] LEFT_ASSOCIATIVE_OP_INDICES
             = new int[]
         {
             0, 1, 2, 3, 9, 10, 11, 12, 13
@@ -94,7 +94,7 @@ namespace NeonVM.Neon
         /// 
         /// An operator '~' is right associative if a ~ b ~ c == a ~ (b ~ c).
         /// </summary>
-        private static int[] RIGHT_ASSOCIATIVE_OP_INDICES
+        private static readonly int[] RIGHT_ASSOCIATIVE_OP_INDICES
             = new int[]
         {
             8, 14, 15, 16, 17
@@ -105,7 +105,7 @@ namespace NeonVM.Neon
         /// 
         /// An operator '~' is non-associative if the expression a ~ b ~ c is undefined.
         /// </summary>
-        private static int[] NON_ASSOCIATIVE_OP_INDICES
+        private static readonly int[] NON_ASSOCIATIVE_OP_INDICES
             = new int[]
         {
             4, 5, 6, 7
@@ -115,7 +115,7 @@ namespace NeonVM.Neon
         /// A mapping of operator tokens to their "internal" form. For more information on internal tokens,
         /// see the Tokens static class.
         /// </summary>
-        private static Dictionary<string, string> OP_TOKEN_TO_INTERNAL_TOKEN =
+        private static readonly Dictionary<string, string> OP_TOKEN_TO_INTERNAL_TOKEN =
             new Dictionary<string, string>()
         {
             {Tokens.UN_POS, Tokens.INTERNAL_UN_POS},
@@ -125,7 +125,7 @@ namespace NeonVM.Neon
         /// <summary>
         /// A mapping of left bracket tokens to their associated right bracket token.
         /// </summary>
-        private static Dictionary<string, string> LEFT_TO_RIGHT_BRACKETS =
+        private static readonly Dictionary<string, string> LEFT_TO_RIGHT_BRACKETS =
             new Dictionary<string, string>()
         {
             {Tokens.EXPR_START,  Tokens.EXPR_END},
@@ -139,7 +139,7 @@ namespace NeonVM.Neon
         /// <summary>
         /// A mapping of right bracket tokens to their associated left bracket token.
         /// </summary>
-        private static Dictionary<string, string> RIGHT_TO_LEFT_BRACKETS =
+        private static readonly Dictionary<string, string> RIGHT_TO_LEFT_BRACKETS =
             new Dictionary<string, string>()
         {
             {Tokens.EXPR_END,  Tokens.EXPR_START},
@@ -150,7 +150,7 @@ namespace NeonVM.Neon
             {Tokens.RVEC_END,  Tokens.RVEC_START}
         };
 
-        private static Dictionary<string, ParsingStateType> LEFT_BRACKET_TO_PARSING_STATE =
+        private static readonly Dictionary<string, ParsingStateType> LEFT_BRACKET_TO_PARSING_STATE =
             new Dictionary<string, ParsingStateType>()
         {
             {Tokens.EXPR_START,  ParsingStateType.Default},
@@ -167,7 +167,7 @@ namespace NeonVM.Neon
             public Func<int, NeonSyntaxException> exception { get; set; }
         }
 
-        private static Dictionary<string, INT_FUNC_PAIR> BRACKETS_THAT_REQUIRE_SPECIFIC_ELEM_COUNT =
+        private static readonly Dictionary<string, INT_FUNC_PAIR> BRACKETS_THAT_REQUIRE_SPECIFIC_ELEM_COUNT =
             new Dictionary<string, INT_FUNC_PAIR>()
         {
             // Change this later
@@ -175,7 +175,7 @@ namespace NeonVM.Neon
             {Tokens.RVEC_START, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0014}}
         };
 
-        private static Dictionary<string, Func<int, IInstruction>> RIGHT_BRACKET_FINALIZATION_INSTRS =
+        private static readonly Dictionary<string, Func<int, IInstruction>> RIGHT_BRACKET_FINALIZATION_INSTRS =
             new Dictionary<string, Func<int, IInstruction>>()
         {
             {Tokens.ARRAY_START, (i) => new BUILD_ARRAY(i)},
