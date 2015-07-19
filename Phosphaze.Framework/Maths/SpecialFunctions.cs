@@ -1776,5 +1776,25 @@ namespace Phosphaze.Framework.Maths {
             return Math.Exp(-Math.Pow(x, 2.0) - Math.Pow(y, 2.0));
         }
 
+        public static double SoftMax(double x, double y)
+        {
+            return Math.Log(Math.Exp(x) + Math.Exp(y));
+        }
+
+        public static double SoftMin(double x, double y)
+        {
+            return -Math.Log(Math.Exp(-x) + Math.Exp(-y));
+        }
+
+        public static double FuzzySoftMax(double x, double y, double k)
+        {
+            return SoftMax(k * x, k * y) / k;
+        }
+
+        public static double FuzzySoftMin(double x, double y, double k)
+        {
+            return SoftMin(k * x, k * y) / k;
+        }
+
 	}
 }
