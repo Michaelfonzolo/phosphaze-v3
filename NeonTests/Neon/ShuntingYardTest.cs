@@ -125,7 +125,8 @@ namespace NeonTests.Neon
             new LDC(new NeonObject()),
             new LDC(new NeonObject()),
             BUILD_VEC.Instance,
-            BUILD_VEC.Instance
+            BUILD_VEC.Instance,
+            BIN_ADD.Instance
         };
 
         public static string[] PROGRAM_17 = new string[] { "<<", "/*", "5", "*/", "5", ",", "/*", "\n", "10", "*/", "10", ">>" };
@@ -166,7 +167,8 @@ namespace NeonTests.Neon
             new LDC(new NeonObject()),
             new LDC(new NeonObject()),
             BUILD_VEC.Instance,
-            BUILD_RVEC.Instance
+            BUILD_RVEC.Instance,
+            BIN_ADD.Instance
         };
 
         public static string[] PROGRAM_20 = new string[] { "<|", "/*", "5", "*/", "5", ",", "/*", "\n", "10", "*/", "10", "|>" };
@@ -339,7 +341,7 @@ namespace NeonTests.Neon
 
         private void _TestShuntingYard(IInstruction[] expected, string[] program)
         {
-            var sy = new ShuntingYard(new List<string>(program));
+            var sy = new ShuntingYardParser(new List<string>(program));
             sy.Parse();
             var result = sy.GetInstructions();
 

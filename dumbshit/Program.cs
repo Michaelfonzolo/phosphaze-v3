@@ -14,8 +14,7 @@ namespace dumbshit
         [STAThread]
         static void Main(string[] args)
         {
-
-            var s = new ShuntingYard(new List<string>(new string[] {  }));
+            var s = new ShuntingYardParser(new List<string>(new string[] { "ORIGIN", "+", "<|", "1", ",", "<<", "3", ",", "5", ">>", "|>" }));
             s.Parse();
             foreach (var i in s.GetInstructions())
                 Console.WriteLine(i);

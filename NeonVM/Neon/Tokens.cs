@@ -113,6 +113,8 @@ namespace NeonVM.Neon
 
         internal const string INDEF_COMMENT_END = "*/";
 
+        internal const string LAMBDA_INDICATOR = "?";
+
         internal const string UNUSED = "#";
 
         internal const string WORD = @"[a-zA-Z_][a-zA-Z0-9_]*";
