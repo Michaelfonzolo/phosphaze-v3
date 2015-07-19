@@ -462,133 +462,57 @@ namespace NeonVM.Neon
                 token = tokenStack.Pop();
                 if (token == "\n")
                 {
-                    lineNumber++;
-                    if (parsingState.Type == ParsingStateType.SingleLineComment)
-                        parsingStates.Pop();
+                    ParseNewline(token, prevToken);
                     continue;
                 }
                 else if (token == Tokens.SINGLE_LINE_COMMENT)
                 {
-                    parsingStates.Push(new ParsingState(ParsingStateType.SingleLineComment));
+                    ParseSingleLineComment(token, prevToken);
                 }
                 else if (token == Tokens.INDEF_COMMENT_START)
                 {
-                    if (parsingState.Type != ParsingStateType.SingleLineComment &&
-                        parsingState.Type != ParsingStateType.MultiLineComment)
-                    {
-                        parsingStates.Push(new ParsingState(ParsingStateType.MultiLineComment));
-                        parsingState.Attributes["commentStart"] = lineNumber;
-                    }
+                    ParseMultilineCommentStart(token, prevToken);
                 }
                 else if (token == Tokens.INDEF_COMMENT_END)
                 {
-                    if (parsingState.Type != ParsingStateType.SingleLineComment &&
-                        parsingState.Type != ParsingStateType.MultiLineComment)
-                        throw NeonExceptions.Exception0007(lineNumber);
-                    else if (parsingState.Type == ParsingStateType.SingleLineComment)
-                        continue;
-                    parsingStates.Pop();
+                    ParseMultilineCommentEnd(token, prevToken);
                 }
                 else if (!(parsingState.Type != ParsingStateType.SingleLineComment &&
                          parsingState.Type != ParsingStateType.MultiLineComment))
                     continue;
 
+                // The reason this is here is because if ANY token that isn't a comment
+                // is encountered directly after parsing a left-bracket token (which will
+                // create a parsing state with an "elementCount" attribute) indicates that
+                // there will be at least one element in whatever bracketed thing we are
+                // parsing.
                 if (parsingState.Attributes.ContainsKey("elementCount") &&
                     (int)parsingState.Attributes["elementCount"] == 0)
                     parsingState.Attributes["elementCount"] = 1;
 
                 if (Regex.IsMatch(token, Tokens.WORD))
                 {
-                    // Change this later.
-                    instructions.Add(new LDL(token));
+                    ParseWord(token, prevToken);
                 }
                 else if (Regex.IsMatch(token, Tokens.NUMBER))
                 {
-                    // Change this later.
-                    instructions.Add(new LDC(new NeonObject()));
+                    ParseNumber(token, prevToken);
                 }
                 else if (token[0] == '"' && token[token.Length - 1] == '"')
                 {
-                    // Change this later.
-                    instructions.Add(new LDC(new NeonObject()));
+                    ParseString(token, prevToken);
                 }
                 else if (IsOp(token))
                 {
-                    var arity = GetOpArity(token);
-                    if (arity == Arity.Unknown)
-                    {
-                        arity = (prevToken == null || IsOp(prevToken)) ? Arity.Unary : Arity.Binary;
-                    }
-                    else if (arity == Arity.Unary)
-                    {
-                        if (!(prevToken == null || IsOp(prevToken)))
-                            throw NeonExceptions.Exception0004(token, lineNumber);
-                    }
-
-                    if (operatorStack.Count > 0)
-                    {
-                        string op = ConvertToInternalToken(token, arity);
-
-                        var assoc = GetOpAssociativity(op);
-                        var non_assoc = assoc == Associativity.None;
-                        var terminalPred = GetPopOpsTerminalPredicateFromAssoc(assoc);
-
-                        var top = operatorStack.Peek();
-                        while (terminalPred(op, top))
-                        {
-                            instructions.Add(GetOpInstr(operatorStack.Pop()));
-                            if (operatorStack.Count == 0)
-                                break;
-                            top = operatorStack.Peek();
-                            if (non_assoc && op == top)
-                                // Change this later
-                                throw new Exception();
-                        }
-                        operatorStack.Push(op);
-                    }
+                    ParseOp(token, prevToken);
                 }
                 else if (IsLeftBracket(token))
                 {
-                    operatorStack.Push(BRACKET_TERMINAL_TOKEN);
-
-                    var parsingStateType = GetBracketParsingState(token);
-
-                    if (parsingStateType.HasValue)
-                    {
-                        var newParsingState = new ParsingState(parsingStateType.Value);
-                        newParsingState.Attributes["elementCount"] = 0;
-
-                        parsingStates.Push(newParsingState);
-                    }
-
-                     bracketStack.Push(new TokenWithLineNo() { Token = token, LineNumber = lineNumber });
+                    ParseLeftBracket(token, prevToken);
                 }
                 else if (IsRightBracket(token))
                 {
-                    var l_brac = RIGHT_TO_LEFT_BRACKETS[token];
-                    if (bracketStack.Count == 0)
-                        throw BRACKET_MISMATCH_EXCEPTIONS[l_brac](lineNumber);
-
-                    var last = bracketStack.Pop();
-                    if (last.Token != l_brac)
-                        throw BRACKET_MISMATCH_EXCEPTIONS[l_brac](last.LineNumber);
-
-                    string terminal = BRACKET_TERMINAL_TOKEN;
-
-                    var elementCount = (int)parsingState.Attributes["elementCount"];
-                    ThrowIfBracketRequiresSpecificElemCount(token, elementCount, lineNumber);
-
-                    var top = operatorStack.Peek();
-                    while (top != terminal)
-                    {
-                        instructions.Add(GetOpInstr(operatorStack.Pop()));
-                        top = operatorStack.Peek();
-                    }
-                    operatorStack.Pop();
-                    parsingStates.Pop();
-
-                    if (BracketHasFinalizationInstruction(token))
-                        instructions.Add(GetBracketFinalizationInstruction(token, elementCount));
+                    ParseRightBracket(token, prevToken);
                 }
                 else
                 {
@@ -597,6 +521,137 @@ namespace NeonVM.Neon
                 }
                 prevToken = token;
             }
+        }
+
+        private void ParseNewline(string token, string prevToken)
+        {
+            lineNumber++;
+            if (parsingState.Type == ParsingStateType.SingleLineComment)
+                parsingStates.Pop();
+        }
+
+        private void ParseSingleLineComment(string token, string prevToken)
+        {
+            parsingStates.Push(new ParsingState(ParsingStateType.SingleLineComment));
+        }
+
+        private void ParseMultilineCommentStart(string token, string prevToken)
+        {
+            if (parsingState.Type != ParsingStateType.SingleLineComment &&
+                        parsingState.Type != ParsingStateType.MultiLineComment)
+            {
+                parsingStates.Push(new ParsingState(ParsingStateType.MultiLineComment));
+                parsingState.Attributes["commentStart"] = lineNumber;
+            }
+        }
+
+        private void ParseMultilineCommentEnd(string token, string prevToken)
+        {
+            if (parsingState.Type != ParsingStateType.SingleLineComment &&
+                parsingState.Type != ParsingStateType.MultiLineComment)
+                throw NeonExceptions.Exception0007(lineNumber);
+
+            if (parsingState.Type != ParsingStateType.SingleLineComment)
+                parsingStates.Pop();
+        }
+
+        private void ParseWord(string token, string prevToken)
+        {
+            // Change this later.
+            instructions.Add(new LDL(token));
+        }
+
+        private void ParseNumber(string token, string prevToken)
+        {
+            // Change this later.
+            instructions.Add(new LDC(new NeonObject()));
+        }
+
+        private void ParseString(string token, string prevToken)
+        {
+            // Change this later.
+            instructions.Add(new LDC(new NeonObject()));
+        }
+
+        private void ParseOp(string token, string prevToken)
+        {
+            var arity = GetOpArity(token);
+            if (arity == Arity.Unknown)
+            {
+                arity = (prevToken == null || IsOp(prevToken)) ? Arity.Unary : Arity.Binary;
+            }
+            else if (arity == Arity.Unary)
+            {
+                if (!(prevToken == null || IsOp(prevToken)))
+                    throw NeonExceptions.Exception0004(token, lineNumber);
+            }
+
+            if (operatorStack.Count > 0)
+            {
+                string op = ConvertToInternalToken(token, arity);
+
+                var assoc = GetOpAssociativity(op);
+                var non_assoc = assoc == Associativity.None;
+                var terminalPred = GetPopOpsTerminalPredicateFromAssoc(assoc);
+
+                var top = operatorStack.Peek();
+                while (terminalPred(op, top))
+                {
+                    instructions.Add(GetOpInstr(operatorStack.Pop()));
+                    if (operatorStack.Count == 0)
+                        break;
+                    top = operatorStack.Peek();
+                    if (non_assoc && op == top)
+                        // Change this later
+                        throw new Exception();
+                }
+                operatorStack.Push(op);
+            }
+        }
+
+        private void ParseLeftBracket(string token, string prevToken)
+        {
+            operatorStack.Push(BRACKET_TERMINAL_TOKEN);
+
+            var parsingStateType = GetBracketParsingState(token);
+
+            if (parsingStateType.HasValue)
+            {
+                var newParsingState = new ParsingState(parsingStateType.Value);
+                newParsingState.Attributes["elementCount"] = 0;
+
+                parsingStates.Push(newParsingState);
+            }
+
+            bracketStack.Push(new TokenWithLineNo() { Token = token, LineNumber = lineNumber });
+        }
+
+        private void ParseRightBracket(string token, string prevToken)
+        {
+            var l_brac = RIGHT_TO_LEFT_BRACKETS[token];
+            if (bracketStack.Count == 0)
+                throw BRACKET_MISMATCH_EXCEPTIONS[l_brac](lineNumber);
+
+            var last = bracketStack.Pop();
+            if (last.Token != l_brac)
+                throw BRACKET_MISMATCH_EXCEPTIONS[l_brac](last.LineNumber);
+
+            string terminal = BRACKET_TERMINAL_TOKEN;
+
+            var elementCount = (int)parsingState.Attributes["elementCount"];
+            ThrowIfBracketRequiresSpecificElemCount(token, elementCount, lineNumber);
+
+            var top = operatorStack.Peek();
+            while (top != terminal)
+            {
+                instructions.Add(GetOpInstr(operatorStack.Pop()));
+                top = operatorStack.Peek();
+            }
+            operatorStack.Pop();
+            parsingStates.Pop();
+
+            if (BracketHasFinalizationInstruction(token))
+                instructions.Add(GetBracketFinalizationInstruction(token, elementCount));
         }
 
         public List<IInstruction> GetInstructions()
