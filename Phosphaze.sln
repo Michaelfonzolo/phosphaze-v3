@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phosphaze.UnitTests", "Phos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeonVM", "NeonVM\NeonVM.csproj", "{2B138494-B68A-491F-BB70-0F31910064F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeonVMTests", "NeonTests\NeonVMTests.csproj", "{27ADB670-6E22-4726-92BD-62779759247D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeonVMTests", "NeonVMTests\NeonVMTests.csproj", "{27ADB670-6E22-4726-92BD-62779759247D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dumbshit", "dumbshit\dumbshit.csproj", "{AD7FB5B8-CD2F-4B02-8F51-00CB905C8F43}"
 EndProject
