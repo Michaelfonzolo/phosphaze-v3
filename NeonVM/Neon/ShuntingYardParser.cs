@@ -185,9 +185,8 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, INT_FUNC_PAIR> BRACKETS_THAT_REQUIRE_SPECIFIC_ELEM_COUNT =
             new Dictionary<string, INT_FUNC_PAIR>()
         {
-            // Change this later
-            {Tokens.VEC_START,  new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0014}},
-            {Tokens.RVEC_START, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0014}}
+            {Tokens.VEC_START,  new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0010}},
+            {Tokens.RVEC_START, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0012}}
         };
 
         private static readonly Dictionary<string, Func<int, IInstruction>> RIGHT_BRACKET_FINALIZATION_INSTRS =
@@ -203,11 +202,11 @@ namespace NeonVM.Neon
             new Dictionary<string, Func<int, NeonSyntaxException>>()
         {
             // Change this later
-            {Tokens.EXPR_START,  NeonExceptions.Exception0014},
-            {Tokens.ARRAY_START, NeonExceptions.Exception0014},
-            {Tokens.DICT_START,  NeonExceptions.Exception0014},
-            {Tokens.VEC_START,   NeonExceptions.Exception0014},
-            {Tokens.RVEC_START,  NeonExceptions.Exception0014},
+            {Tokens.EXPR_START,  NeonExceptions.Exception0005},
+            {Tokens.ARRAY_START, NeonExceptions.Exception0015},
+            {Tokens.DICT_START,  NeonExceptions.Exception0016},
+            {Tokens.VEC_START,   NeonExceptions.Exception0009},
+            {Tokens.RVEC_START,  NeonExceptions.Exception0011},
         };
 
         private static readonly Dictionary<ParsingStateType, string> PARSING_STATE_TO_LEFT_BRACKET =

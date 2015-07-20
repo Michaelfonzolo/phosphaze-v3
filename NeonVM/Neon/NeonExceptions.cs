@@ -108,5 +108,19 @@ namespace NeonVM.Neon
                 );
         }
 
+        public static NeonSyntaxException Exception0015(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Mismatched closing array delimiter ']' on line {0}.", lineNum)
+                );
+        }
+
+        public static NeonSyntaxException Exception0016(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Mismatched closing dict delimiter ']]' on line {0}.", lineNum)
+                );
+        }
+
     }
 }
