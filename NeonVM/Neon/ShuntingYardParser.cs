@@ -166,6 +166,9 @@ namespace NeonVM.Neon
             {Tokens.RVEC_END,  Tokens.RVEC_START}
         };
 
+
+        // TO DO: Make a "BiDirectionalMapping" class to compress these two dicts. 
+
         private static readonly Dictionary<string, ParsingStateType?> LEFT_BRACKET_TO_PARSING_STATE =
             new Dictionary<string, ParsingStateType?>()
         {
@@ -174,6 +177,15 @@ namespace NeonVM.Neon
             {Tokens.DICT_START,  ParsingStateType.Dictionary},
             {Tokens.VEC_START,   ParsingStateType.Vector},
             {Tokens.RVEC_START,  ParsingStateType.RelativeVector}
+        };
+
+        private static readonly Dictionary<ParsingStateType, string> PARSING_STATE_TO_LEFT_BRACKET =
+            new Dictionary<ParsingStateType, string>()
+        {
+            {ParsingStateType.Array,          Tokens.ARRAY_START},
+            {ParsingStateType.Dictionary,     Tokens.DICT_START},
+            {ParsingStateType.Vector,         Tokens.VEC_START},
+            {ParsingStateType.RelativeVector, Tokens.RVEC_START}
         };
 
         private struct INT_FUNC_PAIR
@@ -198,25 +210,29 @@ namespace NeonVM.Neon
             {Tokens.RVEC_END,  (i) => BUILD_RVEC.Instance}
         };
 
-        private static readonly Dictionary<string, Func<int, NeonSyntaxException>> BRACKET_MISMATCH_EXCEPTIONS =
+        /// <summary>
+        /// A mapping from right brackets to their associated exception to throw when they are mismatched
+        /// (i.e. when the left bracket on the top of the bracket stack isn't the associated left bracket
+        /// of the encountered right bracket). For example, if ")" was encountered, but the top of the
+        /// bracket stack contained "[", then the exception for ")" in this dictionary would be thrown.
+        /// </summary>
+        private static readonly Dictionary<string, Func<int, NeonSyntaxException>> RIGHT_BRACKET_MISMATCH_EXCEPTIONS =
             new Dictionary<string, Func<int, NeonSyntaxException>>()
         {
-            // Change this later
-            {Tokens.EXPR_START,  NeonExceptions.Exception0005},
-            {Tokens.ARRAY_START, NeonExceptions.Exception0015},
-            {Tokens.DICT_START,  NeonExceptions.Exception0016},
-            {Tokens.VEC_START,   NeonExceptions.Exception0009},
-            {Tokens.RVEC_START,  NeonExceptions.Exception0011},
+            {Tokens.EXPR_END,  NeonExceptions.Exception0005},
+            {Tokens.ARRAY_END, NeonExceptions.Exception0015},
+            {Tokens.DICT_END,  NeonExceptions.Exception0016},
+            {Tokens.VEC_END,   NeonExceptions.Exception0009},
+            {Tokens.RVEC_END,  NeonExceptions.Exception0011},
         };
 
-        private static readonly Dictionary<ParsingStateType, string> PARSING_STATE_TO_LEFT_BRACKET =
-            new Dictionary<ParsingStateType, string>()
-        {
-            {ParsingStateType.Array,          Tokens.ARRAY_START},
-            {ParsingStateType.Vector,         Tokens.VEC_START},
-            {ParsingStateType.RelativeVector, Tokens.RVEC_START}
-        };
-
+        /// <summary>
+        /// The token that gets pushed onto the operatorStack in place of an opening bracket (any opening bracket).
+        /// It doesn't have to be distinct for each bracket since if we reach one closing bracket, we will never have
+        /// to parse tokens beyond its associated opening bracket (e.g. when ")" is encountered, we only have to pop
+        /// ops until "(" is encountered, and if any other bracket is encountered then an appropriate error will be
+        /// thrown beforehand (the bracket's associated exception in BRACKET_MISMATCH_EXCEPTIONS)).
+        /// </summary>
         private static string BRACKET_TERMINAL_TOKEN = "##";
 
         /// <summary>
@@ -668,11 +684,11 @@ namespace NeonVM.Neon
         {
             var l_brac = RIGHT_TO_LEFT_BRACKETS[token];
             if (bracketStack.Count == 0)
-                throw BRACKET_MISMATCH_EXCEPTIONS[l_brac](lineNumber);
+                throw RIGHT_BRACKET_MISMATCH_EXCEPTIONS[token](lineNumber);
 
             var last = bracketStack.Pop();
             if (last.Token != l_brac)
-                throw BRACKET_MISMATCH_EXCEPTIONS[l_brac](last.LineNumber);
+                throw RIGHT_BRACKET_MISMATCH_EXCEPTIONS[token](last.LineNumber);
 
             var top = operatorStack.Peek();
             while (top != BRACKET_TERMINAL_TOKEN)
