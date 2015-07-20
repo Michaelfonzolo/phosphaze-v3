@@ -36,6 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework, Version=3.3.0.2238, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="SystemWrapper, Version=0.4.4190.25852, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SystemWrapper.0.4\lib\SystemWrapper.dll</HintPath>
