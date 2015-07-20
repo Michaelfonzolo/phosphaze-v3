@@ -116,7 +116,7 @@ namespace NeonVM.Neon
                 {
                     if (c == '\n')
                     {
-                        throw NeonExceptions.Exception0001(lineNumber);
+                        throw NeonExceptions.UnclosedString(lineNumber);
                     }
                     _string.Append(c);
                     if (c == '"' && str[i - 1] != '\\')
@@ -194,7 +194,7 @@ namespace NeonVM.Neon
                     }
                     else
                     {
-                        throw NeonExceptions.Exception0002(c, lineNumber);
+                        throw NeonExceptions.UnexpectedCharacter(c, lineNumber);
                     }
                 }
             }

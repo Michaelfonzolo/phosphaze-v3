@@ -166,7 +166,6 @@ namespace NeonVM.Neon
             {Tokens.RVEC_END,  Tokens.RVEC_START}
         };
 
-
         // TO DO: Make a "BiDirectionalMapping" class to compress these two dicts. 
 
         private static readonly Dictionary<string, ParsingStateType?> LEFT_BRACKET_TO_PARSING_STATE =
@@ -197,8 +196,8 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, INT_FUNC_PAIR> BRACKETS_THAT_REQUIRE_SPECIFIC_ELEM_COUNT =
             new Dictionary<string, INT_FUNC_PAIR>()
         {
-            {Tokens.VEC_START,  new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0010}},
-            {Tokens.RVEC_START, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.Exception0012}}
+            {Tokens.VEC_START,  new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.InvalidVectorComponentCount}},
+            {Tokens.RVEC_START, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.InvalidRelativeVectorComponentCount}}
         };
 
         private static readonly Dictionary<string, Func<int, IInstruction>> RIGHT_BRACKET_FINALIZATION_INSTRS =
@@ -219,11 +218,11 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, Func<int, NeonSyntaxException>> RIGHT_BRACKET_MISMATCH_EXCEPTIONS =
             new Dictionary<string, Func<int, NeonSyntaxException>>()
         {
-            {Tokens.EXPR_END,  NeonExceptions.Exception0005},
-            {Tokens.ARRAY_END, NeonExceptions.Exception0015},
-            {Tokens.DICT_END,  NeonExceptions.Exception0016},
-            {Tokens.VEC_END,   NeonExceptions.Exception0009},
-            {Tokens.RVEC_END,  NeonExceptions.Exception0011},
+            {Tokens.EXPR_END,  NeonExceptions.MismatchedClosingBracket},
+            {Tokens.ARRAY_END, NeonExceptions.MismatchedClosingArrayDelimiter},
+            {Tokens.DICT_END,  NeonExceptions.MismatchedClosingDictionaryDelimiter},
+            {Tokens.VEC_END,   NeonExceptions.MismatchedClosingVectorDelimiter},
+            {Tokens.RVEC_END,  NeonExceptions.MismatchedClosingRelativeVectorDelimiter},
         };
 
         /// <summary>
@@ -601,7 +600,7 @@ namespace NeonVM.Neon
         {
             if (parsingState.Type != ParsingStateType.SingleLineComment &&
                 parsingState.Type != ParsingStateType.MultiLineComment)
-                throw NeonExceptions.Exception0007(lineNumber);
+                throw NeonExceptions.MismatchedClosingMultilineCommentDelimiter(lineNumber);
 
             if (parsingState.Type != ParsingStateType.SingleLineComment)
                 parsingStates.Pop();
@@ -637,7 +636,7 @@ namespace NeonVM.Neon
             else if (arity == Arity.Unary)
             {
                 if (!(prevToken == null || IsOp(prevToken)))
-                    throw NeonExceptions.Exception0004(token, lineNumber);
+                    throw NeonExceptions.UnexpectedOperatorEncountered(token, lineNumber);
             }
 
             string op = ConvertToInternalToken(token, arity);

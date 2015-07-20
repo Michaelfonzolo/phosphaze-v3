@@ -113,9 +113,9 @@ namespace NeonVM.Neon
         private static Dictionary<string, Func<int, NeonSyntaxException>> mismatchedOpenBracketExceptions
             = new Dictionary<string, Func<int, NeonSyntaxException>>()
         {
-            {Tokens.EXPR_START, NeonExceptions.Exception0006},
-            {Tokens.VEC_START,  NeonExceptions.Exception0013},
-            {Tokens.RVEC_START, NeonExceptions.Exception0014}
+            {Tokens.EXPR_START, NeonExceptions.UnclosedOpeningBracket},
+            {Tokens.VEC_START,  NeonExceptions.UnclosedOpeningVectorDelimiter},
+            {Tokens.RVEC_START, NeonExceptions.UnclosedOpeningRelativeVectorDelimiter}
         };
 
         private static bool IsOp(string i)
@@ -265,7 +265,7 @@ namespace NeonVM.Neon
                 {
                     if (parsingState.Type != ParsingStateType.SingleLineComment &&
                         parsingState.Type != ParsingStateType.MultiLineComment)
-                        throw NeonExceptions.Exception0007(lineNumber);
+                        throw NeonExceptions.MismatchedClosingMultilineCommentDelimiter(lineNumber);
                     else if (parsingState.Type == ParsingStateType.SingleLineComment)
                         continue;
                     parsingStates.Pop();
@@ -309,7 +309,7 @@ namespace NeonVM.Neon
                         if (unary)
                         {
                             if (!(prevToken == null || IsOp(prevToken)))
-                                throw NeonExceptions.Exception0004(token, lineNumber);
+                                throw NeonExceptions.UnexpectedOperatorEncountered(token, lineNumber);
                             op = OPERATORS[UNARY_OPERATOR_TOKENS[token]];
                         }
                         else
@@ -351,7 +351,7 @@ namespace NeonVM.Neon
 
             if (parsingState.Type == ParsingStateType.MultiLineComment)
                 // It doesn't matter if we end on a single line comment.
-                throw NeonExceptions.Exception0008((int)parsingState.Attributes["commentStart"]);
+                throw NeonExceptions.UnclosedOpeningMultilineCommentDelimiter((int)parsingState.Attributes["commentStart"]);
 
             // Add remaining operators.
             foreach (var op in operatorStack)
@@ -395,7 +395,7 @@ namespace NeonVM.Neon
             PopOpsUntil(
                 EXPR_START_INSTR.Instance,
                 bracketLineStarts[Tokens.EXPR_START],
-                NeonExceptions.Exception0005(lineNumber)
+                NeonExceptions.MismatchedClosingBracket(lineNumber)
                 );
         }
 
@@ -403,15 +403,15 @@ namespace NeonVM.Neon
         {
             NeonSyntaxException _exc0010;
             if (bracketLineStarts[Tokens.VEC_START].Count > 0)
-                _exc0010 = NeonExceptions.Exception0010(bracketLineStarts[Tokens.VEC_START].Peek());
+                _exc0010 = NeonExceptions.InvalidVectorComponentCount(bracketLineStarts[Tokens.VEC_START].Peek());
             else
                 _exc0010 = null;
 
             EndVec(
                 ELEM_SEP_INSTR.Instance,
                 bracketLineStarts[Tokens.VEC_START],
-                NeonExceptions.Exception0009(lineNumber),
-                NeonExceptions.Exception0010(lineNumber),
+                NeonExceptions.MismatchedClosingVectorDelimiter(lineNumber),
+                NeonExceptions.InvalidVectorComponentCount(lineNumber),
                 BUILD_VEC.Instance
                 );
         }
@@ -420,15 +420,15 @@ namespace NeonVM.Neon
         {
             NeonSyntaxException _exc0012;
             if (bracketLineStarts[Tokens.RVEC_START].Count > 0)
-                _exc0012 = NeonExceptions.Exception0012(bracketLineStarts[Tokens.RVEC_START].Peek());
+                _exc0012 = NeonExceptions.InvalidRelativeVectorComponentCount(bracketLineStarts[Tokens.RVEC_START].Peek());
             else
                 _exc0012 = null;
 
             EndVec(
                 ELEM_SEP_INSTR.Instance,
                 bracketLineStarts[Tokens.RVEC_START],
-                NeonExceptions.Exception0011(lineNumber),
-                NeonExceptions.Exception0012(lineNumber),
+                NeonExceptions.MismatchedClosingRelativeVectorDelimiter(lineNumber),
+                NeonExceptions.InvalidRelativeVectorComponentCount(lineNumber),
                 BUILD_RVEC.Instance
                 );
         }
