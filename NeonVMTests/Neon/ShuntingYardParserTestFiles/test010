@@ -1,0 +1,10 @@
+## SYP
+## INPUT
+1 - 2 // comments
+- 3
+## OUTPUT
+LDC 1
+LDC 2
+BIN_SUB
+LDC 3
+BIN_SUB

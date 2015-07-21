@@ -106,7 +106,7 @@ namespace NeonVMTests.Neon
 
             public override void Prepare(string[] f_input, string[] f_expected)
             {
-                Input = new Tokenizer(f_input[0]).Tokenize().ToArray();
+                Input = new Tokenizer(String.Join("\n", f_input)).Tokenize().ToArray();
                 Expected = ParseInstructions(f_expected);
             }
 
@@ -179,6 +179,19 @@ namespace NeonVMTests.Neon
         public void SYP_BracketsAndUnaryOperators()
         {
             testReader.Run("test008");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_UseOfBinaryAsUnaryOpThrowsException()
+        {
+            testReader.Run("test009");
+        }
+
+        [TestMethod]
+        public void SYP_SingleLineCommentsIgnored()
+        {
+            testReader.Run("test010");
         }
 
     }
