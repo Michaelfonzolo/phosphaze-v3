@@ -93,5 +93,11 @@ namespace NeonVMTests.Neon
         {
             testReader.Run("test007");
         }
+
+        [TestMethod]
+        public void AdvancedPolyglyphTokenization()
+        {
+            testReader.Run("test008");
+        }
     }
 }
