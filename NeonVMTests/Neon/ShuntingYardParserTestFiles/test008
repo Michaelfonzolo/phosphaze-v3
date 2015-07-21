@@ -1,0 +1,16 @@
+## SYP
+## INPUT
+1 ++ (2 - -(3 - 4) - !(5))
+## OUTPUT
+LDC 1
+LDC 2
+LDC 3
+LDC 4
+BIN_SUB
+UN_NEG
+BIN_SUB
+LDC 5
+UN_NOT
+BIN_SUB
+UN_POS
+BIN_ADD

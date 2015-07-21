@@ -158,9 +158,27 @@ namespace NeonVMTests.Neon
         }
 
         [TestMethod]
-        public void SYP_AdvanecdUnaryOperatorChaining()
+        public void SYP_AdvancedUnaryOperatorChaining()
         {
             testReader.Run("test005");
+        }
+
+        [TestMethod]
+        public void SYP_BracketsChangeOrderOfEvaluation()
+        {
+            testReader.Run("test006");
+        }
+
+        [TestMethod]
+        public void SYP_AdvancedBracketUsage()
+        {
+            testReader.Run("test007");
+        }
+
+        [TestMethod]
+        public void SYP_BracketsAndUnaryOperators()
+        {
+            testReader.Run("test008");
         }
 
     }

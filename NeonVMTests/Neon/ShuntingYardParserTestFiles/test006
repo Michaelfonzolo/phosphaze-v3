@@ -1,0 +1,9 @@
+## SYP
+## INPUT
+1 * (2 + 3)
+## OUTPUT
+LDC 1
+LDC 2
+LDC 3
+BIN_ADD
+BIN_MUL
