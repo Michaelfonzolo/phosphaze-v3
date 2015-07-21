@@ -59,12 +59,13 @@ namespace NeonVM.Neon
             new Dictionary<char, PolyglyphChecker>()
             {
                 {'*', new PolyglyphChecker("/")},
+                {'&', new PolyglyphChecker("&")},
                 {'<', new PolyglyphChecker("<")},
                 {'[', new PolyglyphChecker("[")},
                 {']', new PolyglyphChecker("]")},
-                {'>', new PolyglyphChecker("-", "=", "|", ">")},
                 {'|', new PolyglyphChecker("<", "|")},
                 {'/', new PolyglyphChecker("/", "*")},
+                {'>', new PolyglyphChecker("-", "=", "|", ">")},
                 {'=', new PolyglyphChecker("=", "<", ">", "!", "+", "-", "*", "/", "^", "%", "&&", "||")}
             };
 
