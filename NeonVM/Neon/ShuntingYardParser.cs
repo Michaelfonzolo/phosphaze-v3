@@ -775,6 +775,10 @@ namespace NeonVM.Neon
 
         private void PostParse()
         {
+            if (parsingState.Type == ParsingStateType.MultiLineComment)
+                throw NeonExceptions.UnclosedOpeningMultilineCommentDelimiter(
+                    (int)parsingState.Attributes["commentStart"]);
+
             while (operatorStack.Count > 0)
             {
                 instructions.Add(GetOpInstr(operatorStack.Peek()));
