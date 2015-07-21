@@ -638,6 +638,11 @@ namespace NeonVM.Neon
                 if (!(prevToken == null || IsOp(prevToken)))
                     throw NeonExceptions.UnexpectedOperatorEncountered(token, lineNumber);
             }
+            else if (arity == Arity.Binary)
+            {
+                if (prevToken == null || IsOp(prevToken))
+                    throw NeonExceptions.BinaryOperatorUsedAsUnary(token, lineNumber);
+            }
 
             string op = ConvertToInternalToken(token, arity);
             if (operatorStack.Count > 0)

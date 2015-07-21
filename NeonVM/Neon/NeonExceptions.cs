@@ -38,6 +38,15 @@ namespace NeonVM.Neon
                 );
         }
 
+        public static NeonSyntaxException BinaryOperatorUsedAsUnary(string op, int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format(
+                    "The operator '{0}' is binary, but was used " +
+                    "like a unary operator on line {1}.", op, lineNum)
+                );
+        }
+
         public static NeonSyntaxException MismatchedClosingBracket(int lineNum)
         {
             return new NeonSyntaxException(
