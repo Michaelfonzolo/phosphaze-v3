@@ -15,7 +15,7 @@ namespace NeonVMTests.Neon
     public class ShuntingYardParserTest
     {
 
-        public class ShuntingYardParserTestSuite : TestCase<string[], IInstruction[]>
+        public class ShuntingYardParserTestCase : TestCase<string[], IInstruction[]>
         {
 
             private static Dictionary<string, IInstruction> STR_TO_INSTR
@@ -124,12 +124,12 @@ namespace NeonVMTests.Neon
 
         private static readonly string TEST_DIRECTORY = Path.Combine("Neon", "ShuntingYardParserTestFiles");
 
-        TestParser<ShuntingYardParserTestSuite> testReader;
+        TestParser<ShuntingYardParserTestCase> testReader;
 
         [TestInitialize]
         public void Initialize()
         {
-            testReader = new TestParser<ShuntingYardParserTestSuite>();
+            testReader = new TestParser<ShuntingYardParserTestCase>();
             testReader.SetDefaultDirectory(TEST_DIRECTORY);
         }
 
