@@ -259,5 +259,25 @@ namespace NeonVMTests.Neon
             testReader.Run("test020");
         }
 
+        [TestMethod]
+        public void SYP_AdvancedBuildRelativeVector()
+        {
+            testReader.Run("test021");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_UnclosedOpeningRelativeVectorDelimiterThrowsException()
+        {
+            testReader.Run("test022");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_BadComponentCountForRelativeVectorThrowsException()
+        {
+            testReader.Run("test023");
+        }
+
     }
 }
