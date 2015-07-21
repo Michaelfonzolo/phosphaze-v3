@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NeonTests.Neon
+namespace NeonVMTests.Neon
 {
     public static class TestUtils
     {

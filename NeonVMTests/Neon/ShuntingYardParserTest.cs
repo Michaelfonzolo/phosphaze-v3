@@ -9,7 +9,7 @@ using NeonVM.Neon;
 using NeonVM.Neon.Instructions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NeonTests.Neon
+namespace NeonVMTests.Neon
 {
     [TestClass]
     public class ShuntingYardParserTest

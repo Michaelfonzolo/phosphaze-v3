@@ -8,7 +8,7 @@ using NeonVM.Neon;
 using NeonVM.Neon.Instructions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace NeonTests.Neon
+namespace NeonVMTests.Neon
 {
     public class TestParser<T> where T : ITestable, new()
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeonTests.Neon
+namespace NeonVMTests.Neon
 {
     public abstract class PreparedTest<TI, TE> : ITestable
     {
