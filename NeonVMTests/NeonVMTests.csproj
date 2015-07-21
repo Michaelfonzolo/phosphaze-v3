@@ -59,11 +59,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Neon\ITestable.cs" />
-    <Compile Include="Neon\PreparedTest.cs" />
+    <Compile Include="Neon\TestCase.cs" />
     <Compile Include="Neon\ShuntingYardParserTest.cs" />
     <Compile Include="Neon\TestParser.cs" />
     <Compile Include="Neon\TestParserException.cs" />
     <Compile Include="Neon\TestUtils.cs" />
+    <Compile Include="Neon\TokenizerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
