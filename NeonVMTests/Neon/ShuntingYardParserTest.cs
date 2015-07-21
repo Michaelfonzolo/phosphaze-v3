@@ -239,5 +239,19 @@ namespace NeonVMTests.Neon
             testReader.Run("test017");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_UnclosedOpeningVectorDelimiterThrowsException()
+        {
+            testReader.Run("test018");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_BadComponentCountForVectorThrowsException()
+        {
+            testReader.Run("test019");
+        }
+
     }
 }
