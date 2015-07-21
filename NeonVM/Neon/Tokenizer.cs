@@ -34,6 +34,7 @@ namespace NeonVM.Neon
             Tokens.LAMBDA_INDICATOR[0],
             Tokens.UNUSED[0],
             Tokens.UN_NOT[0],
+            Tokens.LAMBDA_INDICATOR[0],
             '\\'
         };
 

@@ -1,0 +1,8 @@
+## TKN
+## INPUT
+a "b" "c'd'" "e\""
+## OUTPUT
+a
+"b"
+"c'd'"
+"e\""

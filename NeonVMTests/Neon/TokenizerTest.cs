@@ -99,5 +99,25 @@ namespace NeonVMTests.Neon
         {
             testReader.Run("test008");
         }
+
+        [TestMethod]
+        public void StringsParsedProperly()
+        {
+            testReader.Run("test009");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonParseException))]
+        public void UnknownCharacterThrowsParseException()
+        {
+            testReader.Run("test010");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonParseException))]
+        public void MultilineStringThrowsParseException()
+        {
+            testReader.Run("test011");
+        }
     }
 }
