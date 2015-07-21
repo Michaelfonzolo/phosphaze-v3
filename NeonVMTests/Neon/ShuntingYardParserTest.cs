@@ -122,7 +122,7 @@ namespace NeonTests.Neon
             }
         }
 
-        private static readonly string TEST_DIRECTORY = Path.Combine("Neon", "NeonTestFiles");
+        private static readonly string TEST_DIRECTORY = Path.Combine("Neon", "ShuntingYardParserTestFiles");
 
         TestParser<ShuntingYardParserTestSuite> testReader;
 
@@ -134,7 +134,7 @@ namespace NeonTests.Neon
         }
 
         [TestMethod]
-        public void BasicArithmetic()
+        public void SYP_BasicArithmetic()
         {
             testReader.Run("test001.neon");
         }
