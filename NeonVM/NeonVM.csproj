@@ -72,7 +72,6 @@
     <Compile Include="Neon\NeonSyntaxException.cs" />
     <Compile Include="Neon\NeonObject.cs" />
     <Compile Include="Neon\ParsingState.cs" />
-    <Compile Include="Neon\ShuntingYard.cs" />
     <Compile Include="Neon\ShuntingYardParser.cs" />
     <Compile Include="Neon\Tokenizer.cs" />
     <Compile Include="Neon\TokenizerException.cs" />
