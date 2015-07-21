@@ -136,7 +136,19 @@ namespace NeonVMTests.Neon
         [TestMethod]
         public void SYP_BasicArithmetic()
         {
-            testReader.Run("test001.neon");
+            testReader.Run("test001");
+        }
+
+        [TestMethod]
+        public void SYP_BinaryOperatorPrecedence()
+        {
+            testReader.Run("test002");
+        }
+
+        [TestMethod]
+        public void SYP_AdvancedBinaryOperatorPrecedence()
+        {
+            testReader.Run("test003");
         }
 
     }
