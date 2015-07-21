@@ -15,31 +15,31 @@ namespace NeonVMTests.Neon
     public class ShuntingYardParserTest
     {
 
-        public class ShuntingYardParserTestSuite : PreparedTest<string[], IInstruction[]>
+        public class ShuntingYardParserTestSuite : TestCase<string[], IInstruction[]>
         {
 
             private static Dictionary<string, IInstruction> STR_TO_INSTR
                 = new Dictionary<string, IInstruction>()
             {
-                {"BIN_ADD", BIN_ADD.Instance},
-                {"BIN_AND", BIN_AND.Instance},
-                {"BIN_DIV", BIN_DIV.Instance},
-                {"BIN_EQ",  BIN_EQ.Instance},
-                {"BIN_GE",  BIN_GE.Instance},
-                {"BIN_GT",  BIN_GT.Instance},
-                {"BIN_LE",  BIN_LT.Instance},
-                {"BIN_MOD", BIN_MOD.Instance},
-                {"BIN_MUL", BIN_MUL.Instance},
-                {"BIN_NE",  BIN_NE.Instance},
-                {"BIN_OR",  BIN_OR.Instance},
-                {"BIN_POW", BIN_POW.Instance},
-                {"BIN_SUB", BIN_SUB.Instance},
+                {"BIN_ADD",     BIN_ADD.Instance},
+                {"BIN_AND",     BIN_AND.Instance},
+                {"BIN_DIV",     BIN_DIV.Instance},
+                {"BIN_EQ",      BIN_EQ.Instance},
+                {"BIN_GE",      BIN_GE.Instance},
+                {"BIN_GT",      BIN_GT.Instance},
+                {"BIN_LE",      BIN_LT.Instance},
+                {"BIN_MOD",     BIN_MOD.Instance},
+                {"BIN_MUL",     BIN_MUL.Instance},
+                {"BIN_NE",      BIN_NE.Instance},
+                {"BIN_OR",      BIN_OR.Instance},
+                {"BIN_POW",     BIN_POW.Instance},
+                {"BIN_SUB",     BIN_SUB.Instance},
                 {"BUILD_RANGE", BUILD_RANGE.Instance},
-                {"BUILD_RVEC", BUILD_RVEC.Instance},
-                {"BUILD_VEC", BUILD_VEC.Instance},
-                {"UN_NEG", UN_NEG.Instance},
-                {"UN_NOT", UN_NOT.Instance},
-                {"UN_POS", UN_POS.Instance}
+                {"BUILD_RVEC",  BUILD_RVEC.Instance},
+                {"BUILD_VEC",   BUILD_VEC.Instance},
+                {"UN_NEG",      UN_NEG.Instance},
+                {"UN_NOT",      UN_NOT.Instance},
+                {"UN_POS",      UN_POS.Instance}
             };
 
             private static Dictionary<string, Func<string[], IInstruction>> COMPLEX_INSTRS

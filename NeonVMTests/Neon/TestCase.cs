@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NeonVMTests.Neon
 {
-    public abstract class PreparedTest<TI, TE> : ITestable
+    public abstract class TestCase<TI, TE> : ITestable
     {
         public TI Input { get; protected set; }
         public TE Expected { get; protected set; }
