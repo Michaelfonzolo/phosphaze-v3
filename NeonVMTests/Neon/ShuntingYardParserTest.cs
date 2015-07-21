@@ -213,5 +213,19 @@ namespace NeonVMTests.Neon
             testReader.Run("test013");
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_MismatchedClosingBracketThrowsException()
+        {
+            testReader.Run("test014");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_UnclosedOpeningBracketThrowsException()
+        {
+            testReader.Run("test015");
+        }
+
     }
 }
