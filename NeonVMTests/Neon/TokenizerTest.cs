@@ -82,5 +82,10 @@ namespace NeonVMTests.Neon
             testReader.Run("test005");
         }
 
+        [TestMethod]
+        public void BasicTriglyphTokenization()
+        {
+            testReader.Run("test006");
+        }
     }
 }

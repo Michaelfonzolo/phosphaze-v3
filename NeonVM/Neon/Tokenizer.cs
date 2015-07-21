@@ -98,7 +98,9 @@ namespace NeonVM.Neon
 
         private bool IsTruncatedDecimal(string str)
         {
-            return str.Last() == '.' && IsInteger(str.Substring(0, str.Length - 1));
+            if (str.Length > 1)
+                return str.Last() == '.' && IsInteger(str.Substring(0, str.Length - 1));
+            return str.Length == 1 ? Char.IsDigit(str[0]) : false;
         }
 
         public List<string> Tokenize()

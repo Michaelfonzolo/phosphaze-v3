@@ -16,12 +16,9 @@ namespace dumbshit
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
-            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
-            var s = new ShuntingYardParser(new List<string>(new string[] { "ORIGIN", "+", "<|", "1", ",", "<<", "3", ",", "5", ">>", "|>" }));
-            s.Parse();
-            foreach (var i in s.GetInstructions())
-                Console.WriteLine(i);
+            var things = new Tokenizer("0...5...alpha").Tokenize();
+            foreach (var thing in things)
+                Console.WriteLine(thing);
         }
     }
 }
