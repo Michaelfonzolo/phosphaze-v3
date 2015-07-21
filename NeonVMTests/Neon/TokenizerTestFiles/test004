@@ -1,0 +1,13 @@
+## TKN
+## INPUT
+1 + 2.0 - three * (4)
+## OUTPUT
+1
++
+2.0
+-
+three
+*
+(
+4
+)

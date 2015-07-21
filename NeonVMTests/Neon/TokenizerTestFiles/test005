@@ -1,0 +1,15 @@
+## TKN
+## INPUT
+alpha->beta->gamma += [[ 5 && 3 ]]
+## OUTPUT
+alpha
+->
+beta
+->
+gamma
++=
+[[
+5
+&&
+3
+]]
