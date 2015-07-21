@@ -119,5 +119,12 @@ namespace NeonVMTests.Neon
         {
             testReader.Run("test011");
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonParseException))]
+        public void UnclosedStringThrowsParseException()
+        {
+            testReader.Run("test012");
+        }
     }
 }

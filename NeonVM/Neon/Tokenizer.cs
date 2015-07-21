@@ -204,6 +204,9 @@ namespace NeonVM.Neon
                 }
             }
 
+            if (parsingString)
+                throw NeonExceptions.UnclosedString(lineNumber);
+
             var cleanTokens = from token in tokens
                               where token.Length > 0
                               select token.ToString();
