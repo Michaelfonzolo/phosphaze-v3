@@ -27,7 +27,7 @@ Spawner = ? (i) => Bullet([
 			$(1250) {
 				Range("j", {
 					this->groups->Get(j)->ApplyAll({
-						SetVelocity(2 * polar(72 * i)); // This is where we use the i parameter.
+						SetVelocity(2 * polar(72 * i)); // This is where we use the i parameter
 						TransitionSpeed(0, 1000);
 					});
 				}, 0...4);
@@ -47,7 +47,7 @@ Spawner = ? (i) => Bullet([
 
 Bullet1 = Bullet([
 	"sprite" : "mediumCircle",
-	"color" : 0xff0000
+	"color" : {1, 0, 0}
 ]);
 
 EXPORT("Spawner", "Bullet1");
@@ -127,7 +127,7 @@ Bullet
 [
 \n
 "components"
-;
+:
 [
 \n
 "main"
@@ -237,7 +237,8 @@ time
 Add
 (
 b
-);
+)
+;
 \n
 Spawn
 (
@@ -258,6 +259,7 @@ Range
 "j"
 ,
 {
+\n
 this
 ->
 groups
@@ -270,6 +272,7 @@ j
 ApplyAll
 (
 {
+\n
 SetVelocity
 (
 2
@@ -291,7 +294,6 @@ use
 the
 i
 parameter
-.
 \n
 TransitionSpeed
 (
@@ -314,9 +316,10 @@ TransitionSpeed
 ;
 \n
 }
+\n
 $
 (
-250
+2500
 )
 {
 \n

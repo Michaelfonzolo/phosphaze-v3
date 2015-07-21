@@ -30,6 +30,7 @@ namespace NeonVM.Neon
             Tokens.EOL[0],
             Tokens.KEY_VAR_CONN[0],
             Tokens.TIME_COMMAND[0],
+            Tokens.AT_INTERVALS[0],
             Tokens.DURING_INTERVALS[0],
             Tokens.LAMBDA_INDICATOR[0],
             Tokens.UNUSED[0],
