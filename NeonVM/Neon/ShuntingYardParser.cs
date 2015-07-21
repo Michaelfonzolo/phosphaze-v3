@@ -779,6 +779,12 @@ namespace NeonVM.Neon
                 throw NeonExceptions.UnclosedOpeningMultilineCommentDelimiter(
                     (int)parsingState.Attributes["commentStart"]);
 
+            if (bracketStack.Count != 0)
+            {
+                var top = bracketStack.Pop();
+                throw RIGHT_BRACKET_MISMATCH_EXCEPTIONS[LEFT_TO_RIGHT_BRACKETS[top.Token]](top.LineNumber);
+            }
+
             while (operatorStack.Count > 0)
             {
                 instructions.Add(GetOpInstr(operatorStack.Peek()));
