@@ -194,5 +194,24 @@ namespace NeonVMTests.Neon
             testReader.Run("test010");
         }
 
+        [TestMethod]
+        public void SYP_MultiLineCommentsIgnored()
+        {
+            testReader.Run("test011");
+        }
+
+        [TestMethod]
+        public void SYP_SingleLineCommentsToEOFIsOK()
+        {
+            testReader.Run("test012");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NeonSyntaxException))]
+        public void SYP_MultiLineCommentsToEOFThrowsException()
+        {
+            testReader.Run("test013");
+        }
+
     }
 }
