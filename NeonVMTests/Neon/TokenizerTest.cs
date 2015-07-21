@@ -53,76 +53,76 @@ namespace NeonVMTests.Neon
         }
 
         [TestMethod]
-        public void WordSeparationBySpaces()
+        public void Tokenizer_WordSeparationBySpaces()
         {
             testReader.Run("test001");
         }
 
         [TestMethod]
-        public void SeparationOfWordsAndNumbers()
+        public void Tokenizer_SeparationOfWordsAndNumbers()
         {
             testReader.Run("test002");
         }
 
         [TestMethod]
-        public void InclusionOfNewlines()
+        public void Tokenizer_InclusionOfNewlines()
         {
             testReader.Run("test003");
         }
 
         [TestMethod]
-        public void BasicMonoglyphTokenization()
+        public void Tokenizer_BasicMonoglyphTokenization()
         {
             testReader.Run("test004");
         }
 
         [TestMethod]
-        public void BasicDiglyphTokenization()
+        public void Tokenizer_BasicDiglyphTokenization()
         {
             testReader.Run("test005");
         }
 
         [TestMethod]
-        public void BasicTriglyphTokenization()
+        public void Tokenizer_BasicTriglyphTokenization()
         {
             testReader.Run("test006");
         }
 
         [TestMethod]
-        public void AdvancedTriglyphTokenization()
+        public void Tokenizer_AdvancedTriglyphTokenization()
         {
             testReader.Run("test007");
         }
 
         [TestMethod]
-        public void AdvancedPolyglyphTokenization()
+        public void Tokenizer_AdvancedPolyglyphTokenization()
         {
             testReader.Run("test008");
         }
 
         [TestMethod]
-        public void StringsParsedProperly()
+        public void Tokenizer_StringsParsedProperly()
         {
             testReader.Run("test009");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonParseException))]
-        public void UnknownCharacterThrowsParseException()
+        public void Tokenizer_UnknownCharacterThrowsParseException()
         {
             testReader.Run("test010");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonParseException))]
-        public void MultilineStringThrowsParseException()
+        public void Tokenizer_MultilineStringThrowsParseException()
         {
             testReader.Run("test011");
         }
 
         [TestMethod]
         [ExpectedException(typeof(NeonParseException))]
-        public void UnclosedStringThrowsParseException()
+        public void Tokenizer_UnclosedStringThrowsParseException()
         {
             testReader.Run("test012");
         }
