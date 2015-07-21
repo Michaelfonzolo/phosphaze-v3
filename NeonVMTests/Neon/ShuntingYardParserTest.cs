@@ -227,5 +227,17 @@ namespace NeonVMTests.Neon
             testReader.Run("test015");
         }
 
+        [TestMethod]
+        public void SYP_BuildVector()
+        {
+            testReader.Run("test016");
+        }
+
+        [TestMethod]
+        public void SYP_AdvancedBuildVector()
+        {
+            testReader.Run("test017");
+        }
+
     }
 }
