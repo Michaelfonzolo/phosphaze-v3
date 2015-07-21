@@ -146,11 +146,11 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, string> LEFT_TO_RIGHT_BRACKETS =
             new Dictionary<string, string>()
         {
-            {Tokens.EXPR_START,  Tokens.EXPR_END},
-            {Tokens.ARRAY_START, Tokens.ARRAY_END},
-            {Tokens.DICT_START,  Tokens.DICT_END},
-            {Tokens.VEC_START,   Tokens.VEC_END},
-            {Tokens.RVEC_START,  Tokens.RVEC_END}
+            {Tokens.EXPR_LEFT,  Tokens.EXPR_RIGHT},
+            {Tokens.ARRAY_LEFT, Tokens.ARRAY_RIGHT},
+            {Tokens.DICT_LEFT,  Tokens.DICT_RIGHT},
+            {Tokens.VEC_LEFT,   Tokens.VEC_RIGHT},
+            {Tokens.RVEC_LEFT,  Tokens.RVEC_RIGHT}
         };
 
         /// <summary>
@@ -159,11 +159,11 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, string> RIGHT_TO_LEFT_BRACKETS =
             new Dictionary<string, string>()
         {
-            {Tokens.EXPR_END,  Tokens.EXPR_START},
-            {Tokens.ARRAY_END, Tokens.ARRAY_START},
-            {Tokens.DICT_END,  Tokens.DICT_START},
-            {Tokens.VEC_END,   Tokens.VEC_START},
-            {Tokens.RVEC_END,  Tokens.RVEC_START}
+            {Tokens.EXPR_RIGHT,  Tokens.EXPR_LEFT},
+            {Tokens.ARRAY_RIGHT, Tokens.ARRAY_LEFT},
+            {Tokens.DICT_RIGHT,  Tokens.DICT_LEFT},
+            {Tokens.VEC_RIGHT,   Tokens.VEC_LEFT},
+            {Tokens.RVEC_RIGHT,  Tokens.RVEC_LEFT}
         };
 
         // TO DO: Make a "BiDirectionalMapping" class to compress these two dicts. 
@@ -171,20 +171,20 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, ParsingStateType?> LEFT_BRACKET_TO_PARSING_STATE =
             new Dictionary<string, ParsingStateType?>()
         {
-            {Tokens.EXPR_START,  null},
-            {Tokens.ARRAY_START, ParsingStateType.Array},
-            {Tokens.DICT_START,  ParsingStateType.Dictionary},
-            {Tokens.VEC_START,   ParsingStateType.Vector},
-            {Tokens.RVEC_START,  ParsingStateType.RelativeVector}
+            {Tokens.EXPR_LEFT,  null},
+            {Tokens.ARRAY_LEFT, ParsingStateType.Array},
+            {Tokens.DICT_LEFT,  ParsingStateType.Dictionary},
+            {Tokens.VEC_LEFT,   ParsingStateType.Vector},
+            {Tokens.RVEC_LEFT,  ParsingStateType.RelativeVector}
         };
 
         private static readonly Dictionary<ParsingStateType, string> PARSING_STATE_TO_LEFT_BRACKET =
             new Dictionary<ParsingStateType, string>()
         {
-            {ParsingStateType.Array,          Tokens.ARRAY_START},
-            {ParsingStateType.Dictionary,     Tokens.DICT_START},
-            {ParsingStateType.Vector,         Tokens.VEC_START},
-            {ParsingStateType.RelativeVector, Tokens.RVEC_START}
+            {ParsingStateType.Array,          Tokens.ARRAY_LEFT},
+            {ParsingStateType.Dictionary,     Tokens.DICT_LEFT},
+            {ParsingStateType.Vector,         Tokens.VEC_LEFT},
+            {ParsingStateType.RelativeVector, Tokens.RVEC_LEFT}
         };
 
         private struct INT_FUNC_PAIR
@@ -196,17 +196,17 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, INT_FUNC_PAIR> BRACKETS_THAT_REQUIRE_SPECIFIC_ELEM_COUNT =
             new Dictionary<string, INT_FUNC_PAIR>()
         {
-            {Tokens.VEC_START,  new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.InvalidVectorComponentCount}},
-            {Tokens.RVEC_START, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.InvalidRelativeVectorComponentCount}}
+            {Tokens.VEC_LEFT,  new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.InvalidVectorComponentCount}},
+            {Tokens.RVEC_LEFT, new INT_FUNC_PAIR() {count=2, exception=NeonExceptions.InvalidRelativeVectorComponentCount}}
         };
 
         private static readonly Dictionary<string, Func<int, IInstruction>> RIGHT_BRACKET_FINALIZATION_INSTRS =
             new Dictionary<string, Func<int, IInstruction>>()
         {
-            {Tokens.ARRAY_END, (i) => new BUILD_ARRAY(i)},
-            {Tokens.DICT_END,  (i) => new BUILD_DICT(i)},
-            {Tokens.VEC_END,   (i) => BUILD_VEC.Instance},
-            {Tokens.RVEC_END,  (i) => BUILD_RVEC.Instance}
+            {Tokens.ARRAY_RIGHT, (i) => new BUILD_ARRAY(i)},
+            {Tokens.DICT_RIGHT,  (i) => new BUILD_DICT(i)},
+            {Tokens.VEC_RIGHT,   (i) => BUILD_VEC.Instance},
+            {Tokens.RVEC_RIGHT,  (i) => BUILD_RVEC.Instance}
         };
 
         /// <summary>
@@ -218,11 +218,11 @@ namespace NeonVM.Neon
         private static readonly Dictionary<string, Func<int, NeonSyntaxException>> RIGHT_BRACKET_MISMATCH_EXCEPTIONS =
             new Dictionary<string, Func<int, NeonSyntaxException>>()
         {
-            {Tokens.EXPR_END,  NeonExceptions.MismatchedClosingBracket},
-            {Tokens.ARRAY_END, NeonExceptions.MismatchedClosingArrayDelimiter},
-            {Tokens.DICT_END,  NeonExceptions.MismatchedClosingDictionaryDelimiter},
-            {Tokens.VEC_END,   NeonExceptions.MismatchedClosingVectorDelimiter},
-            {Tokens.RVEC_END,  NeonExceptions.MismatchedClosingRelativeVectorDelimiter},
+            {Tokens.EXPR_RIGHT,  NeonExceptions.MismatchedClosingBracket},
+            {Tokens.ARRAY_RIGHT, NeonExceptions.MismatchedClosingArrayDelimiter},
+            {Tokens.DICT_RIGHT,  NeonExceptions.MismatchedClosingDictionaryDelimiter},
+            {Tokens.VEC_RIGHT,   NeonExceptions.MismatchedClosingVectorDelimiter},
+            {Tokens.RVEC_RIGHT,  NeonExceptions.MismatchedClosingRelativeVectorDelimiter},
         };
 
         /// <summary>
@@ -512,11 +512,11 @@ namespace NeonVM.Neon
                 {
                     ParseSingleLineComment(token, prevToken);
                 }
-                else if (token == Tokens.INDEF_COMMENT_START)
+                else if (token == Tokens.INDEF_COMMENT_LEFT)
                 {
                     ParseMultilineCommentStart(token, prevToken);
                 }
-                else if (token == Tokens.INDEF_COMMENT_END)
+                else if (token == Tokens.INDEF_COMMENT_RIGHT)
                 {
                     ParseMultilineCommentEnd(token, prevToken);
                     continue;
@@ -748,7 +748,7 @@ namespace NeonVM.Neon
                     // will only be popped up until the BRACKET_TERMINAL_TOKEN anyways.
                     break;
                 case ParsingStateType.Dictionary:
-                    if (prevToken == Tokens.DICT_START)
+                    if (prevToken == Tokens.DICT_LEFT)
                         // Change this later
                         throw new Exception();
                     else if (prevToken == Tokens.ELEM_SEP)

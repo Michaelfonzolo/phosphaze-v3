@@ -25,25 +25,25 @@ namespace NeonVM.Neon
 
         internal const string UN_NEG = "-";
 
-        internal const string EXPR_START = "(";
+        internal const string EXPR_LEFT = "(";
 
-        internal const string EXPR_END = ")";
+        internal const string EXPR_RIGHT = ")";
 
-        internal const string CALL_START = "(";
+        internal const string CALL_LEFT = "(";
 
-        internal const string CALL_END = ")";
+        internal const string CALL_RIGHT = ")";
 
-        internal const string ARRAY_START = "[";
+        internal const string ARRAY_LEFT = "[";
 
-        internal const string ARRAY_END = "]";
+        internal const string ARRAY_RIGHT = "]";
 
-        internal const string DICT_START = "[[";
+        internal const string DICT_LEFT = "[[";
 
-        internal const string DICT_END = "]]";
+        internal const string DICT_RIGHT = "]]";
 
-        internal const string BLOCK_START = "{";
+        internal const string BLOCK_LEFT = "{";
 
-        internal const string BLOCK_END = "}";
+        internal const string BLOCK_RIGHT = "}";
 
         internal const string ELEM_SEP = ",";
 
@@ -87,13 +87,13 @@ namespace NeonVM.Neon
 
         internal const string IP_OR = "||=";
 
-        internal const string VEC_START = "<<";
+        internal const string VEC_LEFT = "<<";
 
-        internal const string VEC_END = ">>";
+        internal const string VEC_RIGHT = ">>";
 
-        internal const string RVEC_START = "<|";
+        internal const string RVEC_LEFT = "<|";
 
-        internal const string RVEC_END = "|>";
+        internal const string RVEC_RIGHT = "|>";
 
         internal const string ATTR_GET = "->";
 
@@ -109,9 +109,9 @@ namespace NeonVM.Neon
 
         internal const string SINGLE_LINE_COMMENT = "//";
 
-        internal const string INDEF_COMMENT_START = "/*";
+        internal const string INDEF_COMMENT_LEFT = "/*";
 
-        internal const string INDEF_COMMENT_END = "*/";
+        internal const string INDEF_COMMENT_RIGHT = "*/";
 
         internal const string LAMBDA_INDICATOR = "?";
 
