@@ -16,7 +16,9 @@ namespace dumbshit
         [STAThread]
         static void Main(string[] args)
         {
-            var things = new Tokenizer("0...5...alpha").Tokenize();
+            var syp = new ShuntingYardParser(new List<string>() { "<<", "1", ",", "2", ",", "3", ">>" });
+            syp.Parse();
+            var things = syp.GetInstructions();
             foreach (var thing in things)
                 Console.WriteLine(thing);
         }

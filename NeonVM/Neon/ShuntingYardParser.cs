@@ -705,7 +705,7 @@ namespace NeonVM.Neon
             if (parsingState.Attributes.ContainsKey("elementCount"))
             {
                 var elementCount = (int)parsingState.Attributes["elementCount"];
-                ThrowIfBracketRequiresSpecificElemCount(token, elementCount, lineNumber);
+                ThrowIfBracketRequiresSpecificElemCount(l_brac, elementCount, lineNumber);
 
                 if (BracketHasFinalizationInstruction(token))
                     instructions.Add(GetBracketFinalizationInstruction(token, elementCount));
