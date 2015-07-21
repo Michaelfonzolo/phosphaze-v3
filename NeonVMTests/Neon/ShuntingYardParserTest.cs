@@ -151,5 +151,17 @@ namespace NeonVMTests.Neon
             testReader.Run("test003");
         }
 
+        [TestMethod]
+        public void SYP_DifferentiateBetweenAmbiguousUnaryBinaryOperators()
+        {
+            testReader.Run("test004");
+        }
+
+        [TestMethod]
+        public void SYP_AdvanecdUnaryOperatorChaining()
+        {
+            testReader.Run("test005");
+        }
+
     }
 }
