@@ -58,8 +58,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Neon\ShuntingYardTest.cs" />
-    <Compile Include="Neon\TokenizerTest.cs" />
+    <Compile Include="Neon\blarg1.cs" />
+    <Compile Include="Neon\ShuntingYardParserTest.cs" />
+    <Compile Include="Neon\TestParser.cs" />
+    <Compile Include="Neon\TestUtils.cs" />
+    <Compile Include="Neon\blarg2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
