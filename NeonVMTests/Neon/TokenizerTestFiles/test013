@@ -1,0 +1,420 @@
+## TKN
+## INPUT
+StarPolygon = Path({
+	polygon({
+		<0, 2>,
+		<1, -2>,
+		<-2, 0.8>,
+		<2, 0.8>,
+		<-1, -2>,
+		<0, 2>
+	})
+});
+
+Spawner = ? (i) => Bullet([
+	"components" : [
+		"main" : {
+			$(0) { 
+				this->groups = Array();
+				Range("j", { this->groups->Add(Group()); }, 0...4);
+				Follow(["path" : StarPolygon, "duration" : 1000]); 
+			}
+			$((0 @ 25) && (-> 1000)) {
+				b = Bullet1->Construct(this->position);
+				this->groups->Get(5 * floor(this->time / 200))->Add(b);
+				Spawn(b);
+			}
+			$(1250) {
+				Range("j", {
+					this->groups->Get(j)->ApplyAll({
+						SetVelocity(2 * polar(72 * i)); // This is where we use the i parameter.
+						TransitionSpeed(0, 1000);
+					});
+				}, 0...4);
+			}
+			$(2500) {
+				Range("j", {
+					this->groups->Get(j)->ApplyAll({
+						SetDirection(/* some function that returns the appropriate direction */);
+						TransitionSpeed(2.5, 750);
+					});
+				});
+				Kill();
+			}
+		}
+	]
+]);
+
+Bullet1 = Bullet([
+	"sprite" : "mediumCircle",
+	"color" : 0xff0000
+]);
+
+EXPORT("Spawner", "Bullet1");
+## OUTPUT
+StarPolygon
+=
+Path
+(
+{
+\n
+polygon
+(
+{
+\n
+<
+0
+,
+2
+>
+,
+\n
+<
+1
+,
+-
+2
+>
+,
+\n
+<
+-
+2
+,
+0.8
+>
+,
+\n
+<
+2
+,
+0.8
+>
+,
+\n
+<
+-
+1
+,
+-
+2
+>
+,
+\n
+<
+0
+,
+2
+>
+\n
+}
+)
+\n
+}
+)
+;
+\n
+\n
+Spawner
+=
+?
+(
+i
+)
+=>
+Bullet
+(
+[
+\n
+"components"
+;
+[
+\n
+"main"
+:
+{
+\n
+$
+(
+0
+)
+{
+\n
+this
+->
+groups
+=
+Array
+(
+)
+;
+\n
+Range
+(
+"j"
+,
+{
+this
+->
+groups
+->
+Add
+(
+Group
+(
+)
+)
+;
+}
+,
+0
+...
+4
+)
+;
+\n
+Follow
+(
+[
+"path"
+:
+StarPolygon
+,
+"duration"
+:
+1000
+]
+)
+;
+\n
+}
+\n
+$
+(
+(
+0
+@
+25
+)
+&&
+(
+->
+1000
+)
+)
+{
+\n
+b
+=
+Bullet1
+->
+Construct
+(
+this
+->
+position
+)
+;
+\n
+this
+->
+groups
+->
+Get
+(
+5
+*
+floor
+(
+this
+->
+time
+/
+200
+)
+)
+->
+Add
+(
+b
+);
+\n
+Spawn
+(
+b
+)
+;
+\n
+}
+\n
+$
+(
+1250
+)
+{
+\n
+Range
+(
+"j"
+,
+{
+this
+->
+groups
+->
+Get
+(
+j
+)
+->
+ApplyAll
+(
+{
+SetVelocity
+(
+2
+*
+polar
+(
+72
+*
+i
+)
+)
+;
+//
+This
+is
+where
+we
+use
+the
+i
+parameter
+.
+\n
+TransitionSpeed
+(
+0
+,
+1000
+)
+;
+\n
+}
+)
+;
+\n
+}
+,
+0
+...
+4
+)
+;
+\n
+}
+$
+(
+250
+)
+{
+\n
+Range
+(
+"j"
+,
+{
+\n
+this
+->
+groups
+->
+Get
+(
+j
+)
+->
+ApplyAll
+(
+{
+\n
+SetDirection
+(
+/*
+some
+function
+that
+returns
+the
+appropriate
+direction
+*/
+)
+;
+\n
+TransitionSpeed
+(
+2.5
+,
+750
+)
+;
+\n
+}
+)
+;
+\n
+}
+)
+;
+\n
+Kill
+(
+)
+;
+\n
+}
+\n
+}
+\n
+]
+\n
+]
+)
+;
+\n
+\n
+Bullet1
+=
+Bullet
+(
+[
+\n
+"sprite"
+:
+"mediumCircle"
+,
+\n
+"color"
+:
+{
+1
+,
+0
+,
+0
+}
+\n
+]
+)
+;
+\n
+\n
+EXPORT
+(
+"Spawner"
+,
+"Bullet1"
+)
+;

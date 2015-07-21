@@ -126,5 +126,11 @@ namespace NeonVMTests.Neon
         {
             testReader.Run("test012");
         }
+
+        [TestMethod]
+        public void Tokenizer_ActualProgram()
+        {
+            testReader.Run("test013");
+        }
     }
 }
