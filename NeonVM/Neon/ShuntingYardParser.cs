@@ -48,13 +48,13 @@ namespace NeonVM.Neon
             BIN_GT.Instance,
             BIN_LE.Instance,
             BIN_GE.Instance,
-            BUILD_RANGE.Instance,
             BIN_MOD.Instance,
             BIN_ADD.Instance,
             BIN_SUB.Instance,
             BIN_MUL.Instance,
             BIN_DIV.Instance,
             BIN_POW.Instance,
+            BUILD_RANGE.Instance,
             UN_NOT.Instance,
             UN_NEG.Instance,
             UN_POS.Instance
@@ -75,13 +75,13 @@ namespace NeonVM.Neon
             {Tokens.BOOL_GT, 5},
             {Tokens.BOOL_LE, 6},
             {Tokens.BOOL_GE, 7},
-            {Tokens.DISCRETE_RANGE_GEN, 8},
-            {Tokens.BIN_MOD, 9},
-            {Tokens.BIN_ADD, 10},
-            {Tokens.BIN_SUB, 11},
-            {Tokens.BIN_MUL, 12},
-            {Tokens.BIN_DIV, 13},
-            {Tokens.BIN_POW, 14}
+            {Tokens.BIN_MOD, 8},
+            {Tokens.BIN_ADD, 9},
+            {Tokens.BIN_SUB, 10},
+            {Tokens.BIN_MUL, 11},
+            {Tokens.BIN_DIV, 12},
+            {Tokens.BIN_POW, 13},
+            {Tokens.DISCRETE_RANGE_GEN, 14}
         };
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace NeonVM.Neon
         private static readonly int[] LEFT_ASSOCIATIVE_OP_INDICES
             = new int[]
         {
-            0, 1, 2, 3, 9, 10, 11, 12, 13
+            0, 1, 2, 3, 8, 9, 10, 11, 12
         };
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace NeonVM.Neon
         private static readonly int[] RIGHT_ASSOCIATIVE_OP_INDICES
             = new int[]
         {
-            8, 14, 15, 16, 17
+            13, 14, 15, 16, 17
         };
 
         /// <summary>
