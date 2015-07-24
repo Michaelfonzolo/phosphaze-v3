@@ -51,7 +51,7 @@ namespace NeonVM.Neon
 
         internal const string EOL = ";";
 
-        internal const string KEY_VAR_CONN = ":";
+        internal const string KVP_CONN = ":";
 
         internal const string BIN_AND = "&&";
 

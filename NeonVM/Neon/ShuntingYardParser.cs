@@ -563,7 +563,7 @@ namespace NeonVM.Neon
                 {
                     ParseElemSep(token, prevToken);
                 }
-                else if (token == Tokens.KEY_VAR_CONN)
+                else if (token == Tokens.KVP_CONN)
                 {
                     ParseKVPConn(token, prevToken);
                 }
@@ -762,7 +762,7 @@ namespace NeonVM.Neon
                     else if (prevToken == Tokens.ELEM_SEP)
                         // Change this later
                         throw new Exception();
-                    else if (prevToken == Tokens.KEY_VAR_CONN)
+                    else if (prevToken == Tokens.KVP_CONN)
                         // Change this later
                         throw new Exception();
 
@@ -770,7 +770,7 @@ namespace NeonVM.Neon
                         = (int)parsingState.Attributes["elementCount"] + 1;
 
                     top = operatorStack.Peek();
-                    while (top != Tokens.KEY_VAR_CONN)
+                    while (top != Tokens.KVP_CONN)
                     {
                         instructions.Add(GetOpInstr(operatorStack.Pop()));
                         top = operatorStack.Peek();

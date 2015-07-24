@@ -28,7 +28,7 @@ namespace NeonVM.Neon
             Tokens.ARRAY_RIGHT[0],
             Tokens.ELEM_SEP[0],
             Tokens.EOL[0],
-            Tokens.KEY_VAR_CONN[0],
+            Tokens.KVP_CONN[0],
             Tokens.TIME_COMMAND[0],
             Tokens.AT_INTERVALS[0],
             Tokens.DURING_INTERVALS[0],
