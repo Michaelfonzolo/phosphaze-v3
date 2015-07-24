@@ -762,9 +762,11 @@ namespace NeonVM.Neon
                     else if (prevToken == Tokens.ELEM_SEP)
                         // Change this later
                         throw new Exception();
-                    else if (prevToken == Tokens.KVP_CONN)
+                    else if (!(bool)parsingState.Attributes["encounteredKVPConnector"])
                         // Change this later
                         throw new Exception();
+                    else if (prevToken == Tokens.KVP_CONN)
+                        throw NeonExceptions.KVPConnectorWithNoValue(lineNumber);
 
                     parsingState.Attributes["elementCount"]
                         = (int)parsingState.Attributes["elementCount"] + 1;
@@ -777,13 +779,27 @@ namespace NeonVM.Neon
                     }
                     operatorStack.Pop();
                     operatorStack.Push(BRACKET_TERMINAL_TOKEN);
+
+                    // Build a KVP out of the two elements on the top of the stack.
+                    instructions.Add(BUILD_KVP.Instance);
+
+                    // Reset the encounteredKVPConnector attribute so that it doesn't
+                    // think we've encountered two KVP_CONN tokens in a row when in
+                    // reality they are two separate KVPs separated by an ELEM_SEP.
+                    parsingState.Attributes["encounteredKVPConnector"] = false;
                     break;
             }
         }
 
         private void ParseKVPConn(string token, string prevToken)
         {
-
+            if (parsingState.Type != ParsingStateType.Dictionary)
+                throw NeonExceptions.UnexpectedKVPConnectorEncountered(lineNumber);
+            else if (prevToken == Tokens.DICT_LEFT || prevToken == Tokens.ELEM_SEP)
+                throw NeonExceptions.KVPConnectorWithNoKey(lineNumber);
+            else if ((bool)parsingState.Attributes["encounteredKVPConnector"])
+                throw NeonExceptions.TooManyKVPConnectors(lineNumber);
+            parsingState.Attributes["encounteredKVPConnector"] = true;
         }
 
         private void PostParse()
