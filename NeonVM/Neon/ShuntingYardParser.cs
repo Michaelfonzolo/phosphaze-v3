@@ -563,6 +563,10 @@ namespace NeonVM.Neon
                 {
                     ParseElemSep(token, prevToken);
                 }
+                else if (token == Tokens.KEY_VAR_CONN)
+                {
+                    ParseKVPConn(token, prevToken);
+                }
                 else
                 {
                     // Change this later.
@@ -675,8 +679,12 @@ namespace NeonVM.Neon
 
             if (parsingStateType.HasValue)
             {
-                var newParsingState = new ParsingState(parsingStateType.Value);
+                var pst_val = parsingStateType.Value;
+                var newParsingState = new ParsingState(pst_val);
                 newParsingState.Attributes["elementCount"] = 0;
+
+                if (pst_val == ParsingStateType.Dictionary)
+                    newParsingState.Attributes["encounteredKVPConnector"] = false;
 
                 parsingStates.Push(newParsingState);
             }
@@ -771,6 +779,11 @@ namespace NeonVM.Neon
                     operatorStack.Push(BRACKET_TERMINAL_TOKEN);
                     break;
             }
+        }
+
+        private void ParseKVPConn(string token, string prevToken)
+        {
+
         }
 
         private void PostParse()
