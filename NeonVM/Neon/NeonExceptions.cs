@@ -131,5 +131,36 @@ namespace NeonVM.Neon
                 );
         }
 
+        public static NeonSyntaxException UnexpectedKVPConnectorEncountered(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format(
+                    "Unexpected key-value-pair connector ':' encountered on line {0}. " +
+                    "The ':' token can only be used in dictionary constructs to define a " +
+                    "key-value pair.", lineNum)
+                );
+        }
+
+        public static NeonSyntaxException KVPConnectorWithNoKey(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Key-value-pair connector ':' used with no key on line {0}.", lineNum)
+                );
+        }
+
+        public static NeonSyntaxException KVPConnectorWithNoValue(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Key-value-pair connector ':' used with no value on line {0}.", lineNum)
+                );
+        }
+
+        public static NeonSyntaxException TooManyKVPConnectors(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Too many key-value-pair connectors encountered on line {0}.", lineNum)
+                );
+        }
+
     }
 }
