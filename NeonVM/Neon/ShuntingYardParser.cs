@@ -20,11 +20,6 @@ namespace NeonVM.Neon
             public int LineNumber { get; set; }
         }
 
-        private enum ExpectantTokenType
-        {
-
-        }
-
         // --= STATIC OPERATOR-RELATED FIELDS =--
         // ======================================
 
@@ -567,6 +562,10 @@ namespace NeonVM.Neon
                 {
                     ParseKVPConn(token, prevToken);
                 }
+                else if (token == Tokens.LAMBDA_INDICATOR)
+                {
+                    // Gots ta do some hard core parsing shit yo.
+                }
                 else
                 {
                     // Change this later.
@@ -710,6 +709,10 @@ namespace NeonVM.Neon
             }
             operatorStack.Pop();
 
+            if (parsingState.Type == ParsingStateType.Dictionary &&
+                (bool)parsingState.Attributes["encounteredKVPConnector"])
+                instructions.Add(BUILD_KVP.Instance);
+
             if (parsingState.Attributes.ContainsKey("elementCount"))
             {
                 var elementCount = (int)parsingState.Attributes["elementCount"];
@@ -731,6 +734,7 @@ namespace NeonVM.Neon
             switch (parsingState.Type)
             {
                 case ParsingStateType.Default: 
+                    // Change this later
                     break;
                 case ParsingStateType.Array:
                 case ParsingStateType.Vector:
