@@ -483,8 +483,6 @@ namespace NeonVM.Neon
         /// </summary>
         private Stack<TokenWithLineNo> bracketStack = new Stack<TokenWithLineNo>();
 
-        private Stack<ExpectantTokenType> expectant = new Stack<ExpectantTokenType>();
-
         public ShuntingYardParser(List<string> tokens)
         {
             tokens.Reverse();
