@@ -57,6 +57,7 @@
     <Compile Include="Neon\Instructions\BIN_SUB.cs" />
     <Compile Include="Neon\Instructions\BUILD_ARRAY.cs" />
     <Compile Include="Neon\Instructions\BUILD_DICT.cs" />
+    <Compile Include="Neon\Instructions\BUILD_KVP.cs" />
     <Compile Include="Neon\Instructions\BUILD_RANGE.cs" />
     <Compile Include="Neon\Instructions\BUILD_RVEC.cs" />
     <Compile Include="Neon\Instructions\BUILD_VEC.cs" />

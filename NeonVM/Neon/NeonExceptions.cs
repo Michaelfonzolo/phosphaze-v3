@@ -162,5 +162,12 @@ namespace NeonVM.Neon
                 );
         }
 
+        public static NeonSyntaxException NoKVP(int lineNum)
+        {
+            return new NeonSyntaxException(
+                String.Format("Dictionary entry on line {0} is not a key-value-pair.", lineNum)
+                );
+        }
+
     }
 }

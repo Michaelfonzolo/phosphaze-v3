@@ -333,6 +333,14 @@ namespace NeonVM.Neon
                 return OP_TOKEN_TO_INTERNAL_TOKEN[op_token];
             return op_token;
         }
+        
+        /// <summary>
+        /// Determine if a token is a valid bracket-type token.
+        /// </summary>
+        private static bool IsBracket(string token)
+        {
+            return IsLeftBracket(token) || IsRightBracket(token);
+        }
 
         /// <summary>
         /// Determine if a token is a valid left-bracket type token (i.e. "(").
@@ -491,27 +499,27 @@ namespace NeonVM.Neon
 
         public void Parse()
         {
-            string token, prevToken = null;
+            string token, prevToken = null, lastNonBracketToken = null;
 
             while (tokenStack.Count != 0)
             {
                 token = tokenStack.Pop();
                 if (token == "\n")
                 {
-                    ParseNewline(token, prevToken);
+                    ParseNewline(token, prevToken, lastNonBracketToken);
                     continue;
                 }
                 else if (token == Tokens.SINGLE_LINE_COMMENT)
                 {
-                    ParseSingleLineComment(token, prevToken);
+                    ParseSingleLineComment(token, prevToken, lastNonBracketToken);
                 }
                 else if (token == Tokens.INDEF_COMMENT_LEFT)
                 {
-                    ParseMultilineCommentStart(token, prevToken);
+                    ParseMultilineCommentStart(token, prevToken, lastNonBracketToken);
                 }
                 else if (token == Tokens.INDEF_COMMENT_RIGHT)
                 {
-                    ParseMultilineCommentEnd(token, prevToken);
+                    ParseMultilineCommentEnd(token, prevToken, lastNonBracketToken);
                     continue;
                 }
                 
@@ -530,35 +538,35 @@ namespace NeonVM.Neon
 
                 if (Regex.IsMatch(token, Tokens.WORD))
                 {
-                    ParseWord(token, prevToken);
+                    ParseWord(token, prevToken, lastNonBracketToken);
                 }
                 else if (Regex.IsMatch(token, Tokens.NUMBER))
                 {
-                    ParseNumber(token, prevToken);
+                    ParseNumber(token, prevToken, lastNonBracketToken);
                 }
                 else if (token[0] == '"' && token[token.Length - 1] == '"')
                 {
-                    ParseString(token, prevToken);
+                    ParseString(token, prevToken, lastNonBracketToken);
                 }
                 else if (IsOp(token))
                 {
-                    ParseOp(token, prevToken);
+                    ParseOp(token, prevToken, lastNonBracketToken);
                 }
                 else if (IsLeftBracket(token))
                 {
-                    ParseLeftBracket(token, prevToken);
+                    ParseLeftBracket(token, prevToken, lastNonBracketToken);
                 }
                 else if (IsRightBracket(token))
                 {
-                    ParseRightBracket(token, prevToken);
+                    ParseRightBracket(token, prevToken, lastNonBracketToken);
                 }
                 else if (token == Tokens.ELEM_SEP)
                 {
-                    ParseElemSep(token, prevToken);
+                    ParseElemSep(token, prevToken, lastNonBracketToken);
                 }
                 else if (token == Tokens.KVP_CONN)
                 {
-                    ParseKVPConn(token, prevToken);
+                    ParseKVPConn(token, prevToken, lastNonBracketToken);
                 }
                 else if (token == Tokens.LAMBDA_INDICATOR)
                 {
@@ -570,24 +578,26 @@ namespace NeonVM.Neon
                     throw new Exception();
                 }
                 prevToken = token;
+                if (!IsBracket(token))
+                    lastNonBracketToken = token;
             }
 
             PostParse();
         }
 
-        private void ParseNewline(string token, string prevToken)
+        private void ParseNewline(string token, string prevToken, string lastNonBracketToken)
         {
             lineNumber++;
             if (parsingState.Type == ParsingStateType.SingleLineComment)
                 parsingStates.Pop();
         }
 
-        private void ParseSingleLineComment(string token, string prevToken)
+        private void ParseSingleLineComment(string token, string prevToken, string lastNonBracketToken)
         {
             parsingStates.Push(new ParsingState(ParsingStateType.SingleLineComment));
         }
 
-        private void ParseMultilineCommentStart(string token, string prevToken)
+        private void ParseMultilineCommentStart(string token, string prevToken, string lastNonBracketToken)
         {
             if (parsingState.Type != ParsingStateType.SingleLineComment &&
                         parsingState.Type != ParsingStateType.MultiLineComment)
@@ -597,7 +607,7 @@ namespace NeonVM.Neon
             }
         }
 
-        private void ParseMultilineCommentEnd(string token, string prevToken)
+        private void ParseMultilineCommentEnd(string token, string prevToken, string lastNonBracketToken)
         {
             if (parsingState.Type != ParsingStateType.SingleLineComment &&
                 parsingState.Type != ParsingStateType.MultiLineComment)
@@ -607,25 +617,25 @@ namespace NeonVM.Neon
                 parsingStates.Pop();
         }
 
-        private void ParseWord(string token, string prevToken)
+        private void ParseWord(string token, string prevToken, string lastNonBracketToken)
         {
             // Change this later.
             instructions.Add(new LDL(token));
         }
 
-        private void ParseNumber(string token, string prevToken)
+        private void ParseNumber(string token, string prevToken, string lastNonBracketToken)
         {
             // Change this later.
             instructions.Add(new LDC(new NeonObject()));
         }
 
-        private void ParseString(string token, string prevToken)
+        private void ParseString(string token, string prevToken, string lastNonBracketToken)
         {
             // Change this later.
             instructions.Add(new LDC(new NeonObject()));
         }
 
-        private void ParseOp(string token, string prevToken)
+        private void ParseOp(string token, string prevToken, string lastNonBracketToken)
         {
             var arity = GetOpArity(token);
             if (arity == Arity.Unknown)
@@ -668,7 +678,7 @@ namespace NeonVM.Neon
             operatorStack.Push(op);
         }
 
-        private void ParseLeftBracket(string token, string prevToken)
+        private void ParseLeftBracket(string token, string prevToken, string lastNonBracketToken)
         {
             operatorStack.Push(BRACKET_TERMINAL_TOKEN);
 
@@ -685,11 +695,22 @@ namespace NeonVM.Neon
 
                 parsingStates.Push(newParsingState);
             }
+            else
+            {
+                if (token == Tokens.CALL_LEFT)
+                {
+                    // If the last non-bracket token was an operator, then the current
+                    // token doesn't represent a function call.
+                    if (!IsOp(lastNonBracketToken))
+                        var a = new object();
+                        // Prepare for parsing a function call
+                }
+            }
 
             bracketStack.Push(new TokenWithLineNo() { Token = token, LineNumber = lineNumber });
         }
 
-        private void ParseRightBracket(string token, string prevToken)
+        private void ParseRightBracket(string token, string prevToken, string lastNonBracketToken)
         {
             var l_brac = RIGHT_TO_LEFT_BRACKETS[token];
             if (bracketStack.Count == 0)
@@ -707,9 +728,13 @@ namespace NeonVM.Neon
             }
             operatorStack.Pop();
 
-            if (parsingState.Type == ParsingStateType.Dictionary &&
-                (bool)parsingState.Attributes["encounteredKVPConnector"])
-                instructions.Add(BUILD_KVP.Instance);
+            if (parsingState.Type == ParsingStateType.Dictionary)
+            {
+                if ((bool)parsingState.Attributes["encounteredKVPConnector"])
+                    instructions.Add(BUILD_KVP.Instance);
+                else
+                    throw NeonExceptions.NoKVP(lineNumber);
+            }
 
             if (parsingState.Attributes.ContainsKey("elementCount"))
             {
@@ -726,7 +751,7 @@ namespace NeonVM.Neon
                 parsingStates.Pop();
         }
 
-        private void ParseElemSep(string token, string prevToken)
+        private void ParseElemSep(string token, string prevToken, string lastNonBracketToken)
         {
             string top;
             switch (parsingState.Type)
@@ -793,7 +818,7 @@ namespace NeonVM.Neon
             }
         }
 
-        private void ParseKVPConn(string token, string prevToken)
+        private void ParseKVPConn(string token, string prevToken, string lastNonBracketToken)
         {
             if (parsingState.Type != ParsingStateType.Dictionary)
                 throw NeonExceptions.UnexpectedKVPConnectorEncountered(lineNumber);
