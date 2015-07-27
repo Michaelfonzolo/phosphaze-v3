@@ -697,12 +697,13 @@ namespace NeonVM.Neon
             }
             else
             {
+                object a;
                 if (token == Tokens.CALL_LEFT)
                 {
                     // If the last non-bracket token was an operator, then the current
                     // token doesn't represent a function call.
                     if (!IsOp(lastNonBracketToken))
-                        var a = new object();
+                        a = new object();
                         // Prepare for parsing a function call
                 }
             }
